@@ -113,12 +113,36 @@ class FileAnalysisController extends Controller
                 throw new ProcessFailedException($process);
             }
 
-            $data = json_decode($process->getOutput(), true);
+            $output = $process->getOutput();
+            $data = json_decode($output, true);
+
+            // Verificar si hay error en el JSON
+            if (isset($data['error'])) {
+                throw new \Exception($data['error'] . (isset($data['traceback']) ? "\n" . $data['traceback'] : ''));
+            }
+
             Log::info('📦 Datos recibidos del análisis:', $data);
+
+            // Normalizar dimensiones para compatibilidad con otros analizadores
+            $dimensions = $data['dimensions'] ?? null;
+            if ($dimensions) {
+                // Si tiene width/height/depth, convertir a x/y/z
+                if (isset($dimensions['width'], $dimensions['height'], $dimensions['depth'])) {
+                    $dimensions['x'] = $dimensions['width'];
+                    $dimensions['y'] = $dimensions['height'];
+                    $dimensions['z'] = $dimensions['depth'];
+                }
+                // Si no tiene x/y/z, asegurar que existan
+                if (!isset($dimensions['x'])) {
+                    $dimensions['x'] = 0;
+                    $dimensions['y'] = 0;
+                    $dimensions['z'] = 0;
+                }
+            }
 
             // Guardar resultados en DB
             $fileUpload->analysisResult()->create([
-                'dimensions' => $data['dimensions'] ?? null,
+                'dimensions' => $dimensions,
                 'volume' => $data['volume'] ?? null,
                 'area' => $data['area'] ?? null,
                 'layers' => $data['layers'] ?? null,
@@ -133,7 +157,8 @@ class FileAnalysisController extends Controller
         } catch (\Exception $e) {
             Log::error('❌ Fallo al analizar archivo', [
                 'exception' => $e->getMessage(),
-                'output' => $process->getErrorOutput(),
+                'output' => $process->getOutput() ?? '',
+                'error_output' => $process->getErrorOutput() ?? '',
             ]);
 
             $fileUpload->errors()->create([

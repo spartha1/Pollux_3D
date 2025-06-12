@@ -98,11 +98,11 @@ export default function Upload() {
                                         type="file"
                                         className="hidden"
                                         onChange={e => setData("file", e.target.files?.[0] || null)}
-                                        accept=".stl,.obj,.iges,.step,.stp,.brep,.fcstd"
+                                        accept=".stl,.obj,.iges,.step,.stp,.brep,.fcstd,.dxf,.dwg,.ai,.eps"
                                     />
 
                                     <p className="text-xs text-muted-foreground mt-2">
-                                        STL, OBJ, IGES, STEP, BREP hasta 100MB
+                                        STL, OBJ, STEP, STP, DXF, DWG, AI, EPS hasta 100MB
                                     </p>
                                 </div>
 

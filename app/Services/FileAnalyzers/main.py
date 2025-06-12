@@ -29,13 +29,26 @@ def main(file_path):
 
     try:
         result = subprocess.run(
-            ['python', script, file_path],
+            ['python3', script, file_path],  # Cambiado de 'python' a 'python3'
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             timeout=120
         )
 
         if result.returncode != 0:
+            # Si falla con STEP, intentar con el analizador simple
+            if ext in ['.step', '.stp']:
+                script_simple = os.path.join(os.path.dirname(__file__), 'analyze_step_simple.py')
+                result_simple = subprocess.run(
+                    ['python3', script_simple, file_path],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    timeout=30
+                )
+                if result_simple.returncode == 0:
+                    print(result_simple.stdout.decode())
+                    return
+
             raise Exception(result.stderr.decode())
 
         print(result.stdout.decode())

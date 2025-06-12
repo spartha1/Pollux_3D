@@ -1,135 +1,114 @@
-import sys, json, time
-from OCC.Core.STEPControl import STEPControl_Reader
-from OCC.Core.IFSelect import IFSelect_RetDone
-from OCC.Core.Bnd import Bnd_Box
-from OCC.Core.BRepBndLib import brepbndlib_Add
-from OCC.Core.GProp import GProp_GProps
-from OCC.Core.BRepGProp import brepgprop_VolumeProperties, brepgprop_SurfaceProperties
-from OCC.Core.TopExp import TopExp_Explorer
-from OCC.Core.TopAbs import TopAbs_FACE, TopAbs_EDGE, TopAbs_VERTEX
+#!/usr/bin/env python3
+import sys
+import json
+import time
 
-def analyze(filepath):
-    start_time = time.time()
-
-    reader = STEPControl_Reader()
-    status = reader.ReadFile(filepath)
-
-    if status != IFSelect_RetDone:
-        raise Exception("Failed to read STEP file")
-
-    reader.TransferRoot()
-    shape = reader.OneShape()
-
-    # Calcular el bounding box
-    bbox = Bnd_Box()
-    brepbndlib_Add(shape, bbox)
-
-    x_min, y_min, z_min, x_max, y_max, z_max = bbox.Get()
-
-    dimensions = {
-        "x": round(x_max - x_min, 3),
-        "y": round(y_max - y_min, 3),
-        "z": round(z_max - z_min, 3),
-    }
-
-    # Calcular volumen
-    volume_props = GProp_GProps()
-    brepgprop_VolumeProperties(shape, volume_props)
-    volume = round(volume_props.Mass(), 3)
-
-    # Calcular área superficial
-    surface_props = GProp_GProps()
-    brepgprop_SurfaceProperties(shape, surface_props)
-    area = round(surface_props.Mass(), 3)
-
-    # Contar elementos
-    face_count = 0
-    edge_count = 0
-    vertex_count = 0
-
-    face_explorer = TopExp_Explorer(shape, TopAbs_FACE)
-    while face_explorer.More():
-        face_count += 1
-        face_explorer.Next()
-
-    edge_explorer = TopExp_Explorer(shape, TopAbs_EDGE)
-    while edge_explorer.More():
-        edge_count += 1
-        edge_explorer.Next()
-
-    vertex_explorer = TopExp_Explorer(shape, TopAbs_VERTEX)
-    while vertex_explorer.More():
-        vertex_count += 1
-        vertex_explorer.Next()
-
-    # Metadata
-    metadata = {
-        "faces": face_count,
-        "edges": edge_count,
-        "vertices": vertex_count,
-        "center_of_mass": {
-            "x": round(volume_props.CentreOfMass().X(), 3),
-            "y": round(volume_props.CentreOfMass().Y(), 3),
-            "z": round(volume_props.CentreOfMass().Z(), 3)
-        }
-    }
-
-    elapsed_time = round((time.time() - start_time) * 1000)
-
-    return {
-        "dimensions": dimensions,
-        "volume": volume,
-        "area": area,
-        "layers": None,
-        "metadata": metadata,
-        "analysis_time_ms": elapsed_time
-    }
-
-def analyze_step_file(filepath):
+try:
     from OCC.Core.STEPControl import STEPControl_Reader
     from OCC.Core.IFSelect import IFSelect_RetDone
     from OCC.Core.Bnd import Bnd_Box
     from OCC.Core.BRepBndLib import brepbndlib_Add
+    from OCC.Core.GProp import GProp_GProps
+    from OCC.Core.BRepGProp import brepgprop_VolumeProperties, brepgprop_SurfaceProperties
+    from OCC.Core.TopExp import TopExp_Explorer
+    from OCC.Core.TopAbs import TopAbs_FACE, TopAbs_EDGE, TopAbs_VERTEX
+    OCC_AVAILABLE = True
+except ImportError:
+    OCC_AVAILABLE = False
 
+def analyze_step(filepath):
+    """Analiza un archivo STEP y devuelve dimensiones, volumen, área y topología."""
+    if not OCC_AVAILABLE:
+        raise ImportError(
+            "PythonOCC no está instalado. Instálalo con:\n"
+            "conda install -c conda-forge pythonocc-core\n"
+            "o consulta: https://github.com/tpaviot/pythonocc-core"
+        )
+
+    t0 = time.time()
+
+    # Leer STEP
     reader = STEPControl_Reader()
     status = reader.ReadFile(filepath)
     if status != IFSelect_RetDone:
-        raise Exception("Failed to read STEP file")
+        raise RuntimeError(f"Error al leer STEP ({status})")
 
     reader.TransferRoot()
     shape = reader.OneShape()
 
+    # Bounding box
     bbox = Bnd_Box()
     brepbndlib_Add(shape, bbox)
     xmin, ymin, zmin, xmax, ymax, zmax = bbox.Get()
-
-    dimensions = {
-        "width": xmax - xmin,
-        "height": ymax - ymin,
-        "depth": zmax - zmin,
+    dims = {
+        "width": round(xmax - xmin, 3),
+        "height": round(ymax - ymin, 3),
+        "depth": round(zmax - zmin, 3),
     }
+
+    # Propiedades de volumen
+    vp = GProp_GProps()
+    brepgprop_VolumeProperties(shape, vp)
+    volume = round(vp.Mass(), 3)
+
+    # Propiedades de superficie
+    sp = GProp_GProps()
+    brepgprop_SurfaceProperties(shape, sp)
+    area = round(sp.Mass(), 3)
+
+    # Conteo de caras, aristas, vértices
+    counts = {"faces": 0, "edges": 0, "vertices": 0}
+    for explorer, key in [
+        (TopAbs_FACE, "faces"),
+        (TopAbs_EDGE, "edges"),
+        (TopAbs_VERTEX, "vertices")
+    ]:
+        exp = TopExp_Explorer(shape, explorer)
+        while exp.More():
+            counts[key] += 1
+            exp.Next()
+
+    # Centro de masa
+    com = vp.CentreOfMass()
+    center_of_mass = {"x": round(com.X(), 3), "y": round(com.Y(), 3), "z": round(com.Z(), 3)}
+
+    elapsed_ms = int((time.time() - t0) * 1000)
 
     return {
-        "dimensions": dimensions,
-        "volume": None,
-        "area": None,
-        "layers": None,
-        "metadata": {},
-        "analysis_time_ms": 2000
+        "dimensions": dims,
+        "volume": volume,
+        "area": area,
+        "metadata": {
+            **counts,
+            "center_of_mass": center_of_mass
+        },
+        "analysis_time_ms": elapsed_ms
     }
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print(json.dumps({"error": "No file path provided"}))
+def main():
+    if len(sys.argv) != 2:
+        print(json.dumps({"error": "Uso: analyze_step.py <ruta_al_archivo.step>"}))
         sys.exit(1)
+
+    path = sys.argv[1]
     try:
-        path = sys.argv[1]
-        result = analyze(path)
+        result = analyze_step(path)
         print(json.dumps(result))
+    except ImportError as e:
+        error_info = {
+            "error": str(e),
+            "type": "dependency_error"
+        }
+        print(json.dumps(error_info))
+        sys.exit(1)
     except Exception as e:
         import traceback
-        print(json.dumps({
+        error_info = {
             "error": str(e),
             "traceback": traceback.format_exc()
-        }))
+        }
+        print(json.dumps(error_info))
         sys.exit(1)
+
+if __name__ == "__main__":
+    main()
