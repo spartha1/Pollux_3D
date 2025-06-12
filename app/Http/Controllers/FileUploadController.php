@@ -65,12 +65,13 @@ class FileUploadController extends Controller
             'storage_path' => $path,
             'disk' => 'local',
             'status' => 'uploaded',
+            'uploaded_at' => now(),
         ]);
 
         // Dispatch job for processing
         // ProcessFileUpload::dispatch($fileUpload);
 
-        return redirect()->route('3d.show', $fileUpload)
+        return redirect()->route('3d.show', ['fileUpload' => $fileUpload->id])
             ->with('success', 'File uploaded successfully. Processing will begin shortly.');
     }
 
