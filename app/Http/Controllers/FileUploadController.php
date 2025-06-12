@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Inertia\Inertia;
 
 class FileUploadController extends Controller
 {
@@ -21,7 +22,9 @@ class FileUploadController extends Controller
             ->latest()
             ->paginate(20);
 
-        return view('files.index', compact('files'));
+        return Inertia::render('3d/index', [
+            'files' => $files->items()
+        ]);
     }
 
     /**
@@ -67,7 +70,7 @@ class FileUploadController extends Controller
         // Dispatch job for processing
         // ProcessFileUpload::dispatch($fileUpload);
 
-        return redirect()->route('files.show', $fileUpload)
+        return redirect()->route('3d.show', $fileUpload)
             ->with('success', 'File uploaded successfully. Processing will begin shortly.');
     }
 
@@ -80,7 +83,9 @@ class FileUploadController extends Controller
 
         $fileUpload->load(['analysisResult', 'previews', 'errors']);
 
-        return view('files.show', compact('fileUpload'));
+        return Inertia::render('3d/show', [
+            'fileUpload' => $fileUpload
+        ]);
     }
 
     /**
@@ -116,7 +121,7 @@ class FileUploadController extends Controller
         // Delete record (cascades to related tables)
         $fileUpload->delete();
 
-        return redirect()->route('files.index')
+        return redirect()->route('3d.index')
             ->with('success', 'File deleted successfully.');
     }
 }
