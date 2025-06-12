@@ -2,6 +2,8 @@ import sys
 import os
 import subprocess
 import json
+import traceback
+from analyze_step import analyze_step_file
 
 # Mapa de extensiones a scripts
 EXTENSION_MAP = {
@@ -35,12 +37,13 @@ def main(file_path):
         )
 
         if result.returncode != 0:
-            raise Exception(result.stderr.decode())
+            raise Exception(f"Return code: {result.returncode}\nSTDERR: {result.stderr.decode()}\nSTDOUT: {result.stdout.decode()}")
 
         print(result.stdout.decode())
     except Exception as e:
         print(json.dumps({
-            "error": f"Failed to analyze file: {str(e)}"
+            "error": f"Failed to analyze file: {str(e)}",
+            "traceback": traceback.format_exc()
         }))
 
 if __name__ == "__main__":

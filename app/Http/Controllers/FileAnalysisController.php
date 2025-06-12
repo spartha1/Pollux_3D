@@ -88,11 +88,21 @@ class FileAnalysisController extends Controller
     private function callAnalysisService(FileUpload $fileUpload)
     {
         try {
-            $filePath = storage_path('app/' . $fileUpload->storage_path);
+            // Ensure storage_path includes 'private/' prefix
+            $storagePath = $fileUpload->storage_path;
+            if (!str_starts_with($storagePath, 'private/')) {
+                $storagePath = 'private/' . $storagePath;
+            }
+
+            $filePath = storage_path('app/' . $storagePath);
+
+            Log::info('🔍 Ejecutando script con comando:', [
+                base_path('app/Services/FileAnalyzers/analyze.sh'),
+                $filePath
+            ]);
 
             $process = new Process([
-                '/home/jerardo/miniconda3/envs/occ310/bin/python',
-                base_path('app/Services/FileAnalyzers/main.py'),
+                base_path('app/Services/FileAnalyzers/analyze.sh'),
                 $filePath
             ]);
 
@@ -121,6 +131,11 @@ class FileAnalysisController extends Controller
                 'processed_at' => now(),
             ]);
         } catch (\Exception $e) {
+            Log::error('❌ Fallo al analizar archivo', [
+                'exception' => $e->getMessage(),
+                'output' => $process->getErrorOutput(),
+            ]);
+
             $fileUpload->errors()->create([
                 'error_message' => $e->getMessage(),
                 'stack_trace' => $e->getTraceAsString(),
