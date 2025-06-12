@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Illuminate\Support\Facades\Log;
 
 class FileAnalysisController extends Controller
 {
@@ -103,6 +104,7 @@ class FileAnalysisController extends Controller
             }
 
             $data = json_decode($process->getOutput(), true);
+            Log::info('📦 Datos recibidos del análisis:', $data);
 
             // Guardar resultados en DB
             $fileUpload->analysisResult()->create([
