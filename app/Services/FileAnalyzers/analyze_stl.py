@@ -4,9 +4,9 @@ from stl import mesh
 def analyze(filepath):
     model = mesh.Mesh.from_file(filepath)
     dimensions = {
-        "width": float(model.x.max() - model.x.min()),
-        "height": float(model.y.max() - model.y.min()),
-        "depth": float(model.z.max() - model.z.min())
+        "x": float(model.x.max() - model.x.min()),
+        "y": float(model.y.max() - model.y.min()),
+        "z": float(model.z.max() - model.z.min())
     }
     volume = float(model.get_mass_properties()[0])
     return {

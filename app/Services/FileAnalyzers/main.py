@@ -3,7 +3,6 @@ import os
 import subprocess
 import json
 import traceback
-from analyze_step import analyze_step_file
 
 # Mapa de extensiones a scripts
 EXTENSION_MAP = {
@@ -37,7 +36,7 @@ def main(file_path):
         )
 
         if result.returncode != 0:
-            raise Exception(f"Return code: {result.returncode}\nSTDERR: {result.stderr.decode()}\nSTDOUT: {result.stdout.decode()}")
+            raise Exception(result.stderr.decode())
 
         print(result.stdout.decode())
     except Exception as e:
