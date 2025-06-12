@@ -20,6 +20,7 @@ interface FileUpload {
     processed_at?: string;
     analysis_result?: Record<string, unknown>;
     previews?: unknown[];
+    disk: string;  // Add this property
 }
 
 interface Props {

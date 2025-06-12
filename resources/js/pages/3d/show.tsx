@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import Viewer3D from '@/pages/Viewer3D';
 import {
     FileIcon,
     DownloadIcon,
@@ -83,6 +84,8 @@ interface FileUpload {
     processed_at?: string;
     analysis_result?: FileAnalysisResult;
     errors?: FileError[];
+    disk: string;
+    storage_path?: string;  // Add this if needed
 }
 
 interface Props {
@@ -120,6 +123,9 @@ export default function Show({ fileUpload }: Props) {
 
     const result = fileUpload.analysis_result;
     const errors = fileUpload.errors || [];
+
+    // Check if file is a 3D model that can be viewed
+    const isViewable3D = ['stl', 'obj', '3mf'].includes(fileUpload.extension.toLowerCase());
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -195,6 +201,20 @@ export default function Show({ fileUpload }: Props) {
                             {errors[0].error_message}
                         </AlertDescription>
                     </Alert>
+                )}
+
+                {/* 3D Viewer - Show for uploaded or processed files */}
+                {isViewable3D && (fileUpload.status === 'processed' || fileUpload.status === 'uploaded') && (
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Vista previa 3D</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-0">
+                            <div className="relative h-[500px] overflow-hidden rounded-b-lg">
+                                <Viewer3D fileUpload={fileUpload} />
+                            </div>
+                        </CardContent>
+                    </Card>
                 )}
 
                 {/* Main Content */}

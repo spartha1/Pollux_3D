@@ -125,4 +125,23 @@ class FileUploadController extends Controller
         return redirect()->route('3d.index')
             ->with('success', 'File deleted successfully.');
     }
+
+    /**
+     * Serve the STL file for 3D viewer.
+     */
+    public function serveFile(FileUpload $fileUpload)
+    {
+        $this->authorize('view', $fileUpload);
+
+        $filePath = Storage::disk($fileUpload->disk)->path($fileUpload->storage_path);
+
+        if (!file_exists($filePath)) {
+            abort(404);
+        }
+
+        return response()->file($filePath, [
+            'Content-Type' => $fileUpload->mime_type ?: 'application/octet-stream',
+            'Access-Control-Allow-Origin' => '*', // Para permitir acceso desde el visor 3D
+        ]);
+    }
 }

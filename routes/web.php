@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\FileAnalysisController;
 use App\Http\Controllers\FilePreviewController;
+use App\Http\Controllers\Viewer3DController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -31,7 +32,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/{fileUpload}/preview', [FilePreviewController::class, 'generate'])->name('3d.preview.generate');
         Route::get('/{fileUpload}/preview', [FilePreviewController::class, 'index'])->name('3d.preview.index');
         Route::get('/{fileUpload}/preview/{preview}', [FilePreviewController::class, 'show'])->name('3d.preview.show');
+        Route::get('/{fileUpload}/file', [FileUploadController::class, 'serveFile'])->name('3d.file');
     });
+    // File Analysis
+    Route::get('/viewer/{fileUpload}', [Viewer3DController::class, 'show'])->name('viewer.show');
+
 });
 
 require __DIR__.'/settings.php';
