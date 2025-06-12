@@ -30,4 +30,12 @@ class FileUploadPolicy
     {
         return $user->id === $fileUpload->user_id;
     }
+    /**
+ * Determine whether the user can update the model.
+ */
+public function update(User $user, FileUpload $fileUpload): bool
+{
+    return $user->id === $fileUpload->user_id;
+}
+
 }
