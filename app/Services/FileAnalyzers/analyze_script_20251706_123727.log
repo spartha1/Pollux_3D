@@ -1,0 +1,10 @@
+==================== Analysis Start ==================== 
+Start time: mar. 17/06/2025 12:37:27.31 
+Script directory: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\ 
+Working directory: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers 
+Log file: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\analyze_script_20251706_123727.log 
+Temp JSON: C:\Users\Leinad\AppData\Local\Temp\analysis_output_20251706_123727.json 
+Error file: C:\Users\Leinad\AppData\Local\Temp\analysis_error_20251706_123727.txt 
+Input file: C:\xampp\htdocs\laravel\PolluxwWeb\storage\app/private\models/1/f96dbcd5-482a-487a-9684-c9cc9503d7a7.STL 
+Searching for Python... 
+Error: Python not found 

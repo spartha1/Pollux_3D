@@ -39,5 +39,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 });
 
+// Serve storage files
+Route::get('/storage/{path}', function($path) {
+    $fullPath = storage_path('app/' . $path);
+    if (!file_exists($fullPath)) {
+        abort(404);
+    }
+    return response()->file($fullPath);
+})->where('path', '.*');
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

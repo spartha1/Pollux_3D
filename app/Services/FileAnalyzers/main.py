@@ -3,12 +3,17 @@ import os
 import subprocess
 import json
 import traceback
+import time
 
-# Mapa de extensiones a scripts
+def debug(msg):
+    """Print debug messages to stderr"""
+    print(msg, file=sys.stderr, flush=True)
+
+# Extension to script mapping
 EXTENSION_MAP = {
-    '.stl': 'analyze_stl.py',
-    '.step': 'analyze_step.py',
-    '.stp': 'analyze_step.py',
+    '.stl': 'analyze_stl_simple.py',
+    '.step': 'analyze_step_simple.py',
+    '.stp': 'analyze_step_simple.py',
     '.dxf': 'analyze_dxf_dwg.py',
     '.dwg': 'analyze_dxf_dwg.py',
     '.ai':  'analyze_ai_eps.py',
@@ -16,50 +21,145 @@ EXTENSION_MAP = {
 }
 
 def get_extension(path):
-    return os.path.splitext(path)[1].lower()
+    ext = os.path.splitext(path)[1].lower()
+    debug(f"File extension: {ext}")
+    return ext
 
-def main(file_path):
-    ext = get_extension(file_path)
+def error_response(message, **kwargs):
+    """Create a standardized error response"""
+    response = {
+        "error": message,
+        "analysis_time_ms": 0
+    }
+    response.update(kwargs)
+    debug(f"Error: {message}")
+    return json.dumps(response)
 
-    if ext not in EXTENSION_MAP:
-        print(json.dumps({"error": f"Unsupported file type: {ext}"}))
-        return
+def verify_python_environment():
+    """Verify Python environment and dependencies"""
+    try:
+        import numpy
+        debug(f"NumPy version: {numpy.__version__}")
+        return None
+    except ImportError as e:
+        return error_response(f"NumPy not installed: {str(e)}")
 
-    script = os.path.join(os.path.dirname(__file__), EXTENSION_MAP[ext])
+def run_analyzer(script_path, file_path, timeout=120):
+    """Run an analyzer script and return its output."""
+    start_time = time.time()
+    debug(f"Starting analysis at: {time.strftime('%Y-%m-%d %H:%M:%S')}")
+
+    # Verify Python environment
+    env_error = verify_python_environment()
+    if env_error:
+        return env_error
+
+    # Check script existence
+    if not os.path.exists(script_path):
+        return error_response(f"Analyzer script not found: {script_path}")
+
+    # Check file existence and readability
+    if not os.path.exists(file_path):
+        return error_response(f"Input file not found: {file_path}")
 
     try:
-        result = subprocess.run(
-            ['python3', script, file_path],  # Cambiado de 'python' a 'python3'
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            timeout=120
-        )
-
-        if result.returncode != 0:
-            # Si falla con STEP, intentar con el analizador simple
-            if ext in ['.step', '.stp']:
-                script_simple = os.path.join(os.path.dirname(__file__), 'analyze_step_simple.py')
-                result_simple = subprocess.run(
-                    ['python3', script_simple, file_path],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    timeout=30
-                )
-                if result_simple.returncode == 0:
-                    print(result_simple.stdout.decode())
-                    return
-
-            raise Exception(result.stderr.decode())
-
-        print(result.stdout.decode())
+        with open(file_path, 'rb') as f:
+            if not f.read(1):
+                return error_response("Input file is empty")
     except Exception as e:
-        print(json.dumps({
-            "error": f"Failed to analyze file: {str(e)}",
-            "traceback": traceback.format_exc()
-        }))
+        return error_response(f"Cannot read input file: {str(e)}")
+
+    # Print debug info
+    debug(f"Python executable: {sys.executable}")
+    debug(f"Python version: {sys.version}")
+    debug(f"Script path: {script_path}")
+    debug(f"File path: {file_path}")
+    debug(f"Working directory: {os.getcwd()}")
+
+    try:
+        # Import the analyzer module directly
+        sys.path.insert(0, os.path.dirname(script_path))
+        module_name = os.path.splitext(os.path.basename(script_path))[0]
+        debug(f"Importing module: {module_name}")
+
+        analyzer = __import__(module_name)
+        debug("Module imported successfully")
+
+        # Get analyze function based on file extension
+        ext = get_extension(file_path)
+        analyze_funcs = {
+            '.stl': ['analyze_stl', 'analyze_stl_simple'],
+            '.step': ['analyze_step', 'analyze_step_simple'],
+            '.stp': ['analyze_step', 'analyze_step_simple'],
+            '.dxf': ['analyze_dxf'],
+            '.dwg': ['analyze_dxf'],
+            '.ai': ['analyze_ai_eps', 'analyze'],
+            '.eps': ['analyze_ai_eps', 'analyze']
+        }
+
+        # Try each possible function name
+        func_names = analyze_funcs.get(ext, ['analyze'])
+        for func_name in func_names:
+            if hasattr(analyzer, func_name):
+                debug(f"Using {func_name} function")
+                analyze_func = getattr(analyzer, func_name)
+                result = analyze_func(file_path)
+                break
+        else:
+            raise AttributeError(f"No suitable analyze function found in {module_name} for {ext} files")
+
+        debug("Analysis completed successfully")
+
+        # Ensure result is JSON serializable
+        if isinstance(result, str):
+            try:
+                result = json.loads(result)
+            except json.JSONDecodeError as e:
+                return error_response("Analyzer returned invalid JSON", output=result)
+
+        # Add analysis time
+        result['analysis_time_ms'] = int((time.time() - start_time) * 1000)
+        return json.dumps(result)
+
+    except ImportError as e:
+        return error_response(f"Failed to import analyzer module: {str(e)}")
+    except Exception as e:
+        debug(f"Error details: {traceback.format_exc()}")
+        return error_response(str(e), traceback=traceback.format_exc())
+
+def main():
+    try:
+        debug("\n=== Analysis Start ===")
+        debug(f"Start time: {time.strftime('%Y-%m-%d %H:%M:%S')}")
+        debug(f"Arguments: {sys.argv}")
+        debug(f"Working directory: {os.getcwd()}")
+
+        if len(sys.argv) < 2:
+            print(error_response("No input file specified"))
+            return 1
+
+        file_path = sys.argv[1]
+        if not os.path.exists(file_path):
+            print(error_response(f"File not found: {file_path}"))
+            return 1
+
+        ext = get_extension(file_path)
+        analyzer_script = EXTENSION_MAP.get(ext)
+        if not analyzer_script:
+            print(error_response(f"No analyzer available for extension: {ext}"))
+            return 1
+
+        script_path = os.path.join(os.path.dirname(__file__), analyzer_script)
+        debug(f"Using analyzer: {script_path}")
+
+        result = run_analyzer(script_path, file_path)
+        print(result)
+        debug("=== Analysis Complete ===")
+        return 0
+
+    except Exception as e:
+        print(error_response(f"Unexpected error: {str(e)}", traceback=traceback.format_exc()))
+        return 1
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print(json.dumps({"error": "Missing file path"}))
-    else:
-        main(sys.argv[1])
+    sys.exit(main())

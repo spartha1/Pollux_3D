@@ -1,0 +1,156 @@
+@echo off
+setlocal enabledelayedexpansion
+
+REM Get script directory and set up logging
+set "SCRIPT_DIR=%~dp0"
+set "LOG_FILE=%SCRIPT_DIR%analyze_script.log"
+
+REM Clear log file
+echo Starting analysis at %DATE% %TIME% > "%LOG_FILE%"
+
+REM Log paths
+echo Script directory: %SCRIPT_DIR% >> "%LOG_FILE%"
+echo Log file: %LOG_FILE% >> "%LOG_FILE%"
+echo Current directory: %CD% >> "%LOG_FILE%"
+echo Input file: %1 >> "%LOG_FILE%"off
+setlocal enabledelayedexpansion
+
+REM Get script directory and set up logging
+set "SCRIPT_DIR=%~dp0"
+set "LOG_FILE=%SCRIPT_DIR%analyze_script.log"
+
+REM Clear log file
+echo Starting analysis at %DATE% %TIME% > "%LOG_FILE%"
+
+REM Log paths
+echo Script directory: %SCRIPT_DIR% >> "%LOG_FILE%"
+echo Log file: %LOG_FILE% >> "%LOG_FILE%"
+echo Current directory: %CD% >> "%LOG_FILE%"
+echo Input file: %1 >> "%LOG_FILE%"
+
+echo Starting analysis at %DATE% %TIME% > "%LOG_FILE%"
+
+REM Log current directory and input file
+echo Current directory: %CD% >> "%LOG_FILE%"
+echo Input file: %1 >> "%LOG_FILE%"
+
+REM Check if input file exists
+if not exist "%~1" (
+    echo Error: Input file not found: %1 >> "%LOG_FILE%"
+    echo Error: Input file not found: %1
+    exit /b 1
+)
+
+REM Check if conda is available
+echo Checking conda... >> "%LOG_FILE%"
+where conda >> "%LOG_FILE%" 2>&1
+if %ERRORLEVEL% neq 0 (
+    echo Error: conda command not found >> "%LOG_FILE%"
+    echo Error: conda command not found. Please ensure Conda is installed and in PATH
+    exit /b 1
+)
+
+REM Check if pollux environment exists
+echo Checking pollux environment... >> "%LOG_FILE%"
+conda env list >> "%LOG_FILE%"
+conda env list | findstr /C:"pollux" >nul
+if %ERRORLEVEL% neq 0 (
+    echo Error: pollux environment not found >> "%LOG_FILE%"
+    echo Error: pollux environment not found. Please create it with: conda create -n pollux python=3.10
+    exit /b 1
+)
+
+REM Debug: Print environment info
+echo Python environment info: >> "%LOG_FILE%"
+call conda run -n pollux python --version >> "%LOG_FILE%" 2>&1
+echo Listed packages: >> "%LOG_FILE%"
+call conda run -n pollux pip list >> "%LOG_FILE%" 2>&1
+
+REM Run analysis script
+echo Running analysis...
+echo Command: conda run -n pollux python "%SCRIPT_DIR%main.py" "%~1"
+
+REM Create temporary output file
+set "TEMP_OUT=%TEMP%\analysis_out_%RANDOM%.tmp"
+
+REM Run analysis and capture output
+call conda run -n pollux python "%SCRIPT_DIR%main.py" "%~1" > "%TEMP_OUT%" 2>&1
+set ANALYSIS_ERROR=%ERRORLEVEL%
+
+REM Display and log output
+type "%TEMP_OUT%"
+type "%TEMP_OUT%" >> "%LOG_FILE%"
+
+REM Clean up temp file
+del "%TEMP_OUT%" > nul 2>&1
+
+REM Display and log the output
+type "%TEMP_OUTPUT%" >> "%LOG_FILE%"
+type "%TEMP_OUTPUT%"
+del "%TEMP_OUTPUT%" 2>nul
+
+echo Analysis completed with exit code: %ANALYSIS_ERROR% >> "%LOG_FILE%" && echo Analysis completed with exit code: %ANALYSIS_ERROR%
+
+REM Check for errors
+if %ANALYSIS_ERROR% neq 0 (
+    echo Error executing Python script >> "%LOG_FILE%" && echo Error executing Python script
+    type "%LOG_FILE%"
+    exit /b %ANALYSIS_ERROR%
+)
+
+echo Analysis completed successfully. >> "%LOG_FILE%" && echo Analysis completed successfully.
+type "%LOG_FILE%"
+exit /b 0
+
+REM Log current directory and input file
+echo Current directory: %CD% >> "%LOG_FILE%"
+echo Input file: %1 >> "%LOG_FILE%"
+
+REM Check if input file exists
+if not exist "%~1" (
+    echo Error: Input file not found: %1 >> "%LOG_FILE%"
+    echo Error: Input file not found: %1
+    exit /b 1
+)
+
+REM Get script directory
+set "SCRIPT_DIR=%~dp0"
+echo Script directory: %SCRIPT_DIR% >> "%LOG_FILE%"
+
+REM Check if conda is available
+echo Checking conda... >> "%LOG_FILE%"
+where conda >> "%LOG_FILE%" 2>&1
+if %ERRORLEVEL% neq 0 (
+    echo Error: conda command not found >> "%LOG_FILE%"
+    echo Error: conda command not found. Please ensure Conda is installed and in PATH
+    exit /b 1
+)
+
+REM Check if pollux environment exists
+echo Checking pollux environment... >> "%LOG_FILE%"
+conda env list >> "%LOG_FILE%"
+conda env list | findstr /C:"pollux" >nul
+if %ERRORLEVEL% neq 0 (
+    echo Error: pollux environment not found >> "%LOG_FILE%"
+    echo Error: pollux environment not found. Please create it with: conda create -n pollux python=3.10
+    exit /b 1
+)
+
+REM Get the directory of the current script
+set "SCRIPT_DIR=%~dp0"
+echo Script directory: %SCRIPT_DIR% >> "%LOG_FILE%"
+
+REM Verify Python exists one last time
+if not exist "!PYTHON_PATH!" (
+    echo Error: Python not found at !PYTHON_PATH! >> "%LOG_FILE%"
+    echo Error: Python not found at !PYTHON_PATH!
+    exit /b 1
+)
+
+REM Run the Python analysis with the file as argument
+echo Analyzing file: %1 >> "%LOG_FILE%"
+conda run -n pollux python "%SCRIPT_DIR%main.py" "%~1" 2>&1
+if errorlevel 1 (
+    echo Error executing Python script
+    exit /b !errorlevel!
+)

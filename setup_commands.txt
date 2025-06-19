@@ -1,0 +1,4 @@
+conda remove -n pollux --all -y
+conda create -n pollux python=3.10 -y
+conda install -n pollux -c conda-forge pythonocc-core numpy -y
+conda run -n pollux pip install ezdxf numpy-stl

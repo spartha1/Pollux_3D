@@ -1,0 +1,6 @@
+@echo off
+echo Installing dependencies...
+pip install fastapi uvicorn pillow
+
+echo Starting preview server...
+python simple_preview_server.py

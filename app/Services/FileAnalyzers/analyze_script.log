@@ -1,0 +1,25 @@
+Starting analysis at mar. 17/06/2025 11:29:05.46 
+Script directory: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\ 
+Log file: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\analyze_script.log 
+Current directory: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers 
+Input file: c:\xampp\htdocs\laravel\PolluxwWeb\storage\app\private\models\1\10fd8d6c-6e82-4230-9f85-7f1329cca3de.STL 
+ 
+Python script output: 
+Starting main.py script...
+Python executable: C:\xampp\htdocs\laravel\PolluxwWeb\venv\Scripts\python.exe
+Python version: 3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]
+Arguments: ['C:\\xampp\\htdocs\\laravel\\PolluxwWeb\\app\\Services\\FileAnalyzers\\main.py', 'c:\\xampp\\htdocs\\laravel\\PolluxwWeb\\storage\\app\\private\\models\\1\\10fd8d6c-6e82-4230-9f85-7f1329cca3de.STL']
+Processing file: c:\xampp\htdocs\laravel\PolluxwWeb\storage\app\private\models\1\10fd8d6c-6e82-4230-9f85-7f1329cca3de.STL
+Debug: Process running as user: Leinad
+Debug: Working directory: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers
+Debug: File path: c:\xampp\htdocs\laravel\PolluxwWeb\storage\app\private\models\1\10fd8d6c-6e82-4230-9f85-7f1329cca3de.STL
+Debug: Starting analysis of c:\xampp\htdocs\laravel\PolluxwWeb\storage\app\private\models\1\10fd8d6c-6e82-4230-9f85-7f1329cca3de.STL with C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\analyze_stl.py
+Debug: Python executable: C:\xampp\htdocs\laravel\PolluxwWeb\venv\Scripts\python.exe
+Debug: Script path: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\analyze_stl.py
+Debug: File path: c:\xampp\htdocs\laravel\PolluxwWeb\storage\app\private\models\1\10fd8d6c-6e82-4230-9f85-7f1329cca3de.STL
+Main processing completed
+
+File extension: .stl
+{"dimensions": {"width": 20.0, "height": 20.0, "depth": 184.0}, "volume": 31304.721, "area": 32014.508, "metadata": {"triangles": 1332, "faces": 1332, "edges": 1998, "vertices": 666, "center_of_mass": {"x": 139.051, "y": 336.93, "z": 211.612}, "bbox_min": {"x": 129.051, "y": 326.931, "z": 119.611}, "bbox_max": {"x": 149.051, "y": 346.931, "z": 303.611}, "format": "ASCII"}, "analysis_time_ms": 4923}
+
+Analysis completed successfully. 

@@ -1,0 +1,27 @@
+==================== Analysis Start ==================== 
+Start time: mar. 17/06/2025 12:43:44.60 
+Script directory: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\ 
+Working directory: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers 
+Log file: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\analyze_script_20251706_124344.log 
+Temp JSON: C:\Users\Leinad\AppData\Local\Temp\analysis_output_20251706_124344.json 
+Error file: C:\Users\Leinad\AppData\Local\Temp\analysis_error_20251706_124344.txt 
+Input file: C:\xampp\htdocs\laravel\PolluxwWeb\storage\app/private\models/1/4e57e33d-c635-4514-a3f4-4f283422b464.STL 
+Searching for Python... 
+Found venv Python: C:\xampp\htdocs\laravel\PolluxwWeb\venv\Scripts\python.exe 
+Python version: Python 3.12.6 
+Running Python analysis... 
+Command: "C:\xampp\htdocs\laravel\PolluxwWeb\venv\Scripts\python.exe" "C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\main.py" "C:\xampp\htdocs\laravel\PolluxwWeb\storage\app/private\models/1/4e57e33d-c635-4514-a3f4-4f283422b464.STL" 
+Error: Python script failed with code 1 
+Error output: 
+
+=== Analysis Start ===
+Start time: 2025-06-17 12:43:45
+Arguments: ['C:\\xampp\\htdocs\\laravel\\PolluxwWeb\\app\\Services\\FileAnalyzers\\main.py', 'C:\\xampp\\htdocs\\laravel\\PolluxwWeb\\storage\\app/private\\models/1/4e57e33d-c635-4514-a3f4-4f283422b464.STL']
+Working directory: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers
+File extension: .stl
+Using analyzer: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\analyze_stl.py
+Starting analysis at: 2025-06-17 12:43:45
+NumPy version: 2.3.0
+Error: Unexpected error: [WinError 10106] No se puede cargar o inicializar el proveedor de servicios solicitado
+Standard output: 
+{"error": "Unexpected error: [WinError 10106] No se puede cargar o inicializar el proveedor de servicios solicitado", "analysis_time_ms": 0, "traceback": "Traceback (most recent call last):\n  File \"C:\\xampp\\htdocs\\laravel\\PolluxwWeb\\app\\Services\\FileAnalyzers\\main.py\", line 141, in main\n    result = run_analyzer(script_path, file_path)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\xampp\\htdocs\\laravel\\PolluxwWeb\\app\\Services\\FileAnalyzers\\main.py\", line 60, in run_analyzer\n    env_error = verify_python_environment()\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\xampp\\htdocs\\laravel\\PolluxwWeb\\app\\Services\\FileAnalyzers\\main.py\", line 47, in verify_python_environment\n    from stl import mesh\n  File \"C:\\xampp\\htdocs\\laravel\\PolluxwWeb\\venv\\Lib\\site-packages\\stl\\__init__.py\", line 1, in <module>\n    from .base import Dimension, RemoveDuplicates\n  File \"C:\\xampp\\htdocs\\laravel\\PolluxwWeb\\venv\\Lib\\site-packages\\stl\\base.py\", line 13, in <module>\n    from python_utils import logger\n  File \"C:\\xampp\\htdocs\\laravel\\PolluxwWeb\\venv\\Lib\\site-packages\\python_utils\\__init__.py\", line 52, in <module>\n    from . import (\n  File \"C:\\xampp\\htdocs\\laravel\\PolluxwWeb\\venv\\Lib\\site-packages\\python_utils\\aio.py\", line 3, in <module>\n    import asyncio\n  File \"C:\\Users\\Leinad\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\__init__.py\", line 43, in <module>\n    from .windows_events import *\n  File \"C:\\Users\\Leinad\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\windows_events.py\", line 8, in <module>\n    import _overlapped\nOSError: [WinError 10106] No se puede cargar o inicializar el proveedor de servicios solicitado\n"}

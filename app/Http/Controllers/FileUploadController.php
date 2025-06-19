@@ -45,16 +45,22 @@ class FileUploadController extends Controller
         ]);
 
         $file = $request->file('file');
-        $extension = $file->getClientOriginalExtension();
+        $extension = strtoupper($file->getClientOriginalExtension());
         $originalName = $file->getClientOriginalName();
         $storedName = Str::uuid() . '.' . $extension;
 
-        // Store file in private directory
-        $path = $file->storeAs(
-            'models/' . $request->user()->id,
-            $storedName,
-            'local'
-        );
+        // Store file in private directory - note that the 'local' disk is already configured for private storage
+        $relativePath = 'models/' . $request->user()->id;
+        $path = $file->storeAs($relativePath, $storedName, 'local');
+
+        if (!$path) {
+            return back()->with('error', 'Failed to store file. Please try again.');
+        }
+
+        // Ensure the file exists in storage
+        if (!Storage::disk('local')->exists($path)) {
+            return back()->with('error', 'File upload failed verification. Please try again.');
+        }
 
         $fileUpload = $request->user()->fileUploads()->create([
             'filename_original' => $originalName,
@@ -62,7 +68,7 @@ class FileUploadController extends Controller
             'extension' => $extension,
             'mime_type' => $file->getMimeType(),
             'size' => $file->getSize(),
-            'storage_path' => $path,
+            'storage_path' => $path, // This will be like 'models/1/uuid.STL'
             'disk' => 'local',
             'status' => 'uploaded',
             'uploaded_at' => now(),
@@ -95,6 +101,10 @@ class FileUploadController extends Controller
     public function download(FileUpload $fileUpload)
     {
         $this->authorize('download', $fileUpload);
+
+        if (!Storage::disk($fileUpload->disk)->exists($fileUpload->storage_path)) {
+            return back()->with('error', 'File not found in storage.');
+        }
 
         $filePath = Storage::disk($fileUpload->disk)->path($fileUpload->storage_path);
 

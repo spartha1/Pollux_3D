@@ -1,0 +1,11 @@
+pythonocc-core
+numpy
+ezdxf
+fastapi
+uvicorn
+pydantic
+numpy-stl
+pillow
+matplotlib
+pyvista
+vtk

@@ -32,6 +32,15 @@ class FileUpload extends Model
         'size' => 'integer',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
+    protected $appends = [
+        'storage_path'
+    ];
+
     /**
      * Get the user that owns the file upload.
      */
@@ -62,5 +71,11 @@ class FileUpload extends Model
     public function previews(): HasMany
     {
         return $this->hasMany(FilePreview::class);
+    }
+
+    public function getStoragePathAttribute()
+    {
+        // Return the stored path directly as it already contains the full relative path
+        return $this->attributes['storage_path'];
     }
 }

@@ -1,0 +1,14 @@
+==================== Analysis Start ==================== 
+Start time: mar. 17/06/2025 12:51:02.43 
+Script directory: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\ 
+Working directory: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers 
+Log file: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\analyze_script_20251706_125102.log 
+Temp JSON: C:\Users\Leinad\AppData\Local\Temp\analysis_output_20251706_125102.json 
+Error file: C:\Users\Leinad\AppData\Local\Temp\analysis_error_20251706_125102.txt 
+Input file: C:\xampp\htdocs\laravel\PolluxwWeb\storage\app/private\models/1/88f991af-7043-4983-90b1-80126b93a3ca.STL 
+Searching for Python... 
+Found venv Python: C:\xampp\htdocs\laravel\PolluxwWeb\venv\Scripts\python.exe 
+Python version: Python 3.12.6 
+Running Python analysis... 
+Command: "C:\xampp\htdocs\laravel\PolluxwWeb\venv\Scripts\python.exe" "C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\main.py" "C:\xampp\htdocs\laravel\PolluxwWeb\storage\app/private\models/1/88f991af-7043-4983-90b1-80126b93a3ca.STL" 
+Analysis completed successfully 

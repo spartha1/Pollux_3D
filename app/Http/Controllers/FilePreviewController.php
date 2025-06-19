@@ -113,7 +113,7 @@ class FilePreviewController extends Controller
     private function generatePreview(FileUpload $fileUpload, string $renderType)
     {
         try {
-            $response = Http::timeout(120)->post('http://localhost:8000/preview', [
+            $response = Http::timeout(120)->post('http://localhost:8001/preview', [
                 'file_id' => $fileUpload->id,
                 'file_path' => $fileUpload->storage_path,
                 'render_type' => $renderType,

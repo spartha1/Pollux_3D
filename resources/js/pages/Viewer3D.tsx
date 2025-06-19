@@ -1,8 +1,22 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 // @ts-expect-error - Three.js examples don't have TypeScript declarations
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
+interface ViewType {
+    id: '2d' | 'wireframe' | '3d';
+    name: string;
+    description: string;
+}
+
+interface Preview {
+    id: number;
+    file_upload_id: number;
+    image_path: string;
+    render_type: '2d' | 'wireframe' | '3d';
+    created_at: string;
+}
 
 interface Viewer3DProps {
     fileUpload: {
@@ -11,26 +25,41 @@ interface Viewer3DProps {
         filename_stored: string;
         extension: string;
         disk: string;
+        storage_path: string;
     };
+    previews: Record<string, Preview>;
+    viewTypes: ViewType[];
 }
 
-export default function Viewer3D({ fileUpload }: Viewer3DProps) {
+export default function Viewer3D({ fileUpload, previews, viewTypes }: Viewer3DProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const sceneRef = useRef<{
-        scene: THREE.Scene;
-        camera: THREE.PerspectiveCamera;
-        renderer: THREE.WebGLRenderer;
-        controls: OrbitControls;
-        animationId: number;
-    } | null>(null);
+    const [activeView, setActiveView] = useState<'2d' | 'wireframe' | '3d'>(() => {
+        // Initialize with '3d' for STL files, or first available preview type for others
+        const extension = fileUpload.extension.toLowerCase();
+        if (extension === 'stl') {
+            return '3d';
+        }
+        // For other files, check if we have previews
+        if (previews && Object.keys(previews).length > 0) {
+            return Object.keys(previews)[0] as '2d' | 'wireframe' | '3d';
+        }
+        return '2d';
+    });
 
-    useEffect(() => {
+    const getPreviewUrl = useCallback((type: string) => {
+        const preview = previews[type];
+        if (!preview) return null;
+        return `/storage/${preview.image_path}`;
+    }, [previews]);
+
+    const render3DView = useCallback(() => {
+        if (!containerRef.current || activeView !== '3d') return;
+
+        console.log('Initializing 3D viewer with file:', fileUpload);
+
         const container = containerRef.current;
-        if (!container) return;
-
-        // Get container dimensions
         const width = container.clientWidth;
         const height = container.clientHeight;
 
@@ -46,6 +75,7 @@ export default function Viewer3D({ fileUpload }: Viewer3DProps) {
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(width, height);
         renderer.shadowMap.enabled = true;
+        container.innerHTML = '';
         container.appendChild(renderer.domElement);
 
         // Setup controls
@@ -62,30 +92,33 @@ export default function Viewer3D({ fileUpload }: Viewer3DProps) {
         directionalLight.castShadow = true;
         scene.add(directionalLight);
 
-        // Add grid
+        // Add grid and axes
         const gridHelper = new THREE.GridHelper(200, 20);
         scene.add(gridHelper);
 
-        // Add axes helper for debugging
         const axesHelper = new THREE.AxesHelper(50);
         scene.add(axesHelper);
 
         // Load the model based on file extension
-        const fileUrl = `/3d/${fileUpload.id}/file`;
-        console.log('Loading file from:', fileUrl);
+        const extension = fileUpload.extension.toLowerCase();
 
-        if (fileUpload.extension.toLowerCase() === 'stl') {
+        if (extension === 'stl') {
+            console.log('Loading STL file...');
+            const fileUrl = `/storage/${fileUpload.storage_path}`;
+            console.log('STL file URL:', fileUrl);
+
             const loader = new STLLoader();
             loader.load(
                 fileUrl,
-                (geometry: THREE.BufferGeometry) => {
+                (geometry) => {
                     console.log('STL loaded successfully');
                     setLoading(false);
 
                     const material = new THREE.MeshPhongMaterial({
                         color: 0x0077ff,
                         specular: 0x111111,
-                        shininess: 200
+                        shininess: 200,
+                        side: THREE.DoubleSide
                     });
                     const mesh = new THREE.Mesh(geometry, material);
                     mesh.castShadow = true;
@@ -95,86 +128,168 @@ export default function Viewer3D({ fileUpload }: Viewer3DProps) {
                     geometry.computeBoundingBox();
                     const boundingBox = geometry.boundingBox!;
                     const center = boundingBox.getCenter(new THREE.Vector3());
-                    geometry.translate(-center.x, -center.y, -center.z);
+                    mesh.position.set(-center.x, -center.y, -center.z);
 
-                    // Position mesh on the grid
-                    geometry.computeBoundingBox();
-                    const box = new THREE.Box3().setFromObject(mesh);
-                    const size = box.getSize(new THREE.Vector3());
-                    mesh.position.y = size.y / 2;
-
-                    console.log('Model size:', size);
-                    console.log('Model center:', center);
-
+                    // Add to scene
                     scene.add(mesh);
 
-                    // Adjust camera to fit the model
+                    // Adjust camera
+                    const box = new THREE.Box3().setFromObject(mesh);
+                    const size = box.getSize(new THREE.Vector3());
                     const maxDim = Math.max(size.x, size.y, size.z);
-                    const distance = maxDim * 2;
-                    camera.position.set(distance, distance, distance);
+                    const fov = camera.fov * (Math.PI / 180);
+                    const cameraDistance = Math.abs(maxDim / Math.sin(fov / 2)) * 1.5;
+
+                    camera.position.set(cameraDistance, cameraDistance, cameraDistance);
                     camera.lookAt(0, 0, 0);
                     controls.target.set(0, 0, 0);
                     controls.update();
+
+                    renderer.render(scene, camera);
                 },
-                (progress) => {
-                    const percentComplete = (progress.loaded / progress.total) * 100;
-                    console.log('Loading progress:', percentComplete.toFixed(2) + '%');
+                (xhr) => {
+                    console.log('Loading progress:', (xhr.loaded / xhr.total) * 100 + '%');
                 },
                 (error) => {
                     console.error('Error loading STL:', error);
-                    setError('Error al cargar el archivo STL: ' + error.message);
+                    setError('Error loading STL file: ' + error.message);
                     setLoading(false);
                 }
             );
-        } else {
-            setError(`Formato de archivo no soportado: ${fileUpload.extension}`);
+        } else if (extension === 'step' || extension === 'stp') {
             setLoading(false);
+            // For STEP files, show the preview image if available
+            const preview = previews['3d'];
+            if (!preview) {
+                setError('No 3D preview available for this STEP file');
+            }
         }
 
         // Animation loop
         const animate = () => {
             const animationId = requestAnimationFrame(animate);
-            sceneRef.current!.animationId = animationId;
             controls.update();
             renderer.render(scene, camera);
+            return animationId;
         };
 
-        // Store references
-        sceneRef.current = { scene, camera, renderer, controls, animationId: 0 };
+        const animationId = animate();
 
-        animate();
-
-        // Handle resize
-        const handleResize = () => {
-            const width = container.clientWidth;
-            const height = container.clientHeight;
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-            renderer.setSize(width, height);
-        };
-
-        window.addEventListener('resize', handleResize);
-
-        // Cleanup
+        // Cleanup function
         return () => {
-            window.removeEventListener('resize', handleResize);
-            if (sceneRef.current) {
-                cancelAnimationFrame(sceneRef.current.animationId);
-            }
-            container.removeChild(renderer.domElement);
+            cancelAnimationFrame(animationId);
             renderer.dispose();
+            scene.clear();
         };
-    }, [fileUpload]);
+    }, [fileUpload, activeView, previews]);
 
-    return (
-        <div ref={containerRef} className="w-full h-full relative">
-            {loading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                    <div className="text-white bg-black/70 px-4 py-2 rounded">
-                        Cargando modelo 3D...
+    useEffect(() => {
+        const cleanup = render3DView();
+        return () => cleanup?.();
+    }, [render3DView]);
+
+    // Ensure viewTypes is defined and has content
+    if (!viewTypes || !Array.isArray(viewTypes)) {
+        return (
+            <div className="py-6 relative">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="bg-white p-4 rounded-lg shadow">
+                        <p className="text-red-500">Error: View types not properly configured</p>
                     </div>
                 </div>
-            )}
+            </div>
+        );
+    }
+
+    return (
+        <div className="py-6 relative">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex flex-col space-y-4">
+                    {/* View Type Selector */}
+                    <div className="flex space-x-4 bg-white p-4 rounded-lg shadow">
+                        {viewTypes.map((type) => (
+                            <button
+                                key={type.id}
+                                onClick={() => setActiveView(type.id)}
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                    activeView === type.id
+                                        ? 'bg-blue-600 text-white'
+                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                }`}
+                                title={type.description}
+                            >
+                                {type.name}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Preview Display */}
+                    <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                        {activeView === '3d' ? (
+                            <div ref={containerRef} className="w-full h-[600px] bg-gray-100 relative">
+                                {loading && (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                                        <div className="text-white bg-black/70 px-4 py-2 rounded">
+                                            Loading 3D model...
+                                        </div>
+                                    </div>
+                                )}
+                                {error && (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                                        <div className="text-white bg-black/70 px-4 py-2 rounded">
+                                            {error}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <div className="aspect-w-16 aspect-h-9">
+                                {(() => {
+                                    const url = getPreviewUrl(activeView);
+                                    return url ? (
+                                        <img
+                                            src={url}
+                                            alt={`${activeView} view`}
+                                            className="object-contain w-full h-full"
+                                        />
+                                    ) : (
+                                        <div className="flex items-center justify-center h-full">
+                                            <span className="text-gray-500">
+                                                No preview available for {activeView} view
+                                            </span>
+                                        </div>
+                                    );
+                                })()}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* File Information */}
+                    <div className="bg-white rounded-lg shadow p-4">
+                        <h2 className="text-lg font-medium text-gray-900 mb-2">
+                            File Information
+                        </h2>
+                        <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div>
+                                <dt className="text-sm font-medium text-gray-500">
+                                    Filename
+                                </dt>
+                                <dd className="mt-1 text-sm text-gray-900">
+                                    {fileUpload.filename_original}
+                                </dd>
+                            </div>
+                            <div>
+                                <dt className="text-sm font-medium text-gray-500">
+                                    Available Views
+                                </dt>
+                                <dd className="mt-1 text-sm text-gray-900">
+                                    {Object.keys(previews).length} views
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
             {error && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20">
                     <div className="text-red-500 bg-white px-4 py-2 rounded shadow">
