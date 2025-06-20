@@ -113,9 +113,15 @@ class FilePreviewController extends Controller
     private function generatePreview(FileUpload $fileUpload, string $renderType)
     {
         try {
-            $response = Http::timeout(120)->post('http://localhost:8001/preview', [
+            // Get preview service URL from config (default to localhost for development)
+            $previewServiceUrl = config('services.preview.url', 'http://localhost:8088');
+
+            // Get the absolute file path
+            $filePath = Storage::disk($fileUpload->disk)->path($fileUpload->storage_path);
+
+            $response = Http::timeout(120)->post($previewServiceUrl . '/preview', [
                 'file_id' => $fileUpload->id,
-                'file_path' => $fileUpload->storage_path,
+                'file_path' => $filePath,
                 'render_type' => $renderType,
             ]);
 
