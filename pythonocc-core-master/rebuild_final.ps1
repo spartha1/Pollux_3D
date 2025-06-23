@@ -1,7 +1,25 @@
 # Stop on first error
 $ErrorActionPreference = "Stop"
 
-Write-Host "Starting build process..."
+Write-Host "Setting up build environment..."
+
+# Initialize Visual Studio environment
+Write-Host "`nInitializing Visual Studio environment..."
+$vsPath = "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat"
+if (Test-Path $vsPath) {
+    Write-Host "Found Visual Studio at: $vsPath"
+    & "${env:COMSPEC}" /c "`"$vsPath`" x64 && set" | foreach-object {
+        if ($_ -match "=") {
+            $v = $_.split("=")
+            Set-Item -Force -Path "ENV:\$($v[0])" -Value "$($v[1])"
+        }
+    }
+    Write-Host "Visual Studio environment initialized"
+} else {
+    Write-Host "Visual Studio BuildTools not found at expected location."
+    Write-Host "Please install Visual Studio BuildTools 2022 with C++ workload."
+    exit 1
+}
 
 # Get script directory
 $scriptDir = $PSScriptRoot
@@ -96,41 +114,48 @@ Write-Host "`nOpenCASCADE paths:"
 Write-Host "Include: $occIncludeDir"
 Write-Host "Library: $occLibDir"
 
-# Run CMake
+# Run CMake with verbose output
 Write-Host "`nRunning CMake..."
 $cmakeArgs = @(
     "-G", "Ninja"
+    "--log-level=verbose"
+    "--debug-output"
+    "-DCMAKE_VERBOSE_MAKEFILE=ON"
     "-DSWIG_EXECUTABLE=$swigPath"
-    "-DSWIG_DIR=$swigLib"
+    "-DSWIG_DIR=$swigRoot"
     "-DSWIG_USE_FILE=$swigUseFile"
     "-DSWIG_VERSION=4.2.1"
     "-DSWIG_FOUND=TRUE"
-    "-DPYTHON_EXECUTABLE=$pythonPath"
-    "-DCMAKE_BUILD_TYPE=Release"
+    "-DPYTHON_EXECUTABLE=$pythonPath",
+    "-DPython3_ROOT_DIR=$env:CONDA_PREFIX",
+    "-DPython3_EXECUTABLE=$pythonPath""
     "-DOCCT_INCLUDE_DIR=$occIncludeDir"
     "-DOCCT_LIBRARY_DIR=$occLibDir"
-    "-B", "$buildDir"
-    "-S", "$sourceDir"
+    "-DCMAKE_BUILD_TYPE=Release"
+    "-B", $buildDir
+    "-S", $sourceDir
 )
 
 Write-Host "CMake arguments:"
 $cmakeArgs | ForEach-Object { Write-Host "  $_" }
 
-$cmakeOutput = & $cmakePath $cmakeArgs 2>&1
-$cmakeOutput | ForEach-Object { Write-Host $_ }
+Write-Host "`nRunning CMake configuration..."
+
+# Run CMake and capture output to a log file
+$logFile = Join-Path $scriptDir "cmake_output.log"
+& $cmakePath $cmakeArgs *>&1 | Tee-Object -FilePath $logFile
+
+Write-Host "`nChecking CMake output for errors..."
+Get-Content $logFile | ForEach-Object {
+    Write-Host $_
+    if ($_ -match "CMake Error:|CMake Warning:") {
+        Write-Host "Found error/warning: $_" -ForegroundColor Red
+    }
+}
 
 if ($LASTEXITCODE -ne 0) {
-    if ($cmakeOutput -match "Found unsuitable version") {
-        Write-Host "`nDetected SWIG version mismatch. Checking system SWIG installations..."
-        Get-ChildItem -Path "C:\Program Files*\swig" -Recurse -ErrorAction SilentlyContinue |
-            Where-Object { $_.Name -eq "swig.exe" } |
-            ForEach-Object {
-                Write-Host "Found system SWIG: $($_.FullName)"
-                & $_.FullName -version
-            }
-        throw "CMake found unsuitable SWIG version. Please check the logs above."
-    }
-    throw "CMake configuration failed"
+    Write-Error "CMake configuration failed. See output above for details."
+    exit 1
 }
 
 # Run Ninja build
