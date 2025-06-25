@@ -130,7 +130,7 @@ MoniTool_ValueBinary = MoniTool_ValueType.MoniTool_ValueBinary
 
 /* templates */
 %template(MoniTool_DataMapOfShapeTransient) NCollection_DataMap<TopoDS_Shape,opencascade::handle<Standard_Transient>,TopTools_ShapeMapHasher>;
-%template(MoniTool_DataMapOfTimer) NCollection_DataMap<Standard_CString,opencascade::handle<MoniTool_Timer>,Standard_CStringHasher>;
+%template(MoniTool_DataMapOfTimer) NCollection_DataMap<Standard_CString,opencascade::handle<MoniTool_Timer>,NCollection_DefaultHasher<Standard_CString> >;
 %template(MoniTool_IndexedDataMapOfShapeTransient) NCollection_IndexedDataMap<TopoDS_Shape,opencascade::handle<Standard_Transient>,TopTools_ShapeMapHasher>;
 %template(MoniTool_SequenceOfElement) NCollection_Sequence<opencascade::handle<MoniTool_Element>>;
 
@@ -144,9 +144,9 @@ MoniTool_ValueBinary = MoniTool_ValueType.MoniTool_ValueBinary
 
 /* typedefs */
 typedef NCollection_DataMap<TopoDS_Shape, opencascade::handle<Standard_Transient>, TopTools_ShapeMapHasher>::Iterator MoniTool_DataMapIteratorOfDataMapOfShapeTransient;
-typedef NCollection_DataMap<Standard_CString, opencascade::handle<MoniTool_Timer>, Standard_CStringHasher>::Iterator MoniTool_DataMapIteratorOfDataMapOfTimer;
+typedef NCollection_DataMap<Standard_CString, opencascade::handle<MoniTool_Timer>, NCollection_DefaultHasher<Standard_CString> >::Iterator MoniTool_DataMapIteratorOfDataMapOfTimer;
 typedef NCollection_DataMap<TopoDS_Shape, opencascade::handle<Standard_Transient>, TopTools_ShapeMapHasher> MoniTool_DataMapOfShapeTransient;
-typedef NCollection_DataMap<Standard_CString, opencascade::handle<MoniTool_Timer>, Standard_CStringHasher> MoniTool_DataMapOfTimer;
+typedef NCollection_DataMap<Standard_CString, opencascade::handle<MoniTool_Timer>, NCollection_DefaultHasher<Standard_CString> > MoniTool_DataMapOfTimer;
 typedef NCollection_IndexedDataMap<TopoDS_Shape, opencascade::handle<Standard_Transient>, TopTools_ShapeMapHasher> MoniTool_IndexedDataMapOfShapeTransient;
 typedef NCollection_Sequence<opencascade::handle<MoniTool_Element>> MoniTool_SequenceOfElement;
 /* end typedefs declaration */

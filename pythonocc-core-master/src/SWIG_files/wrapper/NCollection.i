@@ -63,7 +63,7 @@ from OCC.Core.Exception import *
 %include "NCollection_Array2.hxx";
 %include "NCollection_BaseList.hxx";
 %include "NCollection_BaseMap.hxx";
-%include "NCollection_BasePointerVector.hxx";
+%include "NCollection_BaseVector.hxx";
 %include "NCollection_Map.hxx";
 %include "NCollection_List.hxx";
 %include "NCollection_Sequence.hxx";

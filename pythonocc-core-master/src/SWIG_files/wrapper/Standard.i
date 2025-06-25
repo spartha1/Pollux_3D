@@ -166,8 +166,8 @@ Standard_Address
 
 Description
 -----------
-Allocates aligned memory blocks. Should be used with CPU instructions which require specific alignment. For example: SSE requires 16 bytes, AVX requires 32 bytes. 
-Parameter theSize bytes to allocate 
+Allocates aligned memory blocks. Should be used with CPU instructions which require specific alignment. For example: SSE requires 16 bytes, AVX requires 32 bytes.
+Parameter theSize bytes to allocate
 Parameter theAlign alignment in bytes.
 ") AllocateAligned;
 		static Standard_Address AllocateAligned(const Standard_Size theSize, const Standard_Size theAlign);
@@ -253,12 +253,12 @@ bool
 
 Description
 -----------
-Appends backtrace to a message buffer. Stack information might be incomplete in case of stripped binaries. Implementation details: - Not implemented for Android, iOS, QNX and UWP platforms. - On non-Windows platform, this function is a wrapper to backtrace() system call. - On Windows (Win32) platform, the function loads DbgHelp.dll dynamically, and no stack will be provided if this or companion libraries (SymSrv.dll, SrcSrv.dll, etc.) will not be found; .pdb symbols should be provided on Windows platform to retrieve a meaningful stack; only x86_64 CPU architecture is currently implemented. 
-Input parameter:[out] theBuffer message buffer to extend 
-Input parameter: theBufferSize message buffer size 
-Input parameter: theNbTraces maximum number of stack traces 
-Input parameter: theContext optional platform-dependent frame context; in case of DbgHelp (Windows) should be a pointer to CONTEXT 
-Input parameter: theNbTopSkip number of traces on top of the stack to skip 
+Appends backtrace to a message buffer. Stack information might be incomplete in case of stripped binaries. Implementation details: - Not implemented for Android, iOS, QNX and UWP platforms. - On non-Windows platform, this function is a wrapper to backtrace() system call. - On Windows (Win32) platform, the function loads DbgHelp.dll dynamically, and no stack will be provided if this or companion libraries (SymSrv.dll, SrcSrv.dll, etc.) will not be found; .pdb symbols should be provided on Windows platform to retrieve a meaningful stack; only x86_64 CPU architecture is currently implemented.
+Input parameter:[out] theBuffer message buffer to extend
+Input parameter: theBufferSize message buffer size
+Input parameter: theNbTraces maximum number of stack traces
+Input parameter: theContext optional platform-dependent frame context; in case of DbgHelp (Windows) should be a pointer to CONTEXT
+Input parameter: theNbTopSkip number of traces on top of the stack to skip
 Return: True on success.
 ") StackTrace;
 		static Standard_Boolean StackTrace(char * theBuffer, const int theBufferSize, const int theNbTraces, void * theContext = NULL, const int theNbTopSkip = 0);
@@ -300,8 +300,8 @@ None
 
 Description
 -----------
-Main constructor. Passed pointer is stored as is (memory is NOT copied nor released with destructor). 
-Parameter theBegin pointer to the beginning of pre-allocated buffer 
+Main constructor. Passed pointer is stored as is (memory is NOT copied nor released with destructor).
+Parameter theBegin pointer to the beginning of pre-allocated buffer
 Parameter theSize length of pre-allocated buffer.
 ") Standard_ArrayStreamBuffer;
 		 Standard_ArrayStreamBuffer(const char * theBegin, const size_t theSize);
@@ -321,8 +321,8 @@ None
 
 Description
 -----------
-(Re)-initialize the stream. Passed pointer is stored as is (memory is NOT copied nor released with destructor). 
-Parameter theBegin pointer to the beginning of pre-allocated buffer 
+(Re)-initialize the stream. Passed pointer is stored as is (memory is NOT copied nor released with destructor).
+Parameter theBegin pointer to the beginning of pre-allocated buffer
 Parameter theSize length of pre-allocated buffer.
 ") Init;
 		virtual void Init(const char * theBegin, const size_t theSize);
@@ -355,18 +355,20 @@ Read a bunch of bytes at once.
 	}
 };
 
-/*******************************
-* class Standard_CStringHasher *
-*******************************/
-class Standard_CStringHasher {
-	public:
-};
-
-
-%extend Standard_CStringHasher {
-	%pythoncode {
-	__repr__ = _dumps_object
-	}
+/**********************************
+* class NCollection_DefaultHasher *
+**********************************/
+template<class TheKeyType>
+class NCollection_DefaultHasher {
+    public:
+    static Standard_Integer HashCode(const TheKeyType& theKey,
+                                   const Standard_Integer Upper) {
+        return ::HashCode(theKey, Upper);
+    }
+    static Standard_Boolean IsEqual(const TheKeyType& K1,
+                                  const TheKeyType& K2) {
+        return ::IsEqual(K1, K2);
+    }
 };
 
 /***************************
@@ -388,7 +390,7 @@ None
 
 Description
 -----------
-Default constructor. 
+Default constructor.
 Parameter theIsSet Initial flag state.
 ") Standard_Condition;
 		 Standard_Condition(bool theIsSet);
@@ -402,7 +404,7 @@ bool
 
 Description
 -----------
-Do not wait for signal - just test it state. 
+Do not wait for signal - just test it state.
 Return: true if get event.
 ") Check;
 		bool Check();
@@ -416,7 +418,7 @@ bool
 
 Description
 -----------
-Method perform two steps at-once - reset the event object and returns true if it was in signaling state. 
+Method perform two steps at-once - reset the event object and returns true if it was in signaling state.
 Return: true if event object was in signaling state.
 ") CheckReset;
 		bool CheckReset();
@@ -474,8 +476,8 @@ bool
 
 Description
 -----------
-Wait for signal requested time. 
-Parameter theTimeMilliseconds wait limit in milliseconds 
+Wait for signal requested time.
+Parameter theTimeMilliseconds wait limit in milliseconds
 Return: true if get event.
 ") Wait;
 		bool Wait(int theTimeMilliseconds);
@@ -1382,7 +1384,7 @@ None
 
 Description
 -----------
-Creates a status object of type 'Failure'. 
+Creates a status object of type 'Failure'.
 Input parameter: theDesc exception description.
 ") Standard_Failure;
 		 Standard_Failure(Standard_CString theDesc);
@@ -1402,8 +1404,8 @@ None
 
 Description
 -----------
-Creates a status object of type 'Failure' with stack trace. 
-Input parameter: theDesc exception description 
+Creates a status object of type 'Failure' with stack trace.
+Input parameter: theDesc exception description
 Input parameter: theStackTrace associated stack trace.
 ") Standard_Failure;
 		 Standard_Failure(Standard_CString theDesc, Standard_CString theStackTrace);
@@ -2026,10 +2028,10 @@ Standard_Type *
 
 Description
 -----------
-Register a type; returns either new or existing descriptor. //! 
-Parameter theInfo object stores system name of the class 
-Parameter theName name of the class to be stored in Name field 
-Parameter theSize size of the class instance 
+Register a type; returns either new or existing descriptor. //!
+Parameter theInfo object stores system name of the class
+Parameter theName name of the class to be stored in Name field
+Parameter theSize size of the class instance
 Parameter theParent base class in the Transient hierarchy //! Note that this function is intended for use by STANDARD_RTTIEXT macros only.
 ") Register;
 		static Standard_Type * Register(const std::type_info & theInfo, const char * theName, Standard_Size theSize, const opencascade::handle<Standard_Type> & theParent);

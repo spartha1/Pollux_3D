@@ -28,7 +28,7 @@ along with pythonOCC.  If not, see <http://www.gnu.org/licenses/>.
 #include<Standard_Byte.hxx>
 #include<Standard_CLocaleSentry.hxx>
 #include<Standard_CString.hxx>
-#include<Standard_CStringHasher.hxx>
+#include<NCollection_DefaultHasher.hxx>
 #include<Standard_Character.hxx>
 #include<Standard_Condition.hxx>
 #include<Standard_ConstructionError.hxx>
