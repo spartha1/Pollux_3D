@@ -3,3 +3,14 @@ conda env create -f environment.yml
 // upload to server//
 chmod +x install_preview_service.sh
 sudo ./install_preview_service.sh
+
+
+
+# Desarrollo
+APP_ENV=development
+PREVIEW_SERVER_PORT=8000  # opcional, default 8000
+
+# Producción
+APP_ENV=production
+PREVIEW_SERVER_PORT=8000  # recomendado explícito
+API_KEY=tu_clave_secreta_aqui

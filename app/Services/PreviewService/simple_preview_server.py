@@ -14,6 +14,16 @@ print(f"Using Python from: {python_path}")
 import base64
 import io
 import logging
+import time
+from datetime import datetime
+
+# Security imports
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.security import APIKeyHeader, Security
+from typing import Optional
 
 # Import configuration
 try:
@@ -47,7 +57,7 @@ except ImportError as e:
 
 # API imports
 try:
-    from fastapi import FastAPI, HTTPException, BackgroundTasks
+    from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends, Security, Request
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import JSONResponse
     from pydantic import BaseModel, Field
@@ -108,6 +118,35 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
+# Configurar rate limiting
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# Configurar compresión GZip
+app.add_middleware(GZipMiddleware, minimum_size=1000)
+
+# Configurar autenticación API Key
+API_KEY_NAME = "X-API-Key"
+api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=False)
+
+async def get_api_key(api_key_header: Optional[str] = Security(api_key_header)) -> Optional[str]:
+    """Validate API key if we're in production"""
+    if Config.is_production():
+        if not api_key_header or api_key_header != os.getenv("API_KEY"):
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid or missing API key"
+            )
+    return api_key_header
+
+@app.middleware("http")
+async def count_requests(request: Request, call_next):
+    """Count the number of requests made to the server"""
+    app.state.request_count = getattr(app.state, "request_count", 0) + 1
+    response = await call_next(request)
+    return response
+
 # Configure CORS
 CORS_ORIGINS = ["https://polluxweb.com"] if Config.is_production() else ["*"]
 logger.info(f"Configuring CORS with origins: {CORS_ORIGINS}")
@@ -119,6 +158,23 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+
+# Rate limiting configuration
+limiter = Limiter(
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"]
+)
+
+app.state.limiter = limiter
+
+@app.exception_handler(RateLimitExceeded)
+async def rate_limit_exceeded_handler(request, exc):
+    return JSONResponse(
+        status_code=429,
+        content={"detail": "Rate limit exceeded. Please try again later."},
+    )
+
+app.add_middleware(GZipMiddleware)
 
 class PreviewRequest(BaseModel):
     """Request model for generating previews"""
@@ -137,6 +193,23 @@ class PreviewResponse(BaseModel):
     image_data: str
     status: str
     message: str = ""
+
+class HealthResponse(BaseModel):
+    """Response model for health check"""
+    status: str
+    version: str
+    step_support: bool
+    stl_support: bool
+    dxf_support: bool
+    uptime: float
+    temp_files: int
+    memory_usage: float
+    cpu_percent: float
+    disk_usage: float
+    environment: str
+    python_version: str
+    start_time: str
+    request_count: int = 0
 
 def validate_file_type(file_type: str) -> bool:
     """Validate if the file type is supported with current imports"""
@@ -170,7 +243,12 @@ def encode_image(image: Image.Image) -> str:
     return base64.b64encode(buffered.getvalue()).decode()
 
 @app.post("/generate_preview", response_model=PreviewResponse)
-async def generate_preview(request: PreviewRequest, background_tasks: BackgroundTasks):
+@limiter.limit("20/minute")
+async def generate_preview(
+    request: PreviewRequest,
+    background_tasks: BackgroundTasks,
+    api_key: Optional[str] = Depends(get_api_key)
+):
     """
     Generate a preview image for a CAD file
     """
@@ -229,6 +307,42 @@ async def generate_preview(request: PreviewRequest, background_tasks: Background
     except Exception as e:
         logger.exception("Error generating preview")
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/health", response_model=HealthResponse)
+@limiter.limit("60/minute")
+async def health_check(api_key: Optional[str] = Depends(get_api_key)):
+    """
+    Health check endpoint that returns service status and capabilities
+    """
+    import psutil
+    import platform
+
+    # Contar archivos temporales
+    temp_files = len(list(Path(config.TEMP_DIR).glob('*')))
+
+    # Obtener información del sistema
+    process = psutil.Process()
+    disk = psutil.disk_usage('/')
+
+    # Formatear la hora de inicio
+    start_time = datetime.fromtimestamp(process.create_time()).strftime('%Y-%m-%d %H:%M:%S')
+
+    return HealthResponse(
+        status="healthy",
+        version="1.0.0",
+        step_support=STEP_SUPPORT,
+        stl_support=STL_SUPPORT,
+        dxf_support=DXF_SUPPORT,
+        uptime=time.time() - process.create_time(),
+        temp_files=temp_files,
+        memory_usage=process.memory_info().rss / 1024 / 1024,  # MB
+        cpu_percent=process.cpu_percent(),
+        disk_usage=disk.percent,
+        environment="production" if Config.is_production() else "development",
+        python_version=platform.python_version(),
+        start_time=start_time,
+        request_count=app.state.get("request_count", 0)
+    )
 
 @app.on_event("startup")
 async def startup_event():
