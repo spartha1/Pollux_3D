@@ -1,20 +1,51 @@
 #!/usr/bin/env python3
-from fastapi import FastAPI, HTTPException, BackgroundTasks
-from pydantic import BaseModel
-import uvicorn
-import os
+
+# Verificar el entorno Python
 import sys
+import os
+from pathlib import Path
+
+expected_env = "pollux-preview-env"
+python_path = Path(sys.executable)
+if "miniconda3/envs/" + expected_env not in str(python_path):
+    print(f"Error: This script must be run using Python from the '{expected_env}' conda environment")
+    print(f"Current Python: {sys.executable}")
+    print(f"Please use the start_preview_server.bat script to run the server")
+    sys.exit(1)
+
+print(f"Using Python from: {sys.executable}")
+
+# Import configuration
+try:
+    from config import config
+    print("Configuration loaded successfully")
+except ImportError as e:
+    print(f"Failed to import config: {e}")
+    print("Please ensure config.py is in the same directory")
+    sys.exit(1)
+
+from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
+import uvicorn
 import base64
 import tempfile
-from pathlib import Path
 import numpy as np
 from PIL import Image
 import io
 import logging
 
 # Configurar logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(config.LOG_FILE),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
 logger = logging.getLogger(__name__)
+logger.info("Starting Preview Server initialization...")
 
 # Intentar importar PythonOCC para STEP/STP
 try:

@@ -1,25 +1,19 @@
 print("Starting Simple Preview Server...")
 
-# Verificar el entorno Python
+# Import environment verification module
 import sys
 import os
 from pathlib import Path
+from preview_env import verify_conda_env, verify_imports
 
-expected_env = "pollux-preview-env"
-python_path = Path(sys.executable)
-if "miniconda3/envs/" + expected_env not in str(python_path):
-    print(f"Error: This script must be run using Python from the '{expected_env}' conda environment")
-    print(f"Current Python: {sys.executable}")
-    print(f"Please use the start_preview_server.bat script to run the server")
-    sys.exit(1)
-
-print(f"Using Python from: {sys.executable}")
+# Verify conda environment
+python_path = verify_conda_env()
+print(f"Using Python from: {python_path}")
 
 # System imports
 import base64
 import io
 import logging
-from pathlib import Path
 
 # Import configuration
 try:

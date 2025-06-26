@@ -1,8 +1,11 @@
 print("Verificando entorno y dependencias...\n")
 
-# 1. Verificar Python y entorno
-import sys
-print(f"Python path: {sys.executable}\n")
+# Importar y verificar el entorno
+from preview_env import verify_conda_env, verify_imports
+
+# Verificar entorno conda
+python_path = verify_conda_env()
+print(f"Using correct Python: {python_path}\n")
 
 # 2. Verificar PythonOCC
 try:

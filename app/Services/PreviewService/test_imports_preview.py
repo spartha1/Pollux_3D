@@ -1,16 +1,20 @@
 print("Verificando importaciones para el servidor de previsualización...")
 
-# 1. Verificar importaciones del sistema
-try:
-    import os
-    import sys
-    import base64
-    import io
-    import logging
-    from pathlib import Path
-    print("✓ Importaciones del sistema: OK")
-except ImportError as e:
-    print(f"✗ Error en importaciones del sistema: {e}")
+# Importar y verificar el entorno
+from preview_env import verify_conda_env, verify_imports
+
+# Verificar entorno conda
+python_path = verify_conda_env()
+print(f"Using correct Python: {python_path}\n")
+
+# Verificar todas las importaciones
+results = verify_imports()
+print("\nResultados de la verificación:")
+for name, info in results.items():
+    status = "✓" if info["status"] else "✗"
+    version = info.get("version", "N/A")
+    path = info.get("path", "N/A")
+    print(f"{status} {name}: version={version}, path={path}")
 
 # 2. Verificar PIL
 try:
