@@ -1,0 +1,12 @@
+{
+    "python.defaultInterpreterPath": "C:\\Users\\Leinad\\miniconda3\\envs\\pollux-preview-env\\python.exe",
+    "python.pythonPath": "C:\\Users\\Leinad\\miniconda3\\envs\\pollux-preview-env\\python.exe",
+    "python.terminal.activateEnvironment": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.terminal.activateEnvInTerminalOnSend": true,
+    "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    "python.analysis.extraPaths": [
+        "C:\\Users\\Leinad\\miniconda3\\envs\\pollux-preview-env\\Lib\\site-packages",
+        "C:\\Users\\Leinad\\miniconda3\\envs\\pollux-preview-env\\Library\\include"
+    ]
+}

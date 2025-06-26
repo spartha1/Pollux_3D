@@ -1,1 +1,5 @@
+// generacion de entorno virtual conda//
 conda env create -f environment.yml
+// upload to server//
+chmod +x install_preview_service.sh
+sudo ./install_preview_service.sh
