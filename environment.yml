@@ -1,0 +1,18 @@
+name: pollux-preview-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pythonocc-core=7.9.0
+  - occt=7.9.0
+  - pyvista=0.45.2
+  - fastapi=0.115.13
+  - uvicorn
+  - pillow=11.2.1
+  - numpy-stl
+  - matplotlib
+  - numpy
+  - pydantic
+  - python-utils
+  - vtk
