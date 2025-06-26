@@ -17,7 +17,7 @@ import logging
 
 # Import configuration
 try:
-    from config import config
+    from config import config, Config
     print("Configuration loaded successfully")
 except ImportError as e:
     print(f"Failed to import config: {e}")
@@ -109,9 +109,12 @@ app = FastAPI(
 )
 
 # Configure CORS
+CORS_ORIGINS = ["https://polluxweb.com"] if Config.is_production() else ["*"]
+logger.info(f"Configuring CORS with origins: {CORS_ORIGINS}")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"] if not config.IS_PRODUCTION else ["https://polluxweb.com"],  # Ajustar en producción
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],

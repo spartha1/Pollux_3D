@@ -1,0 +1,27 @@
+2025-06-26 14:01:49,273 - __main__ - INFO - Starting server initialization...
+2025-06-26 14:01:49,531 - __main__ - INFO - PIL imported successfully
+2025-06-26 14:01:51,552 - __main__ - INFO - FastAPI and related imports successful
+2025-06-26 14:01:51,718 - __main__ - INFO - NumPy imported successfully
+2025-06-26 14:01:52,265 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-06-26 14:01:53,232 - __main__ - INFO - PyVista imported successfully - STL files and visualization supported
+2025-06-26 14:01:53,233 - __main__ - INFO - Import phase completed
+2025-06-26 14:24:44,950 - __main__ - INFO - Starting server initialization...
+2025-06-26 14:24:45,225 - __main__ - INFO - PIL imported successfully
+2025-06-26 14:24:47,154 - __main__ - INFO - FastAPI and related imports successful
+2025-06-26 14:24:47,334 - __main__ - INFO - NumPy imported successfully
+2025-06-26 14:24:47,833 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-06-26 14:24:48,794 - __main__ - INFO - PyVista imported successfully - STL files and visualization supported
+2025-06-26 14:24:48,794 - __main__ - INFO - Import phase completed
+2025-06-26 14:24:48,794 - __main__ - INFO - Starting preview service on 0.0.0.0:8000
+2025-06-26 14:24:49,528 - __main__ - INFO - Preview service starting up...
+2025-06-26 14:24:49,528 - __main__ - INFO - Service initialized. STEP support: True, STL support: True
+2025-06-26 14:27:53,451 - __main__ - INFO - Starting server initialization...
+2025-06-26 14:27:53,529 - __main__ - INFO - PIL imported successfully
+2025-06-26 14:27:54,479 - __main__ - INFO - FastAPI and related imports successful
+2025-06-26 14:27:54,623 - __main__ - INFO - NumPy imported successfully
+2025-06-26 14:27:55,052 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-06-26 14:27:55,898 - __main__ - INFO - PyVista imported successfully - STL files and visualization supported
+2025-06-26 14:27:55,898 - __main__ - INFO - Import phase completed
+2025-06-26 14:27:55,906 - __main__ - INFO - Starting preview service on 0.0.0.0:8000
+2025-06-26 14:27:55,975 - __main__ - INFO - Preview service starting up...
+2025-06-26 14:27:55,976 - __main__ - INFO - Service initialized. STEP support: True, STL support: True
