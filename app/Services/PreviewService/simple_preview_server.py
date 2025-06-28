@@ -186,6 +186,18 @@ class PreviewRequest(BaseModel):
     background_color: str = Field("#FFFFFF", description="Background color in hex format")
     file_type: str = Field(..., description="Type of the file (step, stl, dxf)")
 
+class FileMetadata(BaseModel):
+    """Modelo para metadatos del archivo"""
+    file_size: int
+    dimensions: Optional[dict] = None
+    vertex_count: Optional[int] = None
+    face_count: Optional[int] = None
+    bounds: Optional[dict] = None
+    units: Optional[str] = None
+    created_at: Optional[str] = None
+    software: Optional[str] = None
+    analysis_time: Optional[float] = None
+
 class PreviewResponse(BaseModel):
     """Response model for preview generation"""
     file_id: str
@@ -193,6 +205,9 @@ class PreviewResponse(BaseModel):
     image_data: str
     status: str
     message: str = ""
+    metadata: Optional[FileMetadata] = None
+    processing_time: float = 0.0
+    cached: bool = False
 
 class HealthResponse(BaseModel):
     """Response model for health check"""
@@ -242,6 +257,110 @@ def encode_image(image: Image.Image) -> str:
     image.save(buffered, format="PNG")
     return base64.b64encode(buffered.getvalue()).decode()
 
+def analyze_file(file_path: Path, file_type: str) -> FileMetadata:
+    """Analizar archivo y extraer metadatos"""
+    stats = file_path.stat()
+    metadata = {
+        "file_size": stats.st_size,
+        "created_at": datetime.fromtimestamp(stats.st_ctime).isoformat()
+    }
+
+    try:
+        if file_type.lower() == "stl":
+            # Análisis STL con numpy-stl
+            from stl import mesh
+            mesh_data = mesh.Mesh.from_file(str(file_path))
+            metadata.update({
+                "vertex_count": len(mesh_data.vectors),
+                "face_count": len(mesh_data.vectors),
+                "bounds": {
+                    "min": mesh_data.min_.tolist(),
+                    "max": mesh_data.max_.tolist()
+                }
+            })
+        elif file_type.lower() == "step":
+            # Análisis STEP con pythonOCC
+            reader = STEPControl_Reader()
+            status = reader.ReadFile(str(file_path))
+            if status == IFSelect_RetDone:
+                reader.TransferRoots()
+                shape = reader.OneShape()
+                bbox = Bnd_Box()
+                brepbndlib_Add(shape, bbox)
+                xmin, ymin, zmin, xmax, ymax, zmax = bbox.Get()
+                metadata.update({
+                    "bounds": {
+                        "min": [xmin, ymin, zmin],
+                        "max": [xmax, ymax, zmax]
+                    }
+                })
+    except Exception as e:
+        logger.warning(f"Error analyzing file {file_path}: {e}")
+
+    return FileMetadata(**metadata)
+
+def render_preview(
+    file_path: Path,
+    preview_type: str,
+    width: int,
+    height: int,
+    background_color: str = "#FFFFFF"
+) -> Image.Image:
+    """Renderizar vista previa usando PyVista"""
+    plotter = pv.Plotter(off_screen=True, window_size=[width, height])
+
+    try:
+        # Cargar geometría
+        if file_path.suffix.lower() == ".stl":
+            mesh = pv.read(str(file_path))
+        elif file_path.suffix.lower() in [".step", ".stp"]:
+            # Convertir STEP a malla usando OCC
+            reader = STEPControl_Reader()
+            status = reader.ReadFile(str(file_path))
+            if status != IFSelect_RetDone:
+                raise ValueError("Error reading STEP file")
+
+            reader.TransferRoots()
+            shape = reader.OneShape()
+
+            # Crear malla para visualización
+            mesh_maker = BRepMesh_IncrementalMesh(shape, 0.1)
+            mesh_maker.Perform()
+
+            # Convertir a formato PyVista
+            mesh = wrap(shape)
+        else:
+            raise ValueError(f"Unsupported file type: {file_path.suffix}")
+
+        # Configurar visualización según el tipo
+        bg_color = background_color.lstrip('#')
+        bg_rgb = tuple(int(bg_color[i:i+2], 16) / 255 for i in (0, 2, 4))
+        plotter.set_background(*bg_rgb)
+
+        if preview_type == "wireframe":
+            plotter.add_mesh(mesh, style='wireframe', color='black', line_width=2)
+        elif preview_type == "2d":
+            # Vista 2D desde arriba
+            plotter.add_mesh(mesh, color='lightgray', show_edges=True)
+            plotter.view_xy()  # Vista superior
+        else:  # "3d"
+            plotter.add_mesh(mesh, color='white', show_edges=True)
+            plotter.add_shadow_plane()
+            plotter.enable_shadows()
+
+        # Ajustar cámara
+        plotter.camera_position = 'iso'
+        plotter.camera.zoom(1.2)
+
+        # Renderizar
+        img_array = plotter.screenshot()
+        plotter.close()
+
+        return Image.fromarray(img_array)
+    except Exception as e:
+        logger.error(f"Error rendering preview: {e}")
+        raise
+
 @app.post("/generate_preview", response_model=PreviewResponse)
 @limiter.limit("20/minute")
 async def generate_preview(
@@ -268,27 +387,26 @@ async def generate_preview(
         except (FileNotFoundError, ValueError) as e:
             raise HTTPException(status_code=404, detail=str(e))
 
-        # Generate preview based on type
-        if request.preview_type == "2d":
-            # Implement 2D preview generation
-            pass
-        elif request.preview_type == "wireframe":
-            # Implement wireframe preview generation
-            pass
-        elif request.preview_type == "3d":
-            # Implement 3D preview generation
-            pass
-        else:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Invalid preview type: {request.preview_type}"
-            )
+        # Analizar archivo y extraer metadatos
+        start_time = time.time()
+        metadata = analyze_file(file_path, request.file_type)
 
-        # TODO: Implement actual preview generation logic here
-        # For now, return a placeholder image
-        image = Image.new('RGB', (request.width, request.height), request.background_color)
-        draw = ImageDraw.Draw(image)
-        draw.text((10, 10), f"Preview for {request.file_id}", fill="black")
+        # Generar vista previa
+        try:
+            image = render_preview(
+                file_path,
+                request.preview_type,
+                request.width,
+                request.height,
+                request.background_color
+            )
+        except Exception as e:
+            logger.exception("Error generating preview")
+            # Generar imagen de error
+            image = Image.new('RGB', (request.width, request.height), request.background_color)
+            draw = ImageDraw.Draw(image)
+            draw.text((10, 10), f"Error: {str(e)}", fill="black")
+            metadata = None
 
         # Save preview and encode for response
         preview_path = save_preview(image, request.file_id, request.preview_type)
@@ -297,11 +415,16 @@ async def generate_preview(
         # Schedule cleanup in background
         background_tasks.add_task(lambda: Path(preview_path).unlink(missing_ok=True))
 
+        processing_time = time.time() - start_time
+
         return PreviewResponse(
             file_id=request.file_id,
             preview_type=request.preview_type,
             image_data=image_data,
-            status="success"
+            status="success",
+            metadata=metadata,
+            processing_time=processing_time,
+            cached=False
         )
 
     except Exception as e:
@@ -343,6 +466,21 @@ async def health_check(api_key: Optional[str] = Depends(get_api_key)):
         start_time=start_time,
         request_count=app.state.get("request_count", 0)
     )
+
+@app.post("/preview", response_model=PreviewResponse)
+@limiter.limit("20/minute")
+async def preview_endpoint(
+    request: PreviewRequest,
+    background_tasks: BackgroundTasks,
+    api_key: Optional[str] = Depends(get_api_key)
+):
+    """Alias para /generate_preview para mantener consistencia de APIs"""
+    return await generate_preview(request, background_tasks, api_key)
+
+@app.get("/api/health", response_model=HealthResponse)
+async def health_alias(api_key: Optional[str] = Depends(get_api_key)):
+    """Alias para /health con prefijo /api para consistencia"""
+    return await health_check(api_key)
 
 @app.on_event("startup")
 async def startup_event():
