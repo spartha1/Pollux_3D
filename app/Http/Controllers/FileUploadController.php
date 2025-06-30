@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FileUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Inertia\Inertia;
@@ -49,18 +50,26 @@ class FileUploadController extends Controller
         $originalName = $file->getClientOriginalName();
         $storedName = Str::uuid() . '.' . $extension;
 
-        // Store file in private directory - note that the 'local' disk is already configured for private storage
+        // Store file in models directory under user's ID
         $relativePath = 'models/' . $request->user()->id;
+
+        // Ensure the directory exists
+        Storage::disk('local')->makeDirectory($relativePath);
+
+        // Store the file
         $path = $file->storeAs($relativePath, $storedName, 'local');
 
         if (!$path) {
             return back()->with('error', 'Failed to store file. Please try again.');
         }
 
-        // Ensure the file exists in storage
+        // Double check the file exists and is readable
         if (!Storage::disk('local')->exists($path)) {
             return back()->with('error', 'File upload failed verification. Please try again.');
         }
+
+        // Log the full path for debugging
+        Log::info('File stored at: ' . Storage::disk('local')->path($path));
 
         $fileUpload = $request->user()->fileUploads()->create([
             'filename_original' => $originalName,
@@ -68,7 +77,7 @@ class FileUploadController extends Controller
             'extension' => $extension,
             'mime_type' => $file->getMimeType(),
             'size' => $file->getSize(),
-            'storage_path' => $path, // This will be like 'models/1/uuid.STL'
+            'storage_path' => $path,
             'disk' => 'local',
             'status' => 'uploaded',
             'uploaded_at' => now(),
@@ -100,18 +109,18 @@ class FileUploadController extends Controller
      */
     public function download(FileUpload $fileUpload)
     {
-        $this->authorize('download', $fileUpload);
+        $this->authorize('view', $fileUpload);
 
-        if (!Storage::disk($fileUpload->disk)->exists($fileUpload->storage_path)) {
-            return back()->with('error', 'File not found in storage.');
+        $path = Storage::disk('local')->path($fileUpload->storage_path);
+
+        if (!file_exists($path)) {
+            abort(404, 'File not found');
         }
 
-        $filePath = Storage::disk($fileUpload->disk)->path($fileUpload->storage_path);
-
-        return response()->download(
-            $filePath,
-            $fileUpload->filename_original
-        );
+        return response()->file($path, [
+            'Content-Type' => $fileUpload->mime_type,
+            'Content-Disposition' => 'inline; filename="' . $fileUpload->filename_original . '"'
+        ]);
     }
 
     /**

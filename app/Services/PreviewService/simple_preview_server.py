@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 print("Starting Simple Preview Server...")
 
 # Import environment verification module
@@ -23,8 +24,10 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.security import APIKeyHeader
-from fastapi import Depends
+from fastapi import Depends, FastAPI, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
+from pydantic import BaseModel
 
 # Import configuration
 try:
@@ -141,12 +144,7 @@ async def get_api_key(api_key_header: Optional[str] = Depends(api_key_header)) -
             )
     return api_key_header
 
-@app.middleware("http")
-async def count_requests(request: Request, call_next):
-    """Count the number of requests made to the server"""
-    app.state.request_count = getattr(app.state, "request_count", 0) + 1
-    response = await call_next(request)
-    return response
+
 
 # Configure CORS
 CORS_ORIGINS = ["https://polluxweb.com"] if Config.is_production() else ["*"]
@@ -213,7 +211,10 @@ class PreviewResponse(BaseModel):
 class HealthResponse(BaseModel):
     """Response model for health check"""
     status: str
-    version: str
+    version: str = "1.0.0"
+    timestamp: str
+    request_count: int
+    python_version: str
     step_support: bool
     stl_support: bool
     dxf_support: bool
@@ -223,9 +224,21 @@ class HealthResponse(BaseModel):
     cpu_percent: float
     disk_usage: float
     environment: str
-    python_version: str
     start_time: str
-    request_count: int = 0
+    service_uptime: float
+
+start_time = time.time()
+
+@app.middleware("http")
+async def count_requests(request: Request, call_next):
+    """Count the number of requests made to the server"""
+    if not hasattr(request.app.state, "request_count"):
+        request.app.state.request_count = 0
+    request.app.state.request_count += 1
+    response = await call_next(request)
+    return response
+
+
 
 def validate_file_type(file_type: str) -> bool:
     """Validate if the file type is supported with current imports"""
@@ -441,19 +454,24 @@ async def health_check(request: Request, api_key: Optional[str] = Depends(get_ap
     import psutil
     import platform
 
-    # Contar archivos temporales
+    # Ensure request counter exists
+    if not hasattr(app.state, "request_count"):
+        app.state.request_count = 0
+
+    # Count temp files
     temp_files = len(list(Path(config.TEMP_DIR).glob('*')))
 
-    # Obtener información del sistema
+    # Get system information
     process = psutil.Process()
     disk = psutil.disk_usage('/')
 
-    # Formatear la hora de inicio
-    start_time = datetime.fromtimestamp(process.create_time()).strftime('%Y-%m-%d %H:%M:%S')
+    # Format start time
+    process_start = datetime.fromtimestamp(process.create_time()).strftime('%Y-%m-%d %H:%M:%S')
 
     return HealthResponse(
         status="healthy",
         version="1.0.0",
+        timestamp=datetime.now().isoformat(),
         step_support=STEP_SUPPORT,
         stl_support=STL_SUPPORT,
         dxf_support=DXF_SUPPORT,
@@ -464,8 +482,9 @@ async def health_check(request: Request, api_key: Optional[str] = Depends(get_ap
         disk_usage=disk.percent,
         environment="production" if Config.is_production() else "development",
         python_version=platform.python_version(),
-        start_time=start_time,
-        request_count=app.state.get("request_count", 0)
+        start_time=process_start,
+        service_uptime=time.time() - start_time,
+        request_count=app.state.request_count
     )
 
 @app.post("/preview", response_model=PreviewResponse)

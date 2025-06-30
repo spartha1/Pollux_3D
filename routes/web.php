@@ -39,6 +39,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 });
 
+// API routes for file serving
+Route::prefix('api')->middleware(['auth'])->group(function () {
+    Route::get('/file/{fileUpload}/download', [FileUploadController::class, 'download'])
+        ->name('api.file.download');
+});
+
 // Serve storage files
 Route::get('/storage/{path}', function($path) {
     $fullPath = storage_path('app/' . $path);

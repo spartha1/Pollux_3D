@@ -1,38 +1,30 @@
 @echo off
-setlocal EnableDelayedExpansion
+setlocal
 
-:: Definir rutas absolutas y variables
 set CONDA_ROOT=C:\Users\Leinad\miniconda3
 set CONDA_ENV=pollux-preview-env
 set CONDA_PYTHON=%CONDA_ROOT%\envs\%CONDA_ENV%\python.exe
-set CONDA_ACTIVATE=%CONDA_ROOT%\Scripts\activate.bat
+set SCRIPT_DIR=%~dp0
 
-echo Starting Preview Server with conda Python...
+echo [Preview Service] Starting with conda Python...
 
-:: Desactivar cualquier entorno virtual activo
-if defined VIRTUAL_ENV (
-    echo Deactivating virtual environment...
-    call !VIRTUAL_ENV!\Scripts\deactivate.bat
+if not exist "%CONDA_PYTHON%" (
+    echo [Preview Service] ERROR: Python not found at %CONDA_PYTHON%
+    exit /b 1
 )
 
-:: Activar el entorno conda
-echo.
-echo Activating conda environment %CONDA_ENV%...
-call %CONDA_ACTIVATE% %CONDA_ENV%
+:: Verificar Python
+echo [Preview Service] Using Python: %CONDA_PYTHON%
+"%CONDA_PYTHON%" -c "import sys; print('Python version:', sys.version)"
 
-:: Verificar la activación
-echo.
-echo Verifying environment:
-"%CONDA_PYTHON%" -c "import os, sys; print(f'Python: {sys.executable}\nConda env: {os.environ.get(\"CONDA_DEFAULT_ENV\", \"None\")}\nConda prefix: {os.environ.get(\"CONDA_PREFIX\", \"None\")}')"
+:: Cambiar al directorio del script
+cd /d "%SCRIPT_DIR%"
 
-:: Verificar OCC
-echo.
-echo Checking OCC imports:
-"%CONDA_PYTHON%" verify_occ_imports.py
+:: Matar cualquier instancia previa
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr /r /c:":8050.*LISTENING"') do (
+    taskkill /F /PID %%a >nul 2>&1
+)
 
 :: Iniciar el servidor
-echo.
-echo Starting preview server...
+echo [Preview Service] Starting server...
 "%CONDA_PYTHON%" simple_preview_server.py
-
-pause

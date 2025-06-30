@@ -104,7 +104,7 @@ export default function Viewer3D({ fileUpload, previews, viewTypes }: Viewer3DPr
 
         if (extension === 'stl') {
             console.log('Loading STL file...');
-            const fileUrl = `/storage/${fileUpload.storage_path}`;
+            const fileUrl = `/3d/${fileUpload.id}/download`;
             console.log('STL file URL:', fileUrl);
 
             const loader = new STLLoader();

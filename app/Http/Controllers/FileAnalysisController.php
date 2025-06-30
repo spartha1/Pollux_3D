@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\FileUpload;
 use App\Models\FileAnalysisResult;
+use App\Models\FileError;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Inertia\Inertia;
 
 class FileAnalysisController extends Controller
 {
     use AuthorizesRequests;
+
     /**
      * Trigger analysis for a file upload.
      */
@@ -29,209 +31,157 @@ class FileAnalysisController extends Controller
         $fileUpload->update(['status' => 'processing']);
 
         try {
-            // Get the absolute paths
-            $analyzerPath = base_path('app/Services/FileAnalyzers');
+            $filePath = storage_path('app/' . $fileUpload->storage_path);
+            $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+
+            // Get the Python executable path from the conda environment
+            $pythonPath = config('services.python.executable');
+
+            if (!file_exists($pythonPath)) {
+                throw new \Exception("Python executable not found at: {$pythonPath}");
+            }
 
             // Select the appropriate analyzer based on file extension
-            $extension = strtolower($fileUpload->extension);
-            $scriptName = match($extension) {
-                'step', 'stp' => 'analyze_step_simple.py',
-                'stl' => 'analyze_stl.py',
-                'dxf', 'dwg' => 'analyze_dxf_dwg.py',
-                'ai', 'eps' => 'analyze_ai_eps.py',
-                default => throw new \Exception("Unsupported file type: $extension")
+            $analyzerScript = match($extension) {
+                'stl' => app_path('Services/FileAnalyzers/analyze_stl.py'),
+                'step', 'stp' => app_path('Services/FileAnalyzers/analyze_step_simple.py'),
+                'dxf', 'dwg' => app_path('Services/FileAnalyzers/analyze_dxf_dwg.py'),
+                'eps', 'ai' => app_path('Services/FileAnalyzers/analyze_ai_eps.py'),
+                default => throw new \Exception("Unsupported file type: {$extension}")
             };
 
-            $scriptPath = $analyzerPath . DIRECTORY_SEPARATOR . $scriptName;
-
-            // Get storage path and disk
-            if (!$fileUpload->storage_path) {
-                throw new \Exception("File storage path is missing");
+            // Check if analyzer exists
+            if (!file_exists($analyzerScript)) {
+                throw new \Exception("Analyzer not found for type: {$extension}");
             }
 
-            $disk = Storage::disk($fileUpload->disk);
-
-            // Log file path information for debugging
-            Log::info('File paths:', [
-                'storage_path' => $fileUpload->storage_path,
-                'absolute_path' => $disk->path($fileUpload->storage_path),
-                'exists' => $disk->exists($fileUpload->storage_path)
+            Log::info('Starting analysis', [
+                'python' => $pythonPath,
+                'script' => $analyzerScript,
+                'file' => $filePath
             ]);
 
-            // Log all available information about the file
-            Log::info('Analyzing file:', [
-                'id' => $fileUpload->id,
-                'original_name' => $fileUpload->filename_original,
-                'stored_name' => $fileUpload->filename_stored,
-                'extension' => $fileUpload->extension,
-                'storage_path' => $fileUpload->storage_path,
-                'disk' => $fileUpload->disk,
-                'full_path' => Storage::disk($fileUpload->disk)->path($fileUpload->storage_path),
-                'exists' => Storage::disk($fileUpload->disk)->exists($fileUpload->storage_path)
+            // Run analysis using the Python executable directly
+            $process = new Process([
+                $pythonPath,
+                $analyzerScript,
+                $filePath
             ]);
 
-            // Verify file exists before proceeding
-            if (!$disk->exists($fileUpload->storage_path)) {
-                throw new \Exception("File not found in storage: " . $fileUpload->storage_path);
-            }
+            // Set environment variables
+            $process->setEnv([
+                'PYTHONHASHSEED' => '0',
+                'PYTHONPATH' => dirname($pythonPath),
+                'PATH' => getenv('PATH')
+            ]);
 
-            // Get absolute path for the Python script
-            $filePath = $disk->path($fileUpload->storage_path);
-
-            // Set up clean environment
-            $env = array_merge([
-                'PYTHONIOENCODING' => 'utf-8',
-                'PYTHONUNBUFFERED' => '1',
-                'PYTHONDONTWRITEBYTECODE' => '1',
-                'TEMP' => sys_get_temp_dir(),
-                'TMP' => sys_get_temp_dir(),
-            ], getenv());
-
-            // Build the process
-            // Try different Python paths in order of preference
-            $pythonPath = null;
-
-            // 1. Try conda environment if available
-            if (isset($_SERVER['CONDA_PREFIX'])) {
-                $condaPython = $_SERVER['CONDA_PREFIX'] . '\python.exe';
-                if (file_exists($condaPython)) {
-                    $pythonPath = $condaPython;
-                }
-            }
-
-            // 2. Try venv in project directory
-            if (!$pythonPath) {
-                $venvPython = base_path('venv/Scripts/python.exe');
-                if (file_exists($venvPython)) {
-                    $pythonPath = $venvPython;
-                }
-            }
-
-            // 3. Try system Python as last resort
-            if (!$pythonPath) {
-                // Try to find Python in PATH
-                $process = new Process(['where', 'python']);
-                $process->run();
-                if ($process->isSuccessful()) {
-                    $pythonPath = trim($process->getOutput());
-                } else {
-                    throw new \Exception('No se pudo encontrar un ejecutable de Python válido. Por favor, asegúrese de tener Python instalado.');
-                }
-            }
-
-            Log::info('Using Python path: ' . $pythonPath);
-            $process = new Process([$pythonPath, $scriptPath, $filePath]);
-            $process->setWorkingDirectory($analyzerPath);
-            $process->setEnv($env);
-            $process->setTimeout(300);
-
-            $startTime = microtime(true);
-            $output = '';
-            $errorOutput = '';
-
-            // Capture both stdout and stderr
-            $process->run(function ($type, $buffer) use (&$output, &$errorOutput) {
-                if (Process::ERR === $type) {
-                    Log::error('Analysis process error output: ' . $buffer);
-                    $errorOutput .= $buffer;
-                } else {
-                    $output .= $buffer;
-                }
-            });
-
-            // Log the total analysis time
-            $analysisTime = (microtime(true) - $startTime) * 1000; // Convert to milliseconds
+            $process->setTimeout(30);
+            $process->run();
 
             if (!$process->isSuccessful()) {
-                list($errorMessage, $errorContext) = $this->captureProcessError($process);
-                Log::error('Analysis process failed', array_merge(
-                    ['file_id' => $fileUpload->id],
-                    $errorContext
-                ));
-                throw new \Exception("Analysis failed: " . $errorMessage);
-            }
-
-            // Try to parse the output as JSON
-            $data = json_decode($output, true);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                // Log the raw output for debugging
-                Log::error('Failed to parse analysis output as JSON', [
-                    'output' => $output,
-                    'json_error' => json_last_error_msg(),
-                    'error_output' => $errorOutput
+                Log::error('Analysis failed', [
+                    'output' => $process->getOutput(),
+                    'error' => $process->getErrorOutput()
                 ]);
-                throw new \Exception("Invalid analysis output format: " . json_last_error_msg());
+                throw new \Exception($process->getErrorOutput() ?: 'Analysis process failed');
             }
 
-            // Check for error in JSON
-            if (isset($data['error'])) {
-                throw new \Exception($data['error'] . (isset($data['traceback']) ? "\n" . $data['traceback'] : ''));
+            $output = $process->getOutput();
+            $result = json_decode($output, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception('Invalid analyzer output: ' . json_last_error_msg());
             }
 
-            Log::info('📦 Analysis data received:', ['data' => $data]);
+            // Store analysis result
+            $analysisResult = new FileAnalysisResult([
+                'file_upload_id' => $fileUpload->id,
+                'analyzer_type' => $extension,
+                'analysis_data' => $result
+            ]);
+            $analysisResult->save();
 
-            // Normalize dimensions for compatibility with other analyzers
-            $dimensions = $data['dimensions'] ?? null;
-            if ($dimensions) {
-                // Convert width/height/depth to x/y/z if needed
-                if (isset($dimensions['width'], $dimensions['height'], $dimensions['depth'])) {
-                    $dimensions['x'] = $dimensions['width'];
-                    $dimensions['y'] = $dimensions['height'];
-                    $dimensions['z'] = $dimensions['depth'];
-                }
-                // Ensure x/y/z exist
-                if (!isset($dimensions['x'])) {
-                    $dimensions['x'] = 0;
-                    $dimensions['y'] = 0;
-                    $dimensions['z'] = 0;
-                }
-            }
-
-            // Save results to DB with analysis time
-            $fileUpload->analysisResult()->create(array(
-                'dimensions' => $dimensions,
-                'volume' => $data['volume'] ?? null,
-                'area' => $data['area'] ?? null,
-                'layers' => $data['layers'] ?? null,
-                'metadata' => $data['metadata'] ?? null,
-                'analysis_time_ms' => $data['analysis_time_ms'] ?? round($analysisTime)
-            ));
-
+            // Update file status
             $fileUpload->update([
-                'status' => 'processed',
-                'processed_at' => now(),
+                'status' => 'analyzed',
+                'processed_at' => now()
             ]);
 
-        } catch (\Exception $e) {
-            // Get process error context if available
-            list($processError, $errorContext) = isset($process) ? $this->captureProcessError($process) : ['', []];
+            // Check for specific quality issues and create warnings
+            if ($extension === 'stl' && isset($result['quality'])) {
+                $quality = $result['quality'];
 
-            // Build error message
-            $errorMessage = $e->getMessage();
-            if ($processError && !str_contains($errorMessage, $processError)) {
-                $errorMessage .= "\n" . $processError;
+                if (!$quality['is_watertight']) {
+                    FileError::create([
+                        'file_upload_id' => $fileUpload->id,
+                        'error_message' => 'The STL model is not watertight (has ' . $quality['boundary_edges'] . ' open edges)',
+                        'stack_trace' => null,
+                        'occurred_at' => now()
+                    ]);
+                }
+
+                if (!$quality['is_manifold']) {
+                    FileError::create([
+                        'file_upload_id' => $fileUpload->id,
+                        'error_message' => 'The STL model has non-manifold edges (' . $quality['non_manifold_edges'] . ' found)',
+                        'stack_trace' => null,
+                        'occurred_at' => now()
+                    ]);
+                }
             }
 
-            // Log the error with full context
-            Log::error('❌ Analysis failed', array_merge([
-                'file_id' => $fileUpload->id,
-                'error' => $errorMessage,
-                'exception' => get_class($e),
-            ], $errorContext));
+            // If request wants JSON, return it
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => $result,
+                    'metadata' => [
+                        'processing_time' => $result['processing_time'] ?? null,
+                        'analyzer_version' => '1.0',
+                        'file_type' => $extension
+                    ]
+                ]);
+            }
 
-            // Create error record
-            $fileUpload->errors()->create([
-                'error_message' => $errorMessage,
-                'stack_trace' => $e->getTraceAsString()
+            // Otherwise return Inertia response
+            return back()->with('success', 'File analysis completed successfully.');
+
+        } catch (\Exception $e) {
+            // Log the error with full context
+            Log::error('File analysis failed', [
+                'file_id' => $fileUpload->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            // Create an error record
+            FileError::create([
+                'file_upload_id' => $fileUpload->id,
+                'error_message' => 'File analysis failed: ' . $e->getMessage(),
+                'stack_trace' => $e->getTraceAsString(),
+                'occurred_at' => now()
             ]);
 
             // Update file status
             $fileUpload->update([
-                'status' => 'failed',
+                'status' => 'error',
                 'processed_at' => now()
             ]);
 
-            throw $e;
+            // If request wants JSON, return it
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $e->getMessage(),
+                    'details' => [
+                        'file_type' => $extension ?? 'unknown',
+                        'analyzer' => basename($analyzerScript ?? 'unknown')
+                    ]
+                ], 422);
+            }
+
+            // Otherwise return Inertia response
+            return back()->with('error', 'Analysis failed: ' . $e->getMessage());
         }
     }
 

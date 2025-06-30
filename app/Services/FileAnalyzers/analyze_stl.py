@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
+import os
+os.environ['PYTHONHASHSEED'] = '0'  # Disable hash randomization
+
 import sys
 import json
 import time
-import os
 import numpy as np
 import struct
 import traceback
+from pathlib import Path
 
 def debug(msg):
     """Print debug messages to stderr"""
@@ -13,33 +16,72 @@ def debug(msg):
 
 def read_binary_stl(filepath):
     """Read a binary STL file."""
-    with open(filepath, 'rb') as f:
-        # Skip header
-        f.seek(80)
-        # Read number of triangles
-        count = struct.unpack('I', f.read(4))[0]
+    try:
+        with open(filepath, 'rb') as f:
+            # Read and save header
+            header = f.read(80)
+            # Check if it might be ASCII by looking for 'solid' at start
+            if header.startswith(b'solid '):
+                return None, None
 
-        # Each triangle is 50 bytes: normal(3*4), vertices(9*4), attribute(2)
-        data = np.frombuffer(f.read(count * 50), dtype=np.uint8)
-        triangles = data.view(dtype=np.float32).reshape((-1, 12))[:, 3:12]
-        return triangles.reshape((-1, 3, 3))
+            # Read number of triangles
+            count = struct.unpack('I', f.read(4))[0]
+
+            # Validate triangle count
+            file_size = Path(filepath).stat().st_size
+            expected_size = 84 + (50 * count)  # Header + count + triangles
+            if file_size != expected_size:
+                debug(f"File size mismatch: expected {expected_size}, got {file_size}")
+                if count > 1000000:  # Unreasonable number of triangles
+                    return None, None
+
+            # Each triangle is 50 bytes: normal(3*4), vertices(9*4), attribute(2)
+            data = np.frombuffer(f.read(count * 50), dtype=np.uint8)
+            triangles = data.view(dtype=np.float32).reshape((-1, 12))[:, 3:12]
+            return triangles.reshape((-1, 3, 3)), "binary"
+    except Exception as e:
+        debug(f"Binary read error: {str(e)}")
+        return None, None
 
 def read_ascii_stl(filepath):
     """Read an ASCII STL file."""
     vertices = []
+    normal_count = 0
+    vertex_count = 0
+    facet_count = 0
     try:
         with open(filepath, 'r') as f:
+            in_facet = False
             for line in f:
-                if 'vertex' in line.lower():
-                    nums = line.strip().split()[1:]
-                    vertices.extend([float(n) for n in nums])
-    except UnicodeDecodeError:
-        return None
+                line = line.strip().lower()
+                if 'facet normal' in line:
+                    in_facet = True
+                    normal_count += 1
+                elif 'vertex' in line:
+                    if not in_facet:
+                        continue
+                    nums = line.split()[1:]
+                    if len(nums) != 3:
+                        continue
+                    try:
+                        coords = [float(n) for n in nums]
+                        vertices.extend(coords)
+                        vertex_count += 1
+                    except ValueError:
+                        continue
+                elif 'endfacet' in line:
+                    if in_facet and vertex_count % 3 == 0:
+                        facet_count += 1
+                    in_facet = False
 
-    if not vertices:
-        return None
+            if facet_count > 0 and vertex_count == facet_count * 3:
+                return np.array(vertices).reshape((-1, 3, 3)), "ascii"
 
-    return np.array(vertices).reshape((-1, 3, 3))
+            return None, None
+
+    except Exception as e:
+        debug(f"ASCII read error: {str(e)}")
+        return None, None
 
 def analyze_stl(filepath):
     """Analyze STL file and return dimensions, volume, and area."""
@@ -48,17 +90,17 @@ def analyze_stl(filepath):
 
     try:
         # Try binary first
-        try:
-            triangles = read_binary_stl(filepath)
-            file_format = "BINARY"
-            debug("Successfully read binary STL")
-        except Exception as e:
-            debug(f"Binary read failed: {str(e)}, trying ASCII")
-            triangles = read_ascii_stl(filepath)
+        triangles, format_type = read_binary_stl(filepath)
+        if triangles is None:
+            triangles, format_type = read_ascii_stl(filepath)
             if triangles is None:
-                raise ValueError("Could not read STL file in either binary or ASCII format")
-            file_format = "ASCII"
-            debug("Successfully read ASCII STL")
+                raise ValueError("Could not read STL file in either binary or ASCII format. The file may be corrupted or in an unsupported format.")
+
+        debug(f"Successfully read {format_type.upper()} STL")
+
+        # Validate mesh data
+        if len(triangles) == 0:
+            raise ValueError("Invalid STL file: No geometry found")
 
         # Calculate bounding box and dimensions
         vertices = triangles.reshape(-1, 3)
@@ -66,7 +108,7 @@ def analyze_stl(filepath):
         max_corner = np.max(vertices, axis=0)
         dimensions = max_corner - min_corner
 
-        # Calculate areas
+        # Calculate areas and validate triangles
         vectors = np.diff(triangles, axis=1)
         cross_products = np.cross(vectors[:, 0], vectors[:, 1])
         areas = 0.5 * np.sqrt(np.sum(cross_products**2, axis=1))
@@ -81,15 +123,23 @@ def analyze_stl(filepath):
         unique_vertices = np.unique(vertices.round(decimals=6), axis=0)
         vertex_count = len(unique_vertices)
 
-        # Count unique edges
-        edges = set()
-        for tri in triangles:
-            for i in range(3):
-                v1 = tuple(np.round(tri[i], decimals=6))
-                v2 = tuple(np.round(tri[(i + 1) % 3], decimals=6))
+        # Count edges and analyze mesh topology
+        edges = {}
+        for i, tri in enumerate(triangles):
+            for j in range(3):
+                v1 = tuple(np.round(tri[j], decimals=6))
+                v2 = tuple(np.round(tri[(j + 1) % 3], decimals=6))
                 edge = tuple(sorted([v1, v2]))
-                edges.add(edge)
+                if edge in edges:
+                    edges[edge].append(i)
+                else:
+                    edges[edge] = [i]
+
+        # Analyze mesh quality
         edge_count = len(edges)
+        manifold_edges = sum(1 for edge_faces in edges.values() if len(edge_faces) == 2)
+        non_manifold_edges = sum(1 for edge_faces in edges.values() if len(edge_faces) > 2)
+        boundary_edges = sum(1 for edge_faces in edges.values() if len(edge_faces) == 1)
 
         # Create result dictionary
         dims = {
@@ -98,74 +148,48 @@ def analyze_stl(filepath):
             "depth": float(dimensions[2])
         }
 
-        # Calculate center of mass (using weighted average of triangle centers)
-        centroids = np.mean(triangles, axis=1)
-        if total_area > 0:
-            center_of_mass = np.average(centroids, weights=areas, axis=0)
-        else:
-            center_of_mass = np.mean(centroids, axis=0)
-
-        metadata = {
-            "triangles": int(len(triangles)),
-            "faces": int(len(triangles)),
-            "edges": edge_count,
-            "vertices": vertex_count,
-            "center_of_mass": {
-                "x": float(center_of_mass[0]),
-                "y": float(center_of_mass[1]),
-                "z": float(center_of_mass[2])
-            },
-            "bbox_min": {
-                "x": float(min_corner[0]),
-                "y": float(min_corner[1]),
-                "z": float(min_corner[2])
-            },
-            "bbox_max": {
-                "x": float(max_corner[0]),
-                "y": float(max_corner[1]),
-                "z": float(max_corner[2])
-            },
-            "format": file_format
-        }
-
-        elapsed_ms = int((time.time() - t0) * 1000)
-
-        return {
+        result = {
+            "format": format_type.upper(),
             "dimensions": dims,
-            "volume": volume,
-            "area": total_area,
-            "metadata": metadata,
-            "analysis_time_ms": elapsed_ms
+            "bounding_box": {
+                "min": [float(x) for x in min_corner],
+                "max": [float(x) for x in max_corner]
+            },
+            "area": round(total_area, 6),
+            "volume": round(volume, 6),
+            "topology": {
+                "triangles": len(triangles),
+                "vertices": vertex_count,
+                "edges": edge_count
+            },
+            "quality": {
+                "is_watertight": boundary_edges == 0,
+                "is_manifold": non_manifold_edges == 0,
+                "boundary_edges": boundary_edges,
+                "non_manifold_edges": non_manifold_edges,
+                "manifold_edges": manifold_edges
+            },
+            "processing_time": round(time.time() - t0, 3)
         }
+
+        return result
 
     except Exception as e:
-        debug(f"Error analyzing STL: {str(e)}")
+        debug(f"Error in analyze_stl: {str(e)}")
+        debug(traceback.format_exc())
         raise
 
-def main():
+if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print(json.dumps({"error": "Please provide an STL file path"}))
+        print("Usage: python analyze_stl.py <stl_file>", file=sys.stderr)
         sys.exit(1)
 
-    path = sys.argv[1]
     try:
-        result = analyze_stl(path)
-        print(json.dumps(result))
-    except ImportError as e:
-        error_info = {
-            "error": str(e),
-            "type": "dependency_error"
-        }
-        print(json.dumps(error_info))
-        sys.exit(1)
+        result = analyze_stl(sys.argv[1])
+        print(json.dumps(result, indent=2))
     except Exception as e:
-        import traceback
-        error_info = {
+        print(json.dumps({
             "error": str(e),
             "traceback": traceback.format_exc()
-        }
-        print(json.dumps(error_info))
+        }), file=sys.stderr)
         sys.exit(1)
-
-if __name__ == "__main__":
-    main()

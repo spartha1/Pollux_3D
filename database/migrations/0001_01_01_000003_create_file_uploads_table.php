@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('mime_type')->nullable();
             $table->unsignedBigInteger('size');
 
-            $table->enum('status', ['uploaded', 'processing', 'processed', 'failed'])->default('uploaded');
+            $table->enum('status', ['uploaded', 'processing', 'analyzed', 'error'])->default('uploaded');
 
             $table->string('storage_path'); // private/models/1/file.stl
             $table->string('disk')->default('local'); // útil si luego pasas a s3, etc.

@@ -32,6 +32,12 @@ class FileUpload extends Model
         'size' => 'integer',
     ];
 
+    // Status constants
+    const STATUS_UPLOADED = 'uploaded';
+    const STATUS_PROCESSING = 'processing';
+    const STATUS_ANALYZED = 'analyzed';
+    const STATUS_ERROR = 'error';
+
     protected $hidden = [
         'created_at',
         'updated_at'

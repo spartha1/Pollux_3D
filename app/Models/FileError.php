@@ -14,11 +14,11 @@ class FileError extends Model
         'file_upload_id',
         'error_message',
         'stack_trace',
-        'occurred_at',
+        'occurred_at'
     ];
 
     protected $casts = [
-        'occurred_at' => 'datetime',
+        'occurred_at' => 'datetime'
     ];
 
     /**
