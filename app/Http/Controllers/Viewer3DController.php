@@ -31,7 +31,7 @@ class Viewer3DController extends Controller
                 'file_upload_id' => $preview->file_upload_id,
                 'render_type' => $preview->render_type,
                 'image_path' => $preview->image_path,
-                'created_at' => $preview->created_at?->format('Y-m-d H:i:s'),
+                'created_at' => $preview->created_at?->format('Y-m-d H:i:s') ?? null,
             ];
         })->all();
 
@@ -41,8 +41,8 @@ class Viewer3DController extends Controller
             'vertices' => 0,
             'faces' => 0,
             'fileSize' => $fileUpload->size,
-            'uploadDate' => $fileUpload->uploaded_at ? $fileUpload->uploaded_at->format('Y-m-d H:i:s') : null,
-            'processDate' => $fileUpload->processed_at ? $fileUpload->processed_at->format('Y-m-d H:i:s') : null,
+            'uploadDate' => optional($fileUpload->uploaded_at)->format('Y-m-d H:i:s'),
+            'processDate' => optional($fileUpload->processed_at)->format('Y-m-d H:i:s'),
         ];
 
         if ($fileUpload->analysisResult) {

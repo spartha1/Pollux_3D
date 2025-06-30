@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import Viewer3D from '@/pages/Viewer3D';
+import Viewer3D, { type ViewType } from '@/pages/Viewer3D';
 import {
     FileIcon,
     DownloadIcon,
@@ -106,6 +106,25 @@ export default function Show({ fileUpload }: Props) {
             title: fileUpload.filename_original,
             href: `/3d/${fileUpload.id}`,
         },
+    ];
+
+    // Define available view types
+    const viewTypes: ViewType[] = [
+        {
+            id: '3d',
+            name: '3D',
+            description: 'Vista 3D interactiva del modelo'
+        },
+        {
+            id: '2d',
+            name: '2D',
+            description: 'Vista 2D del modelo'
+        },
+        {
+            id: 'wireframe',
+            name: 'Wireframe',
+            description: 'Vista del modelo en modo wireframe'
+        }
     ];
 
     const { delete: destroy, processing } = useForm();
@@ -211,7 +230,7 @@ export default function Show({ fileUpload }: Props) {
                         </CardHeader>
                         <CardContent className="p-0">
                             <div className="relative h-[500px] overflow-hidden rounded-b-lg">
-                                <Viewer3D fileUpload={fileUpload} />
+                                <Viewer3D fileUpload={fileUpload} viewTypes={viewTypes} />
                             </div>
                         </CardContent>
                     </Card>

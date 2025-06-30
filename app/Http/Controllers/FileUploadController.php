@@ -56,38 +56,76 @@ class FileUploadController extends Controller
         // Ensure the directory exists
         Storage::disk('local')->makeDirectory($relativePath);
 
-        // Store the file
-        $path = $file->storeAs($relativePath, $storedName, 'local');
+        try {
+            // Store the file with binary mode
+            $path = $file->storeAs($relativePath, $storedName, [
+                'disk' => 'local',
+                'visibility' => 'private'
+            ]);
 
-        if (!$path) {
-            return back()->with('error', 'Failed to store file. Please try again.');
+            if (!$path) {
+                Log::error('Failed to store file', [
+                    'original_name' => $originalName,
+                    'stored_name' => $storedName,
+                    'path' => $relativePath
+                ]);
+                return back()->with('error', 'Failed to store file. Please try again.');
+            }
+
+            // Double check the file exists and is readable
+            if (!Storage::disk('local')->exists($path)) {
+                Log::error('File verification failed', [
+                    'path' => $path,
+                    'full_path' => Storage::disk('local')->path($path)
+                ]);
+                return back()->with('error', 'File upload failed verification. Please try again.');
+            }
+
+            // Verify file contents
+            $fullPath = Storage::disk('local')->path($path);
+            if (!file_exists($fullPath) || filesize($fullPath) === 0) {
+                Log::error('File is empty or not accessible', [
+                    'path' => $path,
+                    'full_path' => $fullPath,
+                    'exists' => file_exists($fullPath),
+                    'size' => file_exists($fullPath) ? filesize($fullPath) : 'N/A'
+                ]);
+                return back()->with('error', 'File upload failed: empty or inaccessible file.');
+            }
+
+            // Log success
+            Log::info('File stored successfully', [
+                'original_name' => $originalName,
+                'stored_name' => $storedName,
+                'path' => $path,
+                'full_path' => $fullPath,
+                'size' => filesize($fullPath)
+            ]);
+
+            $fileUpload = $request->user()->fileUploads()->create([
+                'filename_original' => $originalName,
+                'filename_stored' => $storedName,
+                'extension' => $extension,
+                'mime_type' => $file->getMimeType(),
+                'size' => $file->getSize(),
+                'storage_path' => $path,
+                'disk' => 'local',
+                'status' => 'uploaded',
+                'uploaded_at' => now(),
+            ]);
+
+            return redirect()->route('3d.show', ['fileUpload' => $fileUpload->id])
+                ->with('success', 'File uploaded successfully. Processing will begin shortly.');
+
+        } catch (\Exception $e) {
+            Log::error('File upload failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'original_name' => $originalName,
+                'stored_name' => $storedName
+            ]);
+            return back()->with('error', 'File upload failed: ' . $e->getMessage());
         }
-
-        // Double check the file exists and is readable
-        if (!Storage::disk('local')->exists($path)) {
-            return back()->with('error', 'File upload failed verification. Please try again.');
-        }
-
-        // Log the full path for debugging
-        Log::info('File stored at: ' . Storage::disk('local')->path($path));
-
-        $fileUpload = $request->user()->fileUploads()->create([
-            'filename_original' => $originalName,
-            'filename_stored' => $storedName,
-            'extension' => $extension,
-            'mime_type' => $file->getMimeType(),
-            'size' => $file->getSize(),
-            'storage_path' => $path,
-            'disk' => 'local',
-            'status' => 'uploaded',
-            'uploaded_at' => now(),
-        ]);
-
-        // Dispatch job for processing
-        // ProcessFileUpload::dispatch($fileUpload);
-
-        return redirect()->route('3d.show', ['fileUpload' => $fileUpload->id])
-            ->with('success', 'File uploaded successfully. Processing will begin shortly.');
     }
 
     /**

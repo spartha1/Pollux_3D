@@ -8,6 +8,7 @@ import time
 import numpy as np
 import struct
 import traceback
+import codecs
 from pathlib import Path
 
 def debug(msg):
@@ -21,8 +22,12 @@ def read_binary_stl(filepath):
             # Read and save header
             header = f.read(80)
             # Check if it might be ASCII by looking for 'solid' at start
-            if header.startswith(b'solid '):
-                return None, None
+            try:
+                header_str = header.decode('utf-8', errors='ignore')
+                if header_str.strip().lower().startswith('solid'):
+                    return None, None
+            except:
+                pass  # Ignore decoding errors in header
 
             # Read number of triangles
             count = struct.unpack('I', f.read(4))[0]
@@ -49,39 +54,51 @@ def read_ascii_stl(filepath):
     normal_count = 0
     vertex_count = 0
     facet_count = 0
-    try:
-        with open(filepath, 'r') as f:
-            in_facet = False
-            for line in f:
-                line = line.strip().lower()
-                if 'facet normal' in line:
-                    in_facet = True
-                    normal_count += 1
-                elif 'vertex' in line:
-                    if not in_facet:
-                        continue
-                    nums = line.split()[1:]
-                    if len(nums) != 3:
-                        continue
-                    try:
-                        coords = [float(n) for n in nums]
-                        vertices.extend(coords)
-                        vertex_count += 1
-                    except ValueError:
-                        continue
-                elif 'endfacet' in line:
-                    if in_facet and vertex_count % 3 == 0:
-                        facet_count += 1
-                    in_facet = False
 
-            if facet_count > 0 and vertex_count == facet_count * 3:
-                return np.array(vertices).reshape((-1, 3, 3)), "ascii"
+    # List of encodings to try
+    encodings = ['utf-8', 'ascii', 'iso-8859-1', 'cp1252', 'latin1']
 
-            return None, None
+    for encoding in encodings:
+        try:
+            debug(f"Trying to read with {encoding} encoding...")
+            vertices = []
+            normal_count = 0
+            vertex_count = 0
+            facet_count = 0
 
-    except Exception as e:
-        debug(f"ASCII read error: {str(e)}")
-        return None, None
+            with codecs.open(filepath, 'r', encoding=encoding, errors='ignore') as f:
+                in_facet = False
+                for line in f:
+                    line = line.strip().lower()
+                    if 'facet normal' in line:
+                        in_facet = True
+                        normal_count += 1
+                    elif 'vertex' in line:
+                        if not in_facet:
+                            continue
+                        nums = line.split()[1:]
+                        if len(nums) != 3:
+                            continue
+                        try:
+                            coords = [float(n) for n in nums]
+                            vertices.extend(coords)
+                            vertex_count += 1
+                        except ValueError:
+                            continue
+                    elif 'endfacet' in line:
+                        if in_facet and vertex_count % 3 == 0:
+                            facet_count += 1
+                        in_facet = False
+
+                if facet_count > 0 and vertex_count == facet_count * 3:
+                    debug(f"Successfully read as ASCII with {encoding} encoding")
+                    return np.array(vertices).reshape((-1, 3, 3)), "ascii"
+        except Exception as e:
+            debug(f"Failed to read with {encoding}: {str(e)}")
+            continue
+
+    debug("Failed to read file with any encoding")
+    return None, None
 
 def analyze_stl(filepath):
     """Analyze STL file and return dimensions, volume, and area."""
