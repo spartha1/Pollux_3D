@@ -22,7 +22,8 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.security import APIKeyHeader, Security
+from fastapi.security import APIKeyHeader
+from fastapi import Depends
 from typing import Optional
 
 # Import configuration
@@ -57,7 +58,7 @@ except ImportError as e:
 
 # API imports
 try:
-    from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends, Security, Request
+    from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends, Request
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import JSONResponse
     from pydantic import BaseModel, Field
@@ -130,7 +131,7 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 API_KEY_NAME = "X-API-Key"
 api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=False)
 
-async def get_api_key(api_key_header: Optional[str] = Security(api_key_header)) -> Optional[str]:
+async def get_api_key(api_key_header: Optional[str] = Depends(api_key_header)) -> Optional[str]:
     """Validate API key if we're in production"""
     if Config.is_production():
         if not api_key_header or api_key_header != os.getenv("API_KEY"):
@@ -433,7 +434,7 @@ async def generate_preview(
 
 @app.get("/health", response_model=HealthResponse)
 @limiter.limit("60/minute")
-async def health_check(api_key: Optional[str] = Depends(get_api_key)):
+async def health_check(request: Request, api_key: Optional[str] = Depends(get_api_key)):
     """
     Health check endpoint that returns service status and capabilities
     """
@@ -478,9 +479,10 @@ async def preview_endpoint(
     return await generate_preview(request, background_tasks, api_key)
 
 @app.get("/api/health", response_model=HealthResponse)
-async def health_alias(api_key: Optional[str] = Depends(get_api_key)):
+@limiter.limit("60/minute")
+async def health_alias(request: Request, api_key: Optional[str] = Depends(get_api_key)):
     """Alias para /health con prefijo /api para consistencia"""
-    return await health_check(api_key)
+    return await health_check(request, api_key)
 
 @app.on_event("startup")
 async def startup_event():
