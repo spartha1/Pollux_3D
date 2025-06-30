@@ -126,3 +126,14 @@
 2025-06-30 10:31:05,716 - __main__ - INFO - Starting preview service on 127.0.0.1:8050
 2025-06-30 10:31:06,555 - __main__ - INFO - Preview service starting up...
 2025-06-30 10:31:06,558 - __main__ - INFO - Service initialized. STEP support: True, STL support: True
+2025-06-30 10:53:07,345 - __main__ - INFO - Starting server initialization...
+2025-06-30 10:53:08,114 - __main__ - INFO - PIL imported successfully
+2025-06-30 10:53:12,088 - __main__ - INFO - FastAPI and related imports successful
+2025-06-30 10:53:14,263 - __main__ - INFO - NumPy imported successfully
+2025-06-30 10:53:21,498 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-06-30 10:54:34,461 - __main__ - INFO - PyVista imported successfully - STL files and visualization supported
+2025-06-30 10:54:34,461 - __main__ - INFO - Import phase completed
+2025-06-30 10:54:34,505 - __main__ - INFO - Configuring CORS with origins: ['*']
+2025-06-30 10:54:34,524 - __main__ - INFO - Starting preview service on 127.0.0.1:8050
+2025-06-30 10:54:35,753 - __main__ - INFO - Preview service starting up...
+2025-06-30 10:54:35,754 - __main__ - INFO - Service initialized. STEP support: True, STL support: True

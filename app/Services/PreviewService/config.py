@@ -68,9 +68,9 @@ class Config:
         for name, directory in directories.items():
             try:
                 directory.mkdir(parents=True, exist_ok=True)
-                print(f"✓ Directory '{name}' verified: {directory}")
+                print(f"[OK] Directory '{name}' verified: {directory}")
             except Exception as e:
-                print(f"✗ Error creating '{name}' directory: {e}")
+                print(f"[ERROR] Error creating '{name}' directory: {e}")
                 raise
         return cls
 

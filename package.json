@@ -5,7 +5,7 @@
         "build": "vite build",
         "build:ssr": "vite build && vite build --ssr",
         "dev": "vite",
-        "preview-service": "cd app/Services/PreviewService && start_preview_service.bat",
+        "preview-service": "cmd.exe /c cd .\\app\\Services\\PreviewService && start_preview_server.bat",
         "dev:all": "concurrently -c \"#93c5fd,#c4b5fd,#fdba74,#86efac\" \"php artisan serve --port=8088\" \"php artisan queue:listen --tries=1\" \"npm run dev\" \"npm run preview-service\" --names=server,queue,vite,preview --kill-others",
         "format": "prettier --write resources/",
         "format:check": "prettier --check resources/",
