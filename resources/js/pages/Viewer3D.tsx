@@ -84,6 +84,11 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [canvasElement, setCanvasElement] = useState<HTMLCanvasElement | null>(null);
+    const [imageZoom, setImageZoom] = useState(1);
+    const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+    const imageContainerRef = useRef<HTMLDivElement>(null);
     const [activeView, setActiveView] = useState<ViewTypeId>(() => {
         const extension = fileUpload.extension.toLowerCase();
         if (extension === 'stl' && viewTypes.some(type => type.id === '3d')) {
@@ -324,6 +329,11 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
     useLayoutEffect(() => {
         let resizeCleanup: (() => void) | undefined;
 
+        // Reset zoom and position when changing views
+        setImageZoom(1);
+        setImagePosition({ x: 0, y: 0 });
+        setIsDragging(false);
+
         if (activeView === '3d' || activeView === 'wireframe') {
             if (fileUpload.extension.toLowerCase() === 'stl') {
                 // Clean up first
@@ -376,6 +386,49 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
         };
     }, []);
 
+    // Handler functions for enhanced 2D preview
+    const handleViewChange = (newView: ViewTypeId) => {
+        setActiveView(newView);
+        setImageZoom(1);
+        setImagePosition({ x: 0, y: 0 });
+        setIsDragging(false);
+    };
+
+    const handleMouseDown = (e: React.MouseEvent) => {
+        if (activeView === '2d') {
+            setIsDragging(true);
+            setDragStart({ x: e.clientX - imagePosition.x, y: e.clientY - imagePosition.y });
+        }
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (isDragging && activeView === '2d') {
+            setImagePosition({
+                x: e.clientX - dragStart.x,
+                y: e.clientY - dragStart.y
+            });
+        }
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const fitImageToContainer = () => {
+        if (activeView === '2d') {
+            setImageZoom(1);
+            setImagePosition({ x: 0, y: 0 });
+        }
+    };
+
+    const handleWheel = (e: React.WheelEvent) => {
+        if (activeView === '2d') {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? -0.1 : 0.1;
+            setImageZoom(prev => Math.max(0.5, Math.min(3, prev + delta)));
+        }
+    };
+
     if (!viewTypes?.length) {
         return (
             <div className="py-6 relative">
@@ -397,7 +450,7 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                         {viewTypes.map((type) => (
                             <button
                                 key={type.id}
-                                onClick={() => setActiveView(type.id)}
+                                onClick={() => handleViewChange(type.id)}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                                     activeView === type.id
                                         ? 'bg-blue-600 text-white'
@@ -412,7 +465,12 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
 
                     {/* Preview Display */}
                     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                        <div ref={mountRef} className="w-full h-[600px] bg-gray-100 relative">
+                        <div
+                            ref={mountRef}
+                            className={`w-full bg-gray-100 relative ${
+                                activeView === '2d' ? 'h-[800px]' : 'h-[600px]'
+                            }`}
+                        >
                             {/* Render 3D canvas or 2D preview */}
                             {canvasElement && (
                                 <div
@@ -431,19 +489,94 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                             {!canvasElement && activeView === '2d' && (
                                 <>
                                     {previews['2d'] ? (
-                                        <img
-                                            src={`/storage/${previews['2d'].image_path}`}
-                                            alt="2D preview"
-                                            className="w-full h-full object-contain"
-                                            onLoad={() => {
-                                                setLoading(false);
-                                            }}
-                                            onError={(e) => {
-                                                console.error('Failed to load 2D preview:', e);
-                                                setError('Failed to load 2D preview');
-                                                setLoading(false);
-                                            }}
-                                        />
+                                        <div className="w-full h-full flex flex-col bg-white">
+                                            {/* Zoom Controls */}
+                                            <div className="flex items-center justify-between p-3 border-b border-gray-200 bg-gray-50">
+                                                <div className="text-sm font-medium text-gray-700">2D Top View</div>
+                                                <div className="flex items-center gap-2">
+                                                    <button
+                                                        onClick={() => setImageZoom(Math.max(0.5, imageZoom - 0.25))}
+                                                        className="px-2 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50"
+                                                        disabled={imageZoom <= 0.5}
+                                                    >
+                                                        −
+                                                    </button>
+                                                    <span className="text-xs text-gray-600 min-w-[3rem] text-center">
+                                                        {Math.round(imageZoom * 100)}%
+                                                    </span>
+                                                    <button
+                                                        onClick={() => setImageZoom(Math.min(3, imageZoom + 0.25))}
+                                                        className="px-2 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50"
+                                                        disabled={imageZoom >= 3}
+                                                    >
+                                                        +
+                                                    </button>
+                                                    <button
+                                                        onClick={() => {
+                                                            setImageZoom(1);
+                                                            setImagePosition({ x: 0, y: 0 });
+                                                        }}
+                                                        className="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600"
+                                                        title="Reset zoom and position"
+                                                    >
+                                                        Reset
+                                                    </button>
+                                                    <button
+                                                        onClick={fitImageToContainer}
+                                                        className="px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600"
+                                                        title="Fit image to container"
+                                                    >
+                                                        Fit
+                                                    </button>
+                                                    <button
+                                                        onClick={() => window.open(`/storage/${previews['2d']?.image_path}`, '_blank')}
+                                                        className="px-2 py-1 text-xs bg-gray-500 text-white rounded hover:bg-gray-600"
+                                                        title="Open full size in new tab"
+                                                    >
+                                                        Full Size
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            {/* Image Container with Pan and Zoom */}
+                                            <div
+                                                ref={imageContainerRef}
+                                                className="flex-1 overflow-hidden relative bg-gray-50 cursor-grab active:cursor-grabbing"
+                                                onMouseDown={handleMouseDown}
+                                                onMouseMove={handleMouseMove}
+                                                onMouseUp={handleMouseUp}
+                                                onMouseLeave={handleMouseUp}
+                                                onWheel={handleWheel}
+                                            >
+                                                <div
+                                                    className="w-full h-full flex items-center justify-center"
+                                                    style={{
+                                                        transform: `translate(${imagePosition.x}px, ${imagePosition.y}px)`
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={`/storage/${previews['2d'].image_path}`}
+                                                        alt="2D preview"
+                                                        className="transition-transform duration-200 select-none pointer-events-none"
+                                                        style={{
+                                                            transform: `scale(${imageZoom})`,
+                                                            imageRendering: 'crisp-edges',
+                                                            maxWidth: 'none',
+                                                            maxHeight: 'none'
+                                                        }}
+                                                        onLoad={() => {
+                                                            setLoading(false);
+                                                        }}
+                                                        onError={(e) => {
+                                                            console.error('Failed to load 2D preview:', e);
+                                                            setError('Failed to load 2D preview');
+                                                            setLoading(false);
+                                                        }}
+                                                        draggable={false}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
                                     ) : (
                                         <div className="flex items-center justify-center h-full text-gray-500">
                                             <div className="text-center">
@@ -473,6 +606,16 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                                 </div>
                             )}
                         </div>
+
+                        {/* 2D Preview Help Text */}
+                        {activeView === '2d' && previews['2d'] && (
+                            <div className="bg-blue-50 border border-blue-200 rounded-md p-3 m-4">
+                                <p className="text-sm text-blue-800">
+                                    <strong>Navigation:</strong> Use mouse wheel to zoom, click and drag to pan the image.
+                                    Use the buttons above for quick actions.
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     {/* File Information */}
