@@ -44,7 +44,7 @@ class FileUpload extends Model
     ];
 
     protected $appends = [
-        'storage_path'
+        // 'storage_path' // Only append when needed
     ];
 
     /**
@@ -82,6 +82,28 @@ class FileUpload extends Model
     public function getStoragePathAttribute()
     {
         // Return the stored path directly as it already contains the full relative path
-        return $this->attributes['storage_path'];
+        return $this->attributes['storage_path'] ?? null;
+    }
+
+    /**
+     * Get formatted analysis result data
+     */
+    public function getFormattedAnalysisAttribute()
+    {
+        $analysisResult = $this->analysisResult;
+        if (!$analysisResult || !$analysisResult->analysis_data) {
+            return null;
+        }
+
+        $data = $analysisResult->analysis_data;
+
+        return [
+            'dimensions' => $data['dimensions'] ?? null,
+            'volume' => $data['volume'] ?? null,
+            'area' => $data['area'] ?? $data['surface_area'] ?? null,
+            'layers' => $data['layers'] ?? null,
+            'metadata' => $data['metadata'] ?? [],
+            'analysis_time_ms' => $data['analysis_time_ms'] ?? $data['processing_time'] ?? null,
+        ];
     }
 }

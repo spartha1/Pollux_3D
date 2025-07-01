@@ -21,10 +21,16 @@ class FileAnalysisController extends Controller
      */
     public function analyze(FileUpload $fileUpload)
     {
-        $this->authorize('update', $fileUpload);
+        // Skip authorization when running from CLI (Artisan commands)
+        if (!app()->runningInConsole()) {
+            $this->authorize('update', $fileUpload);
+        }
 
         if ($fileUpload->status !== 'uploaded') {
-            return back()->with('error', 'File is already being processed or has been processed.');
+            // If running in console, continue anyway; otherwise return error
+            if (!app()->runningInConsole()) {
+                return back()->with('error', 'File is already being processed or has been processed.');
+            }
         }
 
         // Update status
@@ -43,7 +49,7 @@ class FileAnalysisController extends Controller
 
             // Select the appropriate analyzer based on file extension
             $analyzerScript = match($extension) {
-                'stl' => app_path('Services/FileAnalyzers/analyze_stl.py'),
+                'stl' => app_path('Services/FileAnalyzers/analyze_stl_simple.py'),
                 'step', 'stp' => app_path('Services/FileAnalyzers/analyze_step_simple.py'),
                 'dxf', 'dwg' => app_path('Services/FileAnalyzers/analyze_dxf_dwg.py'),
                 'eps', 'ai' => app_path('Services/FileAnalyzers/analyze_ai_eps.py'),
@@ -61,9 +67,13 @@ class FileAnalysisController extends Controller
                 'file' => $filePath
             ]);
 
-            // Run analysis using the Python executable directly
+            // Run analysis directly using conda run
             $process = new Process([
-                $pythonPath,
+                'conda',
+                'run',
+                '-n',
+                'pollux',
+                'python',
                 $analyzerScript,
                 $filePath
             ]);
@@ -71,7 +81,6 @@ class FileAnalysisController extends Controller
             // Set environment variables
             $process->setEnv([
                 'PYTHONHASHSEED' => '0',
-                'PYTHONPATH' => dirname($pythonPath),
                 'PATH' => getenv('PATH')
             ]);
 
@@ -130,6 +139,19 @@ class FileAnalysisController extends Controller
                 }
             }
 
+            // Return appropriate response based on context
+            if (app()->runningInConsole()) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => $result,
+                    'metadata' => [
+                        'processing_time' => $result['processing_time'] ?? null,
+                        'analyzer_version' => '1.0',
+                        'file_type' => $extension
+                    ]
+                ]);
+            }
+
             // If request wants JSON, return it
             if (request()->expectsJson()) {
                 return response()->json([
@@ -167,6 +189,18 @@ class FileAnalysisController extends Controller
                 'status' => 'error',
                 'processed_at' => now()
             ]);
+
+            // Return appropriate response based on context
+            if (app()->runningInConsole()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $e->getMessage(),
+                    'details' => [
+                        'file_type' => $extension ?? 'unknown',
+                        'analyzer' => basename($analyzerScript ?? 'unknown')
+                    ]
+                ], 422);
+            }
 
             // If request wants JSON, return it
             if (request()->expectsJson()) {

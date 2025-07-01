@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, useLayoutEffect } from 'react';
+import { useCallback, useRef, useState, useLayoutEffect } from 'react';
 import * as THREE from 'three';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 // @ts-expect-error - Three.js examples don't have TypeScript declarations
@@ -27,6 +27,43 @@ export interface FileUpload {
     extension: string;
     disk: string;
     storage_path?: string;
+    analysis_result?: {
+        dimensions?: {
+            x?: number;
+            y?: number;
+            z?: number;
+            width?: number;
+            height?: number;
+            depth?: number;
+        };
+        volume?: number;
+        area?: number;
+        layers?: number;
+        metadata?: {
+            vertices?: number;
+            faces?: number;
+            triangles?: number;
+            edges?: number;
+            format?: string;
+            file_size_bytes?: number;
+            center_of_mass?: {
+                x?: number;
+                y?: number;
+                z?: number;
+            };
+            bbox_min?: {
+                x?: number;
+                y?: number;
+                z?: number;
+            };
+            bbox_max?: {
+                x?: number;
+                y?: number;
+                z?: number;
+            };
+        };
+        analysis_time_ms?: number;
+    };
 }
 
 export interface Viewer3DProps {
@@ -61,24 +98,18 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
 
     // Cleanup function
     const cleanup = useCallback(() => {
-        // Prevent multiple cleanups
-        if (cleanupInProgressRef.current) {
-            return;
-        }
+        if (cleanupInProgressRef.current) return;
         cleanupInProgressRef.current = true;
 
-        // Stop animation frame first
         if (frameRef.current !== null) {
             cancelAnimationFrame(frameRef.current);
             frameRef.current = null;
         }
 
-        // Store canvas reference if it exists
         if (rendererRef.current?.domElement && !canvasRef.current) {
             canvasRef.current = rendererRef.current.domElement;
         }
 
-        // Dispose mesh and its resources
         if (meshRef.current) {
             if (meshRef.current.geometry) {
                 meshRef.current.geometry.dispose();
@@ -96,13 +127,10 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
             meshRef.current = null;
         }
 
-        // Dispose scene objects
         if (sceneRef.current) {
             sceneRef.current.traverse((object) => {
                 if (object instanceof THREE.Mesh) {
-                    if (object.geometry) {
-                        object.geometry.dispose();
-                    }
+                    if (object.geometry) object.geometry.dispose();
                     if (object.material) {
                         if (Array.isArray(object.material)) {
                             object.material.forEach(m => m.dispose());
@@ -115,20 +143,17 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
             sceneRef.current = null;
         }
 
-        // Dispose controls
         if (controlsRef.current) {
             controlsRef.current.dispose();
             controlsRef.current = null;
         }
 
-        // Dispose renderer
         if (rendererRef.current) {
             rendererRef.current.dispose();
             rendererRef.current.setAnimationLoop(null);
             rendererRef.current = null;
         }
 
-        // Safely remove canvas from DOM
         try {
             if (canvasRef.current && mountRef.current?.contains(canvasRef.current)) {
                 mountRef.current.removeChild(canvasRef.current);
@@ -148,17 +173,14 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
         const container = mountRef.current;
         const { clientWidth: width, clientHeight: height } = container;
 
-        // Create scene
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0xffffff);
         sceneRef.current = scene;
 
-        // Create camera
         const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
         camera.position.set(100, 100, 100);
         cameraRef.current = camera;
 
-        // Create renderer only if not exists
         if (!rendererRef.current) {
             const renderer = new THREE.WebGLRenderer({
                 antialias: true,
@@ -172,18 +194,15 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
             canvasRef.current = renderer.domElement;
         }
 
-        // Only append canvas if it exists and container doesn't already have it
         if (canvasRef.current && !container.contains(canvasRef.current)) {
             container.appendChild(canvasRef.current);
         }
 
-        // Create controls
         const controls = new OrbitControls(cameraRef.current, canvasRef.current);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
         controlsRef.current = controls;
 
-        // Add lights
         const ambientLight = new THREE.AmbientLight(0x404040);
         scene.add(ambientLight);
 
@@ -192,27 +211,22 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
         directionalLight.castShadow = true;
         scene.add(directionalLight);
 
-        // Add grid and axes
         const gridHelper = new THREE.GridHelper(200, 20);
         scene.add(gridHelper);
 
         const axesHelper = new THREE.AxesHelper(50);
         scene.add(axesHelper);
 
-        // Handle resize
         const handleResize = () => {
-            if (!container || !rendererRef.current || !cameraRef.current) return;
-            const { clientWidth: width, clientHeight: height } = container;
+            if (!mountRef.current || !cameraRef.current || !rendererRef.current) return;
+            const { clientWidth: width, clientHeight: height } = mountRef.current;
             cameraRef.current.aspect = width / height;
             cameraRef.current.updateProjectionMatrix();
             rendererRef.current.setSize(width, height);
         };
 
         window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     // Animation loop
@@ -228,128 +242,112 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
     const loadSTL = useCallback(() => {
         if (!sceneRef.current || !cameraRef.current || !controlsRef.current) return;
 
-        const scene = sceneRef.current;
-        const camera = cameraRef.current;
-        const controls = controlsRef.current;
+        setLoading(true);
+        setError(null);
+
+        const fileUrl = `/3d/${fileUpload.id}/download`;
+        const loader = new STLLoader();
+
+        loader.load(
+            fileUrl,
+            (geometry) => {
+                try {
+                    if (meshRef.current) {
+                        sceneRef.current!.remove(meshRef.current);
+                        meshRef.current.geometry?.dispose();
+                        if (Array.isArray(meshRef.current.material)) {
+                            meshRef.current.material.forEach(m => m.dispose());
+                        } else {
+                            meshRef.current.material?.dispose();
+                        }
+                    }
+
+                    const material = activeView === 'wireframe'
+                        ? new THREE.MeshBasicMaterial({ color: 0x0066cc, wireframe: true, transparent: true, opacity: 0.8 })
+                        : new THREE.MeshLambertMaterial({ color: 0x0066cc });
+
+                    const mesh = new THREE.Mesh(geometry, material);
+                    sceneRef.current!.add(mesh);
+                    meshRef.current = mesh;
+
+                    geometry.computeBoundingBox();
+                    const box = geometry.boundingBox!;
+                    const center = box.getCenter(new THREE.Vector3());
+                    const size = box.getSize(new THREE.Vector3());
+
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const distance = maxDim * 2;
+                    cameraRef.current!.position.set(distance, distance, distance);
+                    cameraRef.current!.lookAt(center);
+                    controlsRef.current!.target.copy(center);
+                    controlsRef.current!.update();
+
+                    setLoading(false);
+                } catch (error) {
+                    console.error('Error creating mesh:', error);
+                    setError('Error loading 3D model');
+                    setLoading(false);
+                }
+            },
+            undefined,
+            (error) => {
+                console.error('Error loading STL:', error);
+                setError('Failed to load 3D model');
+                setLoading(false);
+            }
+        );
+    }, [fileUpload.id, activeView]);
+
+    // Render 2D view
+    const render2DView = useCallback(() => {
+        if (!mountRef.current) return;
 
         setLoading(true);
         setError(null);
 
-        console.log('Loading STL file...');
-        const fileUrl = `/3d/${fileUpload.id}/download`;
-        console.log('STL file URL:', fileUrl);
+        const container = mountRef.current;
+        container.innerHTML = '';
 
-        const loader = new STLLoader();
-        loader.load(
-            fileUrl,
-            (geometry) => {
-                console.log('STL loaded successfully');
+        const preview2D = previews['2d'];
+        if (preview2D?.image_path) {
+            const img = document.createElement('img');
+            img.className = 'w-full h-full object-contain';
+            img.onload = () => setLoading(false);
+            img.onerror = () => {
+                setError('Failed to load 2D preview');
                 setLoading(false);
-
-                // Remove existing mesh if any
-                if (meshRef.current) {
-                    scene.remove(meshRef.current);
-                    meshRef.current.geometry.dispose();
-                    if (meshRef.current.material) {
-                        if (Array.isArray(meshRef.current.material)) {
-                            meshRef.current.material.forEach(m => m.dispose());
-                        } else {
-                            meshRef.current.material.dispose();
-                        }
-                    }
-                }
-
-                const material = new THREE.MeshPhongMaterial({
-                    color: 0x0077ff,
-                    specular: 0x111111,
-                    shininess: 200,
-                    side: THREE.DoubleSide
-                });
-
-                const mesh = new THREE.Mesh(geometry, material);
-                mesh.castShadow = true;
-                mesh.receiveShadow = true;
-                meshRef.current = mesh;
-
-                // Center geometry
-                geometry.computeBoundingBox();
-                const boundingBox = geometry.boundingBox!;
-                const center = boundingBox.getCenter(new THREE.Vector3());
-                mesh.position.set(-center.x, -center.y, -center.z);
-
-                scene.add(mesh);
-
-                // Adjust camera
-                const box = new THREE.Box3().setFromObject(mesh);
-                const size = box.getSize(new THREE.Vector3());
-                const maxDim = Math.max(size.x, size.y, size.z);
-                const fov = camera.fov * (Math.PI / 180);
-                const cameraDistance = Math.abs(maxDim / Math.sin(fov / 2)) * 1.5;
-
-                camera.position.set(cameraDistance, cameraDistance, cameraDistance);
-                camera.lookAt(0, 0, 0);
-                controls.target.set(0, 0, 0);
-                controls.update();
-            },
-            (xhr) => {
-                console.log('Loading progress:', (xhr.loaded / xhr.total) * 100 + '%');
-            },
-            (error) => {
-                console.error('Error loading STL:', error);
-                setError('Error loading STL file: ' + error.message);
-                setLoading(false);
-            }
-        );
-    }, [fileUpload.id]);
-
-    // Initialize Three.js scene
-    useLayoutEffect(() => {
-        // Run init only for 3D STL view
-        if (activeView === '3d' && fileUpload.extension.toLowerCase() === 'stl') {
-            // Clear any previous cleanup state
-            cleanupInProgressRef.current = false;
-
-            // Initialize scene and get resize cleanup
-            const cleanupResize = initScene();
-
-            // Load STL model
-            loadSTL();
-
-            // Start animation loop
-            animate();
-
-            // Return cleanup function
-            return () => {
-                try {
-                    // First stop the resize listener
-                    if (cleanupResize) cleanupResize();
-
-                    // Then perform Three.js cleanup
-                    cleanup();
-                } catch (error) {
-                    console.warn('Error during cleanup:', error);
-                }
             };
+            // Use the direct path to storage
+            img.src = `/storage/${preview2D.image_path}`;
+            container.appendChild(img);
+        } else {
+            const div = document.createElement('div');
+            div.className = 'flex items-center justify-center h-full text-gray-500';
+            div.textContent = '2D preview not available';
+            container.appendChild(div);
+            setLoading(false);
         }
-    }, [activeView, fileUpload.extension, fileUpload.id, initScene, loadSTL, animate, cleanup]);
+    }, [previews]);
 
-    // Helper function to get preview URL
-    const getPreviewUrl = useCallback((viewType: ViewTypeId): string | null => {
-        const preview = previews[viewType];
-        if (!preview) return null;
-
-        if (viewType === '2d' || viewType === 'wireframe') {
-            return preview.image_path;
+    // Main effect
+    useLayoutEffect(() => {
+        if (activeView === '3d' || activeView === 'wireframe') {
+            if (fileUpload.extension.toLowerCase() === 'stl') {
+                cleanupInProgressRef.current = false;
+                const cleanupResize = initScene();
+                loadSTL();
+                animate();
+                return () => {
+                    if (cleanupResize) cleanupResize();
+                    cleanup();
+                };
+            }
+        } else if (activeView === '2d') {
+            cleanup();
+            render2DView();
         }
+    }, [activeView, fileUpload.extension, fileUpload.id, initScene, loadSTL, render2DView, animate, cleanup]);
 
-        if (viewType === '3d' && fileUpload.extension.toLowerCase() !== 'stl') {
-            return preview.image_path;
-        }
-
-        return null;
-    }, [previews, fileUpload.extension]);
-
-    // Ensure viewTypes is defined
     if (!viewTypes?.length) {
         return (
             <div className="py-6 relative">
@@ -386,78 +384,208 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
 
                     {/* Preview Display */}
                     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                        {activeView === '3d' && fileUpload.extension.toLowerCase() === 'stl' ? (
-                            <div ref={mountRef} className="w-full h-[600px] bg-gray-100 relative">
-                                {loading && (
-                                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                                        <div className="text-white bg-black/70 px-4 py-2 rounded">
-                                            Loading 3D model...
-                                        </div>
+                        <div ref={mountRef} className="w-full h-[600px] bg-gray-100 relative">
+                            {loading && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                                    <div className="text-white bg-black/70 px-4 py-2 rounded">
+                                        Loading {activeView} view...
                                     </div>
-                                )}
-                                {error && (
-                                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                                        <div className="text-white bg-black/70 px-4 py-2 rounded">
-                                            {error}
-                                        </div>
+                                </div>
+                            )}
+                            {error && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                                    <div className="text-white bg-black/70 px-4 py-2 rounded">
+                                        {error}
                                     </div>
-                                )}
-                            </div>
-                        ) : (
-                            <div className="aspect-w-16 aspect-h-9">
-                                {(() => {
-                                    const url = getPreviewUrl(activeView);
-                                    return url ? (
-                                        <img
-                                            src={url}
-                                            alt={`${activeView} view`}
-                                            className="object-contain w-full h-full"
-                                        />
-                                    ) : (
-                                        <div className="flex items-center justify-center h-full">
-                                            <span className="text-gray-500">
-                                                No preview available for {activeView} view
-                                            </span>
-                                        </div>
-                                    );
-                                })()}
-                            </div>
-                        )}
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     {/* File Information */}
                     <div className="bg-white rounded-lg shadow p-4">
-                        <h2 className="text-lg font-medium text-gray-900 mb-2">
+                        <h2 className="text-lg font-medium text-gray-900 mb-4">
                             File Information
                         </h2>
-                        <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                             <div>
-                                <dt className="text-sm font-medium text-gray-500">
-                                    Filename
-                                </dt>
-                                <dd className="mt-1 text-sm text-gray-900">
-                                    {fileUpload.filename_original}
-                                </dd>
+                                <dt className="text-sm font-medium text-gray-500">Filename</dt>
+                                <dd className="text-sm text-gray-900">{fileUpload.filename_original}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-gray-500">
-                                    Available Views
-                                </dt>
-                                <dd className="mt-1 text-sm text-gray-900">
-                                    {Object.keys(previews).length} views
-                                </dd>
+                                <dt className="text-sm font-medium text-gray-500">Type</dt>
+                                <dd className="text-sm text-gray-900">{fileUpload.extension.toUpperCase()}</dd>
                             </div>
+
+                            {/* Dimensions */}
+                            {fileUpload.analysis_result?.dimensions && (
+                                <>
+                                    {fileUpload.analysis_result.dimensions.width && (
+                                        <div>
+                                            <dt className="text-sm font-medium text-gray-500">Width</dt>
+                                            <dd className="text-sm text-gray-900">{fileUpload.analysis_result.dimensions.width.toFixed(2)} mm</dd>
+                                        </div>
+                                    )}
+                                    {fileUpload.analysis_result.dimensions.height && (
+                                        <div>
+                                            <dt className="text-sm font-medium text-gray-500">Height</dt>
+                                            <dd className="text-sm text-gray-900">{fileUpload.analysis_result.dimensions.height.toFixed(2)} mm</dd>
+                                        </div>
+                                    )}
+                                    {fileUpload.analysis_result.dimensions.depth && (
+                                        <div>
+                                            <dt className="text-sm font-medium text-gray-500">Depth</dt>
+                                            <dd className="text-sm text-gray-900">{fileUpload.analysis_result.dimensions.depth.toFixed(2)} mm</dd>
+                                        </div>
+                                    )}
+                                </>
+                            )}
+
+                            {/* Volume and Area */}
+                            {fileUpload.analysis_result?.volume && (
+                                <div>
+                                    <dt className="text-sm font-medium text-gray-500">Volume</dt>
+                                    <dd className="text-sm text-gray-900">{fileUpload.analysis_result.volume.toFixed(2)} mm³</dd>
+                                </div>
+                            )}
+                            {fileUpload.analysis_result?.area && (
+                                <div>
+                                    <dt className="text-sm font-medium text-gray-500">Surface Area</dt>
+                                    <dd className="text-sm text-gray-900">{fileUpload.analysis_result.area.toFixed(2)} mm²</dd>
+                                </div>
+                            )}
+
+                            {/* Geometry Information */}
+                            {fileUpload.analysis_result?.metadata?.vertices && (
+                                <div>
+                                    <dt className="text-sm font-medium text-gray-500">Vertices</dt>
+                                    <dd className="text-sm text-gray-900">{fileUpload.analysis_result.metadata.vertices.toLocaleString()}</dd>
+                                </div>
+                            )}
+                            {fileUpload.analysis_result?.metadata?.faces && (
+                                <div>
+                                    <dt className="text-sm font-medium text-gray-500">Faces</dt>
+                                    <dd className="text-sm text-gray-900">{fileUpload.analysis_result.metadata.faces.toLocaleString()}</dd>
+                                </div>
+                            )}
+                            {fileUpload.analysis_result?.metadata?.triangles && (
+                                <div>
+                                    <dt className="text-sm font-medium text-gray-500">Triangles</dt>
+                                    <dd className="text-sm text-gray-900">{fileUpload.analysis_result.metadata.triangles.toLocaleString()}</dd>
+                                </div>
+                            )}
+
+                            {/* File Format */}
+                            {fileUpload.analysis_result?.metadata?.format && (
+                                <div>
+                                    <dt className="text-sm font-medium text-gray-500">Format</dt>
+                                    <dd className="text-sm text-gray-900">{fileUpload.analysis_result.metadata.format}</dd>
+                                </div>
+                            )}
+
+                            {/* Analysis Time */}
+                            {fileUpload.analysis_result?.analysis_time_ms && (
+                                <div>
+                                    <dt className="text-sm font-medium text-gray-500">Analysis Time</dt>
+                                    <dd className="text-sm text-gray-900">{fileUpload.analysis_result.analysis_time_ms} ms</dd>
+                                </div>
+                            )}
+
+                            {/* File Size */}
+                            {fileUpload.analysis_result?.metadata?.file_size_bytes && (
+                                <div>
+                                    <dt className="text-sm font-medium text-gray-500">File Size</dt>
+                                    <dd className="text-sm text-gray-900">
+                                        {(fileUpload.analysis_result.metadata.file_size_bytes / 1024 / 1024).toFixed(2)} MB
+                                    </dd>
+                                </div>
+                            )}
                         </dl>
+
+                        {/* Center of Mass Information */}
+                        {fileUpload.analysis_result?.metadata?.center_of_mass && (
+                            <div className="mt-6 pt-6 border-t border-gray-200">
+                                <h3 className="text-md font-medium text-gray-900 mb-3">Center of Mass</h3>
+                                <dl className="grid grid-cols-3 gap-4">
+                                    <div>
+                                        <dt className="text-sm font-medium text-gray-500">X</dt>
+                                        <dd className="text-sm text-gray-900">
+                                            {fileUpload.analysis_result.metadata.center_of_mass.x?.toFixed(2)} mm
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt className="text-sm font-medium text-gray-500">Y</dt>
+                                        <dd className="text-sm text-gray-900">
+                                            {fileUpload.analysis_result.metadata.center_of_mass.y?.toFixed(2)} mm
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt className="text-sm font-medium text-gray-500">Z</dt>
+                                        <dd className="text-sm text-gray-900">
+                                            {fileUpload.analysis_result.metadata.center_of_mass.z?.toFixed(2)} mm
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </div>
+                        )}
+
+                        {/* Bounding Box Information */}
+                        {fileUpload.analysis_result?.metadata?.bbox_min && fileUpload.analysis_result?.metadata?.bbox_max && (
+                            <div className="mt-6 pt-6 border-t border-gray-200">
+                                <h3 className="text-md font-medium text-gray-900 mb-3">Bounding Box</h3>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <h4 className="text-sm font-medium text-gray-700 mb-2">Minimum</h4>
+                                        <dl className="grid grid-cols-3 gap-2">
+                                            <div>
+                                                <dt className="text-xs font-medium text-gray-500">X</dt>
+                                                <dd className="text-xs text-gray-900">
+                                                    {fileUpload.analysis_result.metadata.bbox_min.x?.toFixed(2)}
+                                                </dd>
+                                            </div>
+                                            <div>
+                                                <dt className="text-xs font-medium text-gray-500">Y</dt>
+                                                <dd className="text-xs text-gray-900">
+                                                    {fileUpload.analysis_result.metadata.bbox_min.y?.toFixed(2)}
+                                                </dd>
+                                            </div>
+                                            <div>
+                                                <dt className="text-xs font-medium text-gray-500">Z</dt>
+                                                <dd className="text-xs text-gray-900">
+                                                    {fileUpload.analysis_result.metadata.bbox_min.z?.toFixed(2)}
+                                                </dd>
+                                            </div>
+                                        </dl>
+                                    </div>
+                                    <div>
+                                        <h4 className="text-sm font-medium text-gray-700 mb-2">Maximum</h4>
+                                        <dl className="grid grid-cols-3 gap-2">
+                                            <div>
+                                                <dt className="text-xs font-medium text-gray-500">X</dt>
+                                                <dd className="text-xs text-gray-900">
+                                                    {fileUpload.analysis_result.metadata.bbox_max.x?.toFixed(2)}
+                                                </dd>
+                                            </div>
+                                            <div>
+                                                <dt className="text-xs font-medium text-gray-500">Y</dt>
+                                                <dd className="text-xs text-gray-900">
+                                                    {fileUpload.analysis_result.metadata.bbox_max.y?.toFixed(2)}
+                                                </dd>
+                                            </div>
+                                            <div>
+                                                <dt className="text-xs font-medium text-gray-500">Z</dt>
+                                                <dd className="text-xs text-gray-900">
+                                                    {fileUpload.analysis_result.metadata.bbox_max.z?.toFixed(2)}
+                                                </dd>
+                                            </div>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
-            {error && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                    <div className="text-red-500 bg-white px-4 py-2 rounded shadow">
-                        {error}
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

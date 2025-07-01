@@ -109,6 +109,8 @@ def analyze_stl(filepath):
         debug(f"Center of mass: {center_of_mass}")
 
         # Create result dictionary
+        analysis_time_ms = int((time.time() - start_time) * 1000)
+
         result = {
             "dimensions": {
                 "width": float(dimensions[0]),
@@ -117,11 +119,14 @@ def analyze_stl(filepath):
             },
             "volume": total_volume,
             "area": total_area,
+            "analysis_time_ms": analysis_time_ms,
             "metadata": {
                 "triangles": int(num_triangles),
                 "faces": int(num_triangles),
                 "edges": int(num_edges),
                 "vertices": int(num_vertices),
+                "vertex_count": int(num_vertices),
+                "face_count": int(num_triangles),
                 "center_of_mass": {
                     "x": float(center_of_mass[0]),
                     "y": float(center_of_mass[1]),
@@ -137,7 +142,8 @@ def analyze_stl(filepath):
                     "y": float(max_coords[1]),
                     "z": float(max_coords[2])
                 },
-                "format": file_format
+                "format": file_format,
+                "file_size_bytes": Path(filepath).stat().st_size if Path(filepath).exists() else 0
             }
         }
 

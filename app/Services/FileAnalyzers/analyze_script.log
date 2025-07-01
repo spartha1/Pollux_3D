@@ -1,25 +1,40 @@
-Starting analysis at mar. 17/06/2025 11:29:05.46 
+Starting analysis at mar. 01/07/2025 14:30:09.33 
 Script directory: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\ 
 Log file: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\analyze_script.log 
-Current directory: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers 
-Input file: c:\xampp\htdocs\laravel\PolluxwWeb\storage\app\private\models\1\10fd8d6c-6e82-4230-9f85-7f1329cca3de.STL 
+Current directory: C:\xampp\htdocs\laravel\PolluxwWeb 
+Input file: C:\xampp\htdocs\laravel\PolluxwWeb\storage\app/models/2/c9b45a33-8711-4d31-9617-f9be20daf475.STL 
  
 Python script output: 
-Starting main.py script...
-Python executable: C:\xampp\htdocs\laravel\PolluxwWeb\venv\Scripts\python.exe
-Python version: 3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]
-Arguments: ['C:\\xampp\\htdocs\\laravel\\PolluxwWeb\\app\\Services\\FileAnalyzers\\main.py', 'c:\\xampp\\htdocs\\laravel\\PolluxwWeb\\storage\\app\\private\\models\\1\\10fd8d6c-6e82-4230-9f85-7f1329cca3de.STL']
-Processing file: c:\xampp\htdocs\laravel\PolluxwWeb\storage\app\private\models\1\10fd8d6c-6e82-4230-9f85-7f1329cca3de.STL
-Debug: Process running as user: Leinad
-Debug: Working directory: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers
-Debug: File path: c:\xampp\htdocs\laravel\PolluxwWeb\storage\app\private\models\1\10fd8d6c-6e82-4230-9f85-7f1329cca3de.STL
-Debug: Starting analysis of c:\xampp\htdocs\laravel\PolluxwWeb\storage\app\private\models\1\10fd8d6c-6e82-4230-9f85-7f1329cca3de.STL with C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\analyze_stl.py
-Debug: Python executable: C:\xampp\htdocs\laravel\PolluxwWeb\venv\Scripts\python.exe
-Debug: Script path: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\analyze_stl.py
-Debug: File path: c:\xampp\htdocs\laravel\PolluxwWeb\storage\app\private\models\1\10fd8d6c-6e82-4230-9f85-7f1329cca3de.STL
-Main processing completed
 
+=== Analysis Start ===
+Start time: 2025-07-01 14:30:19
+Arguments: ['C:\\xampp\\htdocs\\laravel\\PolluxwWeb\\app\\Services\\FileAnalyzers\\main.py', 'C:\\xampp\\htdocs\\laravel\\PolluxwWeb\\storage\\app/models/2/c9b45a33-8711-4d31-9617-f9be20daf475.STL']
+Working directory: C:\xampp\htdocs\laravel\PolluxwWeb
 File extension: .stl
-{"dimensions": {"width": 20.0, "height": 20.0, "depth": 184.0}, "volume": 31304.721, "area": 32014.508, "metadata": {"triangles": 1332, "faces": 1332, "edges": 1998, "vertices": 666, "center_of_mass": {"x": 139.051, "y": 336.93, "z": 211.612}, "bbox_min": {"x": 129.051, "y": 326.931, "z": 119.611}, "bbox_max": {"x": 149.051, "y": 346.931, "z": 303.611}, "format": "ASCII"}, "analysis_time_ms": 4923}
+Using analyzer: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\analyze_stl_simple.py
+Starting analysis at: 2025-07-01 14:30:19
+NumPy version: 1.24.4
+Python executable: C:\Users\Leinad\miniconda3\envs\pollux\python.exe
+Python version: 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:42:04) [MSC v.1943 64 bit (AMD64)]
+Script path: C:\xampp\htdocs\laravel\PolluxwWeb\app\Services\FileAnalyzers\analyze_stl_simple.py
+File path: C:\xampp\htdocs\laravel\PolluxwWeb\storage\app/models/2/c9b45a33-8711-4d31-9617-f9be20daf475.STL
+Working directory: C:\xampp\htdocs\laravel\PolluxwWeb
+Importing module: analyze_stl_simple
+Module imported successfully
+File extension: .stl
+Using analyze_stl function
+Analyzing STL file: C:\xampp\htdocs\laravel\PolluxwWeb\storage\app/models/2/c9b45a33-8711-4d31-9617-f9be20daf475.STL
+Successfully read binary STL
+Found 5892 vertices
+Dimensions: [80.00045013 44.29473877  3.        ]
+Counted 1964 triangles
+Total surface area: 5572.948461455571
+Total volume: 0.0
+Center of mass: [161.58479801 302.89892222 249.61139732]
+Analysis complete
+Analysis completed successfully
+=== Analysis Complete ===
+
+{"dimensions": {"width": 80.00045013427734, "height": 44.29473876953125, "depth": 3.0}, "volume": 0.0, "area": 5572.948461455571, "analysis_time_ms": 281, "metadata": {"triangles": 1964, "faces": 1964, "edges": 5892, "vertices": 5892, "vertex_count": 5892, "face_count": 1964, "center_of_mass": {"x": 161.58479800530822, "y": 302.8989222173588, "z": 249.61139732137786}, "bbox_min": {"x": 117.05030059814453, "y": 280.7839660644531, "z": 248.11138916015625}, "bbox_max": {"x": 197.05075073242188, "y": 325.0787048339844, "z": 251.11138916015625}, "format": "BINARY", "file_size_bytes": 98284}}
 
 Analysis completed successfully. 

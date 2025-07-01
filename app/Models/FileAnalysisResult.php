@@ -12,6 +12,8 @@ class FileAnalysisResult extends Model
 
     protected $fillable = [
         'file_upload_id',
+        'analyzer_type',
+        'analysis_data',
         'dimensions',
         'volume',
         'area',
@@ -21,6 +23,7 @@ class FileAnalysisResult extends Model
     ];
 
     protected $casts = [
+        'analysis_data' => 'array',
         'dimensions' => 'array',
         'metadata' => 'array',
         'volume' => 'float',
