@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, useLayoutEffect } from 'react';
+import { useRef, useState, useLayoutEffect } from 'react';
 import * as THREE from 'three';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 // @ts-expect-error - Three.js examples don't have TypeScript declarations
@@ -80,10 +80,10 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
     const controlsRef = useRef<OrbitControls | null>(null);
     const frameRef = useRef<number | null>(null);
     const meshRef = useRef<THREE.Mesh | null>(null);
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const cleanupInProgressRef = useRef(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [canvasElement, setCanvasElement] = useState<HTMLCanvasElement | null>(null);
     const [activeView, setActiveView] = useState<ViewTypeId>(() => {
         const extension = fileUpload.extension.toLowerCase();
         if (extension === 'stl' && viewTypes.some(type => type.id === '3d')) {
@@ -97,20 +97,21 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
     });
 
     // Cleanup function
-    const cleanup = useCallback(() => {
+    const cleanup = () => {
         if (cleanupInProgressRef.current) return;
         cleanupInProgressRef.current = true;
 
+        // Cancel animation frame
         if (frameRef.current !== null) {
             cancelAnimationFrame(frameRef.current);
             frameRef.current = null;
         }
 
-        if (rendererRef.current?.domElement && !canvasRef.current) {
-            canvasRef.current = rendererRef.current.domElement;
-        }
-
+        // Clean up mesh
         if (meshRef.current) {
+            if (meshRef.current.parent) {
+                meshRef.current.parent.remove(meshRef.current);
+            }
             if (meshRef.current.geometry) {
                 meshRef.current.geometry.dispose();
             }
@@ -121,12 +122,16 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                     meshRef.current.material.dispose();
                 }
             }
-            if (meshRef.current.parent) {
-                meshRef.current.parent.remove(meshRef.current);
-            }
             meshRef.current = null;
         }
 
+        // Clean up controls
+        if (controlsRef.current) {
+            controlsRef.current.dispose();
+            controlsRef.current = null;
+        }
+
+        // Clean up scene
         if (sceneRef.current) {
             sceneRef.current.traverse((object) => {
                 if (object instanceof THREE.Mesh) {
@@ -140,69 +145,54 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                     }
                 }
             });
+            sceneRef.current.clear();
             sceneRef.current = null;
         }
 
-        if (controlsRef.current) {
-            controlsRef.current.dispose();
-            controlsRef.current = null;
-        }
+        // Clear canvas state when cleaning up
+        setCanvasElement(null);
 
-        if (rendererRef.current) {
-            rendererRef.current.dispose();
-            rendererRef.current.setAnimationLoop(null);
-            rendererRef.current = null;
-        }
-
-        try {
-            if (canvasRef.current && mountRef.current?.contains(canvasRef.current)) {
-                mountRef.current.removeChild(canvasRef.current);
-            }
-        } catch (error) {
-            console.warn('Error removing canvas:', error);
-        }
-
-        canvasRef.current = null;
         cleanupInProgressRef.current = false;
-    }, []);
+    };
 
-    // Initialize scene
-    const initScene = useCallback(() => {
-        if (!mountRef.current) return;
+    // Initialize 3D scene
+    const init3DScene = () => {
+        if (!mountRef.current) return false;
 
         const container = mountRef.current;
         const { clientWidth: width, clientHeight: height } = container;
 
+        // Create scene
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0xffffff);
         sceneRef.current = scene;
 
+        // Create camera
         const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
         camera.position.set(100, 100, 100);
         cameraRef.current = camera;
 
-        if (!rendererRef.current) {
-            const renderer = new THREE.WebGLRenderer({
-                antialias: true,
-                alpha: true,
-                powerPreference: 'high-performance'
-            });
-            renderer.setSize(width, height);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.shadowMap.enabled = true;
-            rendererRef.current = renderer;
-            canvasRef.current = renderer.domElement;
-        }
+        // Create or reuse renderer
+        const renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true,
+            powerPreference: 'high-performance'
+        });
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        rendererRef.current = renderer;
 
-        if (canvasRef.current && !container.contains(canvasRef.current)) {
-            container.appendChild(canvasRef.current);
-        }
+        // Set canvas element in state to trigger React re-render
+        setCanvasElement(renderer.domElement);
 
-        const controls = new OrbitControls(cameraRef.current, canvasRef.current);
+        // Create controls
+        const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
         controlsRef.current = controls;
 
+        // Add lights
         const ambientLight = new THREE.AmbientLight(0x404040);
         scene.add(ambientLight);
 
@@ -211,36 +201,19 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
         directionalLight.castShadow = true;
         scene.add(directionalLight);
 
+        // Add helpers
         const gridHelper = new THREE.GridHelper(200, 20);
         scene.add(gridHelper);
 
         const axesHelper = new THREE.AxesHelper(50);
         scene.add(axesHelper);
 
-        const handleResize = () => {
-            if (!mountRef.current || !cameraRef.current || !rendererRef.current) return;
-            const { clientWidth: width, clientHeight: height } = mountRef.current;
-            cameraRef.current.aspect = width / height;
-            cameraRef.current.updateProjectionMatrix();
-            rendererRef.current.setSize(width, height);
-        };
-
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    // Animation loop
-    const animate = useCallback(() => {
-        if (!rendererRef.current || !sceneRef.current || !cameraRef.current || !controlsRef.current) return;
-
-        controlsRef.current.update();
-        rendererRef.current.render(sceneRef.current, cameraRef.current);
-        frameRef.current = requestAnimationFrame(animate);
-    }, []);
+        return true;
+    };
 
     // Load STL model
-    const loadSTL = useCallback(() => {
-        if (!sceneRef.current || !cameraRef.current || !controlsRef.current) return;
+    const loadSTL = () => {
+        if (!sceneRef.current) return;
 
         setLoading(true);
         setError(null);
@@ -251,9 +224,15 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
         loader.load(
             fileUrl,
             (geometry) => {
+                if (!sceneRef.current) {
+                    geometry.dispose();
+                    return;
+                }
+
                 try {
+                    // Remove existing mesh
                     if (meshRef.current) {
-                        sceneRef.current!.remove(meshRef.current);
+                        sceneRef.current.remove(meshRef.current);
                         meshRef.current.geometry?.dispose();
                         if (Array.isArray(meshRef.current.material)) {
                             meshRef.current.material.forEach(m => m.dispose());
@@ -262,14 +241,17 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                         }
                     }
 
+                    // Create material based on view type
                     const material = activeView === 'wireframe'
                         ? new THREE.MeshBasicMaterial({ color: 0x0066cc, wireframe: true, transparent: true, opacity: 0.8 })
                         : new THREE.MeshLambertMaterial({ color: 0x0066cc });
 
+                    // Create mesh
                     const mesh = new THREE.Mesh(geometry, material);
-                    sceneRef.current!.add(mesh);
+                    sceneRef.current.add(mesh);
                     meshRef.current = mesh;
 
+                    // Center the model
                     geometry.computeBoundingBox();
                     const box = geometry.boundingBox!;
                     const center = box.getCenter(new THREE.Vector3());
@@ -277,10 +259,13 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
 
                     const maxDim = Math.max(size.x, size.y, size.z);
                     const distance = maxDim * 2;
-                    cameraRef.current!.position.set(distance, distance, distance);
-                    cameraRef.current!.lookAt(center);
-                    controlsRef.current!.target.copy(center);
-                    controlsRef.current!.update();
+
+                    if (cameraRef.current && controlsRef.current) {
+                        cameraRef.current.position.set(distance, distance, distance);
+                        cameraRef.current.lookAt(center);
+                        controlsRef.current.target.copy(center);
+                        controlsRef.current.update();
+                    }
 
                     setLoading(false);
                 } catch (error) {
@@ -296,57 +281,100 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                 setLoading(false);
             }
         );
-    }, [fileUpload.id, activeView]);
+    };
+
+    // Animation loop
+    const animate = () => {
+        if (!rendererRef.current || !sceneRef.current || !cameraRef.current || !controlsRef.current) return;
+
+        controlsRef.current.update();
+        rendererRef.current.render(sceneRef.current, cameraRef.current);
+        frameRef.current = requestAnimationFrame(animate);
+    };
 
     // Render 2D view
-    const render2DView = useCallback(() => {
-        if (!mountRef.current) return;
+    const render2DView = () => {
+        // Clean up 3D resources first
+        cleanup();
 
-        setLoading(true);
-        setError(null);
-
-        const container = mountRef.current;
-        container.innerHTML = '';
-
-        const preview2D = previews['2d'];
-        if (preview2D?.image_path) {
-            const img = document.createElement('img');
-            img.className = 'w-full h-full object-contain';
-            img.onload = () => setLoading(false);
-            img.onerror = () => {
-                setError('Failed to load 2D preview');
-                setLoading(false);
-            };
-            // Use the direct path to storage
-            img.src = `/storage/${preview2D.image_path}`;
-            container.appendChild(img);
-        } else {
-            const div = document.createElement('div');
-            div.className = 'flex items-center justify-center h-full text-gray-500';
-            div.textContent = '2D preview not available';
-            container.appendChild(div);
-            setLoading(false);
+        // Dispose the renderer to free WebGL context
+        if (rendererRef.current) {
+            rendererRef.current.dispose();
+            rendererRef.current.setAnimationLoop(null);
+            rendererRef.current = null;
         }
-    }, [previews]);
+
+        // Clear the canvas state
+        setCanvasElement(null);
+
+        setLoading(false);
+        setError(null);
+    };
+
+    // Handle resize
+    const handleResize = () => {
+        if (!mountRef.current || !cameraRef.current || !rendererRef.current) return;
+        const { clientWidth: width, clientHeight: height } = mountRef.current;
+        cameraRef.current.aspect = width / height;
+        cameraRef.current.updateProjectionMatrix();
+        rendererRef.current.setSize(width, height);
+    };
 
     // Main effect
     useLayoutEffect(() => {
+        let resizeCleanup: (() => void) | undefined;
+
         if (activeView === '3d' || activeView === 'wireframe') {
             if (fileUpload.extension.toLowerCase() === 'stl') {
-                cleanupInProgressRef.current = false;
-                const cleanupResize = initScene();
-                loadSTL();
-                animate();
-                return () => {
-                    if (cleanupResize) cleanupResize();
-                    cleanup();
-                };
+                // Clean up first
+                cleanup();
+
+                // For switching back from 2D to 3D, ensure renderer is recreated
+                if (!rendererRef.current) {
+                    // Renderer was disposed, we need to recreate it
+                }
+
+                // Initialize 3D scene
+                if (init3DScene()) {
+                    // Load model
+                    loadSTL();
+
+                    // Start animation
+                    animate();
+
+                    // Add resize listener
+                    window.addEventListener('resize', handleResize);
+                    resizeCleanup = () => window.removeEventListener('resize', handleResize);
+                }
             }
         } else if (activeView === '2d') {
-            cleanup();
+            // Clean up 3D and render 2D
+            setLoading(true); // Set loading state for 2D
             render2DView();
         }
-    }, [activeView, fileUpload.extension, fileUpload.id, initScene, loadSTL, render2DView, animate, cleanup]);
+
+        return () => {
+            if (resizeCleanup) resizeCleanup();
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeView, fileUpload.id, fileUpload.extension]);
+
+    // Cleanup on unmount
+    useLayoutEffect(() => {
+        return () => {
+            cleanup();
+
+            // Dispose renderer on unmount
+            if (rendererRef.current) {
+                rendererRef.current.dispose();
+                rendererRef.current.setAnimationLoop(null);
+                rendererRef.current = null;
+            }
+
+            // Clear canvas state
+            setCanvasElement(null);
+        };
+    }, []);
 
     if (!viewTypes?.length) {
         return (
@@ -385,6 +413,49 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                     {/* Preview Display */}
                     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                         <div ref={mountRef} className="w-full h-[600px] bg-gray-100 relative">
+                            {/* Render 3D canvas or 2D preview */}
+                            {canvasElement && (
+                                <div
+                                    ref={(div) => {
+                                        if (div && canvasElement && !div.contains(canvasElement)) {
+                                            // Clear any existing content first
+                                            div.innerHTML = '';
+                                            div.appendChild(canvasElement);
+                                        }
+                                    }}
+                                    className="w-full h-full"
+                                />
+                            )}
+
+                            {/* 2D Preview for non-3D views */}
+                            {!canvasElement && activeView === '2d' && (
+                                <>
+                                    {previews['2d'] ? (
+                                        <img
+                                            src={`/storage/${previews['2d'].image_path}`}
+                                            alt="2D preview"
+                                            className="w-full h-full object-contain"
+                                            onLoad={() => {
+                                                setLoading(false);
+                                            }}
+                                            onError={(e) => {
+                                                console.error('Failed to load 2D preview:', e);
+                                                setError('Failed to load 2D preview');
+                                                setLoading(false);
+                                            }}
+                                        />
+                                    ) : (
+                                        <div className="flex items-center justify-center h-full text-gray-500">
+                                            <div className="text-center">
+                                                <p>2D preview not available</p>
+                                                <p className="text-sm">Generate a preview to see the 2D view</p>
+                                            </div>
+                                        </div>
+                                    )}
+                                </>
+                            )}
+
+                            {/* Loading overlay */}
                             {loading && (
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/20">
                                     <div className="text-white bg-black/70 px-4 py-2 rounded">
@@ -392,6 +463,8 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                                     </div>
                                 </div>
                             )}
+
+                            {/* Error overlay */}
                             {error && (
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/20">
                                     <div className="text-white bg-black/70 px-4 py-2 rounded">

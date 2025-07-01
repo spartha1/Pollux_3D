@@ -1,11 +1,12 @@
 import { Head, useForm } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import Viewer3D, { type ViewType } from '@/pages/Viewer3D';
+import Viewer3D, { type ViewType, type Preview, type ViewTypeId } from '@/pages/Viewer3D';
 import {
     FileIcon,
     DownloadIcon,
@@ -93,6 +94,9 @@ interface Props {
 }
 
 export default function Show({ fileUpload }: Props) {
+    const [previews, setPreviews] = useState<Partial<Record<string, Preview>>>({});
+    const [loadingPreviews, setLoadingPreviews] = useState(false);
+
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Dashboard',
@@ -129,6 +133,42 @@ export default function Show({ fileUpload }: Props) {
 
     const { delete: destroy, processing } = useForm();
     const { post: analyze, processing: analyzing } = useForm();
+
+    // Fetch previews on component mount
+    useEffect(() => {
+        const fetchPreviews = async () => {
+            setLoadingPreviews(true);
+            try {
+                const response = await fetch(`/3d/${fileUpload.id}/preview`);
+                if (response.ok) {
+                    const data = await response.json();
+                    const previewsMap: Partial<Record<string, Preview>> = {};
+                    data.previews.forEach((preview: {
+                        id: number;
+                        file_upload_id: number;
+                        image_path: string;
+                        render_type: ViewTypeId;
+                        created_at: string;
+                    }) => {
+                        previewsMap[preview.render_type] = {
+                            id: preview.id,
+                            file_upload_id: preview.file_upload_id,
+                            image_path: preview.image_path,
+                            render_type: preview.render_type,
+                            created_at: preview.created_at
+                        };
+                    });
+                    setPreviews(previewsMap);
+                }
+            } catch (error) {
+                console.error('Failed to fetch previews:', error);
+            } finally {
+                setLoadingPreviews(false);
+            }
+        };
+
+        fetchPreviews();
+    }, [fileUpload.id]);
 
     const handleDelete = () => {
         if (confirm('¿Estás seguro de que quieres eliminar este archivo?')) {
@@ -230,7 +270,16 @@ export default function Show({ fileUpload }: Props) {
                         </CardHeader>
                         <CardContent className="p-0">
                             <div className="relative h-[500px] overflow-hidden rounded-b-lg">
-                                <Viewer3D fileUpload={fileUpload} viewTypes={viewTypes} />
+                                <Viewer3D
+                                    fileUpload={fileUpload}
+                                    viewTypes={viewTypes}
+                                    previews={previews}
+                                />
+                                {loadingPreviews && (
+                                    <div className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-xs">
+                                        Loading previews...
+                                    </div>
+                                )}
                             </div>
                         </CardContent>
                     </Card>
