@@ -471,8 +471,8 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                                 activeView === '2d' ? 'h-[800px]' : 'h-[600px]'
                             }`}
                         >
-                            {/* Render 3D canvas or 2D preview */}
-                            {canvasElement && (
+                            {/* Render 3D canvas for 3D and wireframe views */}
+                            {canvasElement && (activeView === '3d' || activeView === 'wireframe') && (
                                 <div
                                     ref={(div) => {
                                         if (div && canvasElement && !div.contains(canvasElement)) {
@@ -485,8 +485,8 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                                 />
                             )}
 
-                            {/* 2D Preview for non-3D views */}
-                            {!canvasElement && activeView === '2d' && (
+                            {/* 2D Preview */}
+                            {activeView === '2d' && (
                                 <>
                                     {previews['2d'] ? (
                                         <div className="w-full h-full flex flex-col bg-white">
