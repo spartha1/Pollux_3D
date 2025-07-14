@@ -1,0 +1,214 @@
+{
+  "timestamp": "2025-07-11T16:56:31.326173",
+  "python_version": "3.10.14",
+  "components": [
+    {
+      "name": "numpy",
+      "description": "C\u00e1lculos num\u00e9ricos para geometr\u00eda y matrices",
+      "status": "installed",
+      "version": "1.24.3",
+      "required": true,
+      "symbol": "\u2705"
+    },
+    {
+      "name": "struct",
+      "description": "Lectura de archivos binarios STL",
+      "status": "installed",
+      "version": "Unknown",
+      "required": true,
+      "symbol": "\u2705"
+    },
+    {
+      "name": "json",
+      "description": "Serializaci\u00f3n de resultados",
+      "status": "installed",
+      "version": "2.0.9",
+      "required": true,
+      "symbol": "\u2705"
+    },
+    {
+      "name": "pathlib",
+      "description": "Manipulaci\u00f3n de rutas de archivos",
+      "status": "installed",
+      "version": "Unknown",
+      "required": true,
+      "symbol": "\u2705"
+    },
+    {
+      "name": "time",
+      "description": "Medici\u00f3n de tiempos de an\u00e1lisis",
+      "status": "installed",
+      "version": "Unknown",
+      "required": true,
+      "symbol": "\u2705"
+    },
+    {
+      "name": "traceback",
+      "description": "Manejo de errores detallado",
+      "status": "installed",
+      "version": "Unknown",
+      "required": true,
+      "symbol": "\u2705"
+    },
+    {
+      "name": "codecs",
+      "description": "Manejo de encodings para STL ASCII",
+      "status": "installed",
+      "version": "Unknown",
+      "required": true,
+      "symbol": "\u2705"
+    },
+    {
+      "name": "scipy",
+      "description": "C\u00e1lculos avanzados de geometr\u00eda",
+      "status": "optional",
+      "version": null,
+      "required": false,
+      "symbol": "\u26a0\ufe0f"
+    },
+    {
+      "name": "matplotlib",
+      "description": "Visualizaci\u00f3n de geometr\u00eda",
+      "status": "installed",
+      "version": "3.8.0",
+      "required": false,
+      "symbol": "\u2705"
+    },
+    {
+      "name": "trimesh",
+      "description": "An\u00e1lisis avanzado de mallas",
+      "status": "optional",
+      "version": null,
+      "required": false,
+      "symbol": "\u26a0\ufe0f"
+    },
+    {
+      "name": "open3d",
+      "description": "Procesamiento de nubes de puntos",
+      "status": "optional",
+      "version": null,
+      "required": false,
+      "symbol": "\u26a0\ufe0f"
+    },
+    {
+      "name": "vtk",
+      "description": "Visualizaci\u00f3n 3D avanzada",
+      "status": "optional",
+      "version": null,
+      "required": false,
+      "symbol": "\u26a0\ufe0f"
+    },
+    {
+      "name": "pyvista",
+      "description": "Interfaz simplificada para VTK",
+      "status": "optional",
+      "version": null,
+      "required": false,
+      "symbol": "\u26a0\ufe0f"
+    },
+    {
+      "name": "pythonocc-core",
+      "description": "An\u00e1lisis completo STEP/BREP",
+      "status": "optional",
+      "version": null,
+      "required": false,
+      "symbol": "\u26a0\ufe0f"
+    },
+    {
+      "name": "OCC",
+      "description": "OpenCASCADE bindings",
+      "status": "installed",
+      "version": "Unknown",
+      "required": false,
+      "symbol": "\u2705"
+    },
+    {
+      "name": "FreeCAD",
+      "description": "An\u00e1lisis CAD alternativo",
+      "status": "optional",
+      "version": null,
+      "required": false,
+      "symbol": "\u26a0\ufe0f"
+    },
+    {
+      "name": "ezdxf",
+      "description": "An\u00e1lisis de archivos DXF",
+      "status": "optional",
+      "version": null,
+      "required": false,
+      "symbol": "\u26a0\ufe0f"
+    },
+    {
+      "name": "re",
+      "description": "An\u00e1lisis de texto STEP",
+      "status": "installed",
+      "version": "2.2.1",
+      "required": true,
+      "symbol": "\u2705"
+    },
+    {
+      "name": "os",
+      "description": "Operaciones del sistema",
+      "status": "installed",
+      "version": "Unknown",
+      "required": true,
+      "symbol": "\u2705"
+    },
+    {
+      "name": "ezdxf",
+      "description": "An\u00e1lisis de archivos DXF/DWG",
+      "status": "optional",
+      "version": null,
+      "required": false,
+      "symbol": "\u26a0\ufe0f"
+    },
+    {
+      "name": "subprocess",
+      "description": "Ejecuci\u00f3n de Ghostscript para AI/EPS",
+      "status": "installed",
+      "version": "Unknown",
+      "required": true,
+      "symbol": "\u2705"
+    },
+    {
+      "name": "Pillow",
+      "description": "Procesamiento de im\u00e1genes",
+      "status": "optional",
+      "version": null,
+      "required": false,
+      "symbol": "\u26a0\ufe0f"
+    },
+    {
+      "name": "reportlab",
+      "description": "An\u00e1lisis de PDF",
+      "status": "optional",
+      "version": null,
+      "required": false,
+      "symbol": "\u26a0\ufe0f"
+    },
+    {
+      "name": "cairosvg",
+      "description": "Procesamiento de SVG",
+      "status": "optional",
+      "version": null,
+      "required": false,
+      "symbol": "\u26a0\ufe0f"
+    }
+  ],
+  "evaluation": {
+    "basic_score": 100.0,
+    "advanced_score": 14.285714285714285,
+    "required_installed": 10,
+    "required_total": 10,
+    "optional_installed": 2,
+    "optional_total": 14,
+    "capabilities": {
+      "stl_basic": true,
+      "step_advanced": false,
+      "step_basic": true,
+      "dxf_support": false,
+      "ai_support": true,
+      "viz_support": false
+    }
+  }
+}

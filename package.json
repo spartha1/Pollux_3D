@@ -6,8 +6,10 @@
         "build:ssr": "vite build && vite build --ssr",
         "dev": "vite",
         "preview-service:clean": "powershell -NoProfile -Command \"Get-Process -Name python -ErrorAction SilentlyContinue | Where-Object {$_.CommandLine -like '*simple_preview_server.py*'} | Stop-Process -Force -ErrorAction SilentlyContinue\"",
-        "preview-service:start": "cd .\\app\\Services\\PreviewService && start_preview_server.bat",
-        "preview-service": "cd . && npm run preview-service:clean && cd . && npm run preview-service:start",
+        "verify:env": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\check_env.ps1",
+        "verify:services": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\verify_services.ps1",
+    "preview-service:start": "npm run activate:conda && powershell -NoProfile -ExecutionPolicy Bypass -File .\\app\\Services\\PreviewService\\start_server.ps1",
+    "preview-service": "cd . && npm run preview-service:clean && npm run preview-service:start",
         "dev:backend": "concurrently -c \"#93c5fd,#c4b5fd\" \"php artisan serve --port=8088\" \"php artisan queue:listen --tries=1\" --names=\"server,queue\"",
         "dev:frontend": "concurrently -c \"#fdba74,#86efac\" \"npm run dev\" \"npm run preview-service\" --names=\"vite,preview\"",
         "dev:preview": "cd .\\app\\Services\\PreviewService && start_preview_server.bat",
@@ -15,7 +17,11 @@
         "format": "prettier --write resources/",
         "format:check": "prettier --check resources/",
         "lint": "eslint . --fix",
-        "types": "tsc --noEmit"
+        "types": "tsc --noEmit",
+    "clean:all": "powershell -NoProfile -Command \"Write-Host 'Stopping running processes...' -ForegroundColor Yellow; $processes = Get-Process -Name php,node,python -ErrorAction SilentlyContinue; if ($processes) { $processes | ForEach-Object { Write-Host ('Stopping ' + $_.ProcessName + ' (PID: ' + $_.Id + ')') -ForegroundColor Cyan }; $processes | Stop-Process -Force }; Write-Host 'Cleanup complete.' -ForegroundColor Green\"",
+    "init:conda": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\init_conda.ps1",
+    "verify:env": "npm run init:conda && powershell -NoProfile -ExecutionPolicy Bypass -File .\\check_env.ps1",
+    "start:services": "npm run clean:all && npm run verify:env && npm run dev:all"
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",

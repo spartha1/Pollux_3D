@@ -69,11 +69,7 @@ class FileAnalysisController extends Controller
 
             // Run analysis directly using conda run
             $process = new Process([
-                'conda',
-                'run',
-                '-n',
-                'pollux',
-                'python',
+                $pythonPath,
                 $analyzerScript,
                 $filePath
             ]);
