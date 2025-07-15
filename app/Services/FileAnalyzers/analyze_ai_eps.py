@@ -20,8 +20,9 @@ def analyze_ai_eps(filepath):
             raise FileNotFoundError(f"File not found: {filepath}")
 
         # Verificar que Ghostscript está instalado
+        gs_path = r"C:\Program Files\gs\gs10.05.1\bin\gswin64c.exe"
         try:
-            version = subprocess.run(['gs', '--version'],
+            version = subprocess.run([gs_path, '--version'],
                                   capture_output=True,
                                   text=True,
                                   timeout=5)
@@ -32,7 +33,7 @@ def analyze_ai_eps(filepath):
         # Ejecutar Ghostscript
         debug("Running Ghostscript analysis...")
         result = subprocess.run(
-            ['gs', '-dBATCH', '-dNOPAUSE', '-sDEVICE=bbox', filepath],
+            [gs_path, '-dBATCH', '-dNOPAUSE', '-sDEVICE=bbox', filepath],
             stderr=subprocess.PIPE,
             stdout=subprocess.DEVNULL,
             timeout=15,
