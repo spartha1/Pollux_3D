@@ -18,7 +18,6 @@ class FilePreviewController extends Controller
      */
     public function generate(FileUpload $fileUpload, Request $request)
     {
-
         $this->authorize('update', $fileUpload);
 
         $request->validate([
@@ -37,6 +36,14 @@ class FilePreviewController extends Controller
                 'message' => 'Preview already exists',
                 'preview' => $existingPreview
             ]);
+        }
+
+        // Verify file exists before generating preview
+        if (!Storage::disk($fileUpload->disk)->exists($fileUpload->storage_path)) {
+            return response()->json([
+                'message' => 'File not found',
+                'error' => 'The requested file does not exist'
+            ], 404);
         }
 
         // Call preview generation service
@@ -113,39 +120,36 @@ class FilePreviewController extends Controller
     private function generatePreview(FileUpload $fileUpload, string $renderType)
     {
         try {
-            // Get preview service URL from config (default to localhost:8050)
-            $previewServiceUrl = config('services.preview.url', 'http://localhost:8050');
+            // Get preview service URL from config (default to localhost:8051)
+            $previewServiceUrl = config('services.preview.url', 'http://localhost:8051');
 
             // Get the absolute file path
             $filePath = Storage::disk($fileUpload->disk)->path($fileUpload->storage_path);
 
             // Prepare request payload matching FastAPI schema
             $payload = [
-                'file_id' => (string)$fileUpload->id,
                 'file_path' => $filePath,
                 'preview_type' => $renderType,
                 'width' => 800,
                 'height' => 600,
-                'background_color' => '#FFFFFF',
-                'file_type' => strtolower($fileUpload->extension)
+                'format' => 'png'
             ];
 
-            $response = Http::timeout(120)->post($previewServiceUrl . '/generate_preview', [
-                'file_id' => $fileUpload->id,
-                'file_path' => $filePath,
-                'preview_type' => $renderType,
-                'width' => 800,
-                'height' => 600,
-                'background_color' => '#FFFFFF',
-                'file_type' => strtolower($fileUpload->extension)
-            ]);
+            $response = Http::timeout(120)->post($previewServiceUrl . '/generate-preview', $payload);
 
             if ($response->successful()) {
                 $data = $response->json();
 
+                // Get the image data from the correct field
+                $imageData = $data['preview_2d'] ?? null;
+                
+                if (!$imageData) {
+                    throw new \Exception('No image data received from preview service');
+                }
+
                 // Save preview image
                 $previewPath = 'previews/' . $fileUpload->id . '/' . Str::uuid() . '.png';
-                Storage::disk('public')->put($previewPath, base64_decode($data['image_data']));
+                Storage::disk('public')->put($previewPath, base64_decode($imageData));
 
                 // Create preview record
                 return $fileUpload->previews()->create([

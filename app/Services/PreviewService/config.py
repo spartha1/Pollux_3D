@@ -46,7 +46,7 @@ class Config:
     @classmethod
     def get_port(cls):
         """Obtener el puerto según el entorno y configuración"""
-        default_port = 8050
+        default_port = 8051
         env_port = os.getenv('PREVIEW_SERVER_PORT')
         if env_port:
             try:

@@ -56,6 +56,12 @@ class FileAnalysisController extends Controller
                 default => throw new \Exception("Unsupported file type: {$extension}")
             };
 
+            // For STL files, have a fallback analyzer without numpy
+            $fallbackScript = null;
+            if ($extension === 'stl') {
+                $fallbackScript = app_path('Services/FileAnalyzers/analyze_stl_no_numpy.py');
+            }
+
             // Check if analyzer exists
             if (!file_exists($analyzerScript)) {
                 throw new \Exception("Analyzer not found for type: {$extension}");
@@ -67,31 +73,101 @@ class FileAnalysisController extends Controller
                 'file' => $filePath
             ]);
 
-            // Run analysis directly using conda run
+            // Run analysis using conda wrapper to ensure proper environment
+            $wrapperScript = app_path('Services/FileAnalyzers/run_with_conda.bat');
             $process = new Process([
-                $pythonPath,
+                $wrapperScript,
                 $analyzerScript,
                 $filePath
             ]);
 
-            // Set environment variables
+            // Set basic environment variables
             $process->setEnv([
-                'PYTHONHASHSEED' => '0',
-                'PATH' => getenv('PATH')
+                'PYTHONHASHSEED' => '0'
             ]);
 
             $process->setTimeout(30);
             $process->run();
 
             if (!$process->isSuccessful()) {
-                Log::error('Analysis failed', [
+                Log::warning('Primary analysis failed, trying fallback', [
                     'output' => $process->getOutput(),
                     'error' => $process->getErrorOutput()
                 ]);
-                throw new \Exception($process->getErrorOutput() ?: 'Analysis process failed');
+                
+                $output = null;
+                $success = false;
+                
+                // Try fallback analyzer first (no numpy)
+                if ($fallbackScript && file_exists($fallbackScript)) {
+                    Log::info('Attempting fallback analysis (no numpy)', [
+                        'fallback_script' => $fallbackScript
+                    ]);
+                    
+                    $fallbackProcess = new Process([
+                        $wrapperScript,
+                        $fallbackScript,
+                        $filePath
+                    ]);
+                    
+                    $fallbackProcess->setEnv([
+                        'PYTHONHASHSEED' => '0'
+                    ]);
+                    
+                    $fallbackProcess->setTimeout(30);
+                    $fallbackProcess->run();
+                    
+                    if ($fallbackProcess->isSuccessful()) {
+                        $output = $fallbackProcess->getOutput();
+                        $success = true;
+                        Log::info('Fallback analysis (no numpy) succeeded');
+                    } else {
+                        Log::warning('Fallback analysis (no numpy) failed', [
+                            'error' => $fallbackProcess->getErrorOutput()
+                        ]);
+                    }
+                }
+                
+                // If fallback failed, try direct Python execution
+                if (!$success && $fallbackScript && file_exists($fallbackScript)) {
+                    Log::info('Attempting direct Python execution', [
+                        'python_path' => $pythonPath,
+                        'script' => $fallbackScript
+                    ]);
+                    
+                    $directProcess = new Process([
+                        $pythonPath,
+                        $fallbackScript,
+                        $filePath
+                    ]);
+                    
+                    $directProcess->setEnv([
+                        'PYTHONHASHSEED' => '0'
+                    ]);
+                    
+                    $directProcess->setTimeout(30);
+                    $directProcess->run();
+                    
+                    if ($directProcess->isSuccessful()) {
+                        $output = $directProcess->getOutput();
+                        $success = true;
+                        Log::info('Direct Python execution succeeded');
+                    } else {
+                        Log::error('Direct Python execution failed', [
+                            'error' => $directProcess->getErrorOutput()
+                        ]);
+                    }
+                }
+                
+                if (!$success) {
+                    Log::error('All analysis methods failed', [
+                        'primary_error' => $process->getErrorOutput(),
+                    ]);
+                    throw new \Exception('Analysis failed: ' . $process->getErrorOutput());
+                }
+            } else {
+                $output = $process->getOutput();
             }
-
-            $output = $process->getOutput();
             $result = json_decode($output, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {

@@ -6,16 +6,16 @@ set CONDA_ENV=pollux-preview-env
 set CONDA_PYTHON=%CONDA_ROOT%\envs\%CONDA_ENV%\python.exe
 set SCRIPT_DIR=%~dp0
 
-echo [Preview Service] Starting with conda Python...
+echo [Preview Service] Starting simple server (no env check)...
 
 if not exist "%CONDA_PYTHON%" (
     echo [Preview Service] ERROR: Python not found at %CONDA_PYTHON%
-    exit /b 1
+    echo [Preview Service] Trying system Python...
+    set CONDA_PYTHON=python
 )
 
 :: Verificar Python
 echo [Preview Service] Using Python: %CONDA_PYTHON%
-"%CONDA_PYTHON%" -c "import sys; print('Python version:', sys.version)"
 
 :: Cambiar al directorio del script
 cd /d "%SCRIPT_DIR%"
@@ -27,4 +27,4 @@ for /f "tokens=5" %%a in ('netstat -ano ^| findstr /r /c:":8050.*LISTENING"') do
 
 :: Iniciar el servidor
 echo [Preview Service] Starting server...
-"%CONDA_PYTHON%" simple_preview_server.py
+"%CONDA_PYTHON%" simple_preview_server_no_env.py

@@ -137,8 +137,60 @@ class FileUploadController extends Controller
 
         $fileUpload->load(['analysisResult', 'previews', 'errors']);
 
+        // Prepare metadata for the view
+        $metadata = [
+            'dimensions' => null,
+            'vertices' => 0,
+            'faces' => 0,
+            'triangles' => 0,
+            'volume' => null,
+            'area' => null,
+            'fileSize' => $fileUpload->size,
+            'uploadDate' => optional($fileUpload->uploaded_at)->format('Y-m-d H:i:s'),
+            'processDate' => optional($fileUpload->processed_at)->format('Y-m-d H:i:s'),
+            'analysisTime' => null,
+        ];
+
+        if ($fileUpload->analysisResult) {
+            $analysisData = $fileUpload->analysisResult->analysis_data;
+            $metadata = array_merge($metadata, [
+                'dimensions' => $analysisData['dimensions'] ?? null,
+                'vertices' => $analysisData['metadata']['vertices'] ?? 0,
+                'faces' => $analysisData['metadata']['faces'] ?? 0,
+                'triangles' => $analysisData['metadata']['triangles'] ?? 0,
+                'volume' => $analysisData['volume'] ?? null,
+                'area' => $analysisData['area'] ?? null,
+                'analysisTime' => $analysisData['analysis_time_ms'] ?? null,
+            ]);
+        }
+
+        // Prepare file data for the view
+        $fileData = [
+            'id' => $fileUpload->id,
+            'filename_original' => $fileUpload->filename_original,
+            'filename_stored' => $fileUpload->filename_stored,
+            'extension' => $fileUpload->extension,
+            'mime_type' => $fileUpload->mime_type,
+            'size' => $fileUpload->size,
+            'status' => $fileUpload->status,
+            'created_at' => $fileUpload->created_at->format('Y-m-d H:i:s'),
+            'uploadedAt' => $fileUpload->uploaded_at ? $fileUpload->uploaded_at->format('Y-m-d H:i:s') : null,
+            'processedAt' => $fileUpload->processed_at ? $fileUpload->processed_at->format('Y-m-d H:i:s') : null,
+            'processed_at' => $fileUpload->processed_at ? $fileUpload->processed_at->format('Y-m-d H:i:s') : null,
+            'analysis_result' => $fileUpload->analysisResult ? $fileUpload->analysisResult->analysis_data : null,
+            'errors' => $fileUpload->errors->map(function ($error) {
+                return [
+                    'error_message' => $error->error_message,
+                    'stack_trace' => $error->stack_trace,
+                ];
+            }),
+            'disk' => $fileUpload->disk,
+            'storage_path' => $fileUpload->storage_path,
+            'metadata' => $metadata,
+        ];
+
         return Inertia::render('3d/show', [
-            'fileUpload' => $fileUpload
+            'fileUpload' => $fileData
         ]);
     }
 

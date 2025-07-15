@@ -406,3 +406,510 @@
 2025-07-10 13:01:56,424 - __main__ - INFO - Starting preview service on 127.0.0.1:8050
 2025-07-10 13:01:56,523 - __main__ - INFO - Preview service starting up...
 2025-07-10 13:01:56,525 - __main__ - INFO - Service initialized. STEP support: True, STL support: True
+2025-07-14 11:31:58,721 - __main__ - INFO - Starting server initialization...
+2025-07-14 11:31:58,722 - __main__ - CRITICAL - Failed to import PIL: No module named 'PIL'
+2025-07-14 11:35:21,901 - __main__ - INFO - Starting server initialization...
+2025-07-14 11:35:21,986 - __main__ - INFO - PIL imported successfully
+2025-07-14 11:35:23,025 - __main__ - INFO - FastAPI and related imports successful
+2025-07-14 11:35:23,111 - __main__ - INFO - Security imports successful
+2025-07-14 11:35:23,235 - __main__ - INFO - NumPy imported successfully
+2025-07-14 11:35:23,237 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 11:35:23,238 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 11:35:23,239 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 11:35:23,240 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 11:35:44,765 - __main__ - INFO - Starting server initialization...
+2025-07-14 11:35:44,818 - __main__ - INFO - PIL imported successfully
+2025-07-14 11:35:45,582 - __main__ - INFO - FastAPI and related imports successful
+2025-07-14 11:35:45,660 - __main__ - INFO - Security imports successful
+2025-07-14 11:35:45,769 - __main__ - INFO - NumPy imported successfully
+2025-07-14 11:35:45,770 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 11:35:45,771 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 11:35:45,772 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 11:35:45,773 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 11:37:01,776 - __main__ - INFO - Generating preview for: C:/xampp/htdocs/laravel/Pollux_3D/storage/app/uploads/test.stl
+2025-07-14 11:37:28,066 - __main__ - INFO - Generating preview for: C:/xampp/htdocs/laravel/Pollux_3D/storage/app/models/1/0c200c23-4c21-4883-a256-add3b7e61b39.STL
+2025-07-14 11:37:54,180 - __main__ - INFO - Generating preview for: C:/xampp/htdocs/laravel/Pollux_3D/storage/app/models/1/0c200c23-4c21-4883-a256-add3b7e61b39.STL
+2025-07-14 11:40:45,509 - __main__ - INFO - Generating preview for: C:/xampp/htdocs/laravel/Pollux_3D/storage/app/models/1/0c200c23-4c21-4883-a256-add3b7e61b39.STL
+2025-07-14 11:56:21,151 - __main__ - INFO - Starting server initialization...
+2025-07-14 11:56:21,283 - __main__ - INFO - PIL imported successfully
+2025-07-14 11:56:22,325 - __main__ - INFO - FastAPI and related imports successful
+2025-07-14 11:56:22,404 - __main__ - INFO - Security imports successful
+2025-07-14 11:56:22,532 - __main__ - INFO - NumPy imported successfully
+2025-07-14 11:56:22,533 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 11:56:22,534 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 11:56:22,536 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 11:56:22,537 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 11:58:35,561 - __main__ - INFO - Starting server initialization...
+2025-07-14 11:58:35,686 - __main__ - INFO - PIL imported successfully
+2025-07-14 11:58:36,727 - __main__ - INFO - FastAPI and related imports successful
+2025-07-14 11:58:36,828 - __main__ - INFO - Security imports successful
+2025-07-14 11:58:36,955 - __main__ - INFO - NumPy imported successfully
+2025-07-14 11:58:36,956 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 11:58:36,957 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 11:58:36,959 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 11:58:36,960 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 12:02:37,153 - __main__ - INFO - Generating preview for: C:/xampp/htdocs/laravel/Pollux_3D/storage/app/models/1/0c200c23-4c21-4883-a256-add3b7e61b39.STL
+2025-07-14 12:13:24,734 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/c328fbcb-1e9e-47a6-931c-2c502e4cdf2d.STL
+2025-07-14 12:14:21,906 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/1883ff49-16c6-4e65-83cf-e032d0ec7c22.STL
+2025-07-14 12:14:59,706 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/9e600bb4-4475-4827-aad6-f9e80e6eaf1e.STL
+2025-07-14 12:17:17,442 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/f14c72da-00d5-4826-8efb-dc84e51f6bc9.STL
+2025-07-14 12:17:44,843 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/5a1c55b8-b4b5-4f53-b9fa-76080f55297c.STL
+2025-07-14 12:22:42,094 - __main__ - INFO - Starting server initialization...
+2025-07-14 12:22:42,210 - __main__ - INFO - PIL imported successfully
+2025-07-14 12:22:43,367 - __main__ - INFO - FastAPI and related imports successful
+2025-07-14 12:22:43,451 - __main__ - INFO - Security imports successful
+2025-07-14 12:22:43,617 - __main__ - INFO - NumPy imported successfully
+2025-07-14 12:22:43,618 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 12:22:43,619 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 12:22:43,620 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 12:22:43,621 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 12:23:08,041 - __main__ - INFO - Generating preview for: C:/xampp/htdocs/laravel/Pollux_3D/storage/app/models/1/0c200c23-4c21-4883-a256-add3b7e61b39.STL
+2025-07-14 12:27:36,219 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/5a1c55b8-b4b5-4f53-b9fa-76080f55297c.STL
+2025-07-14 12:27:58,401 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/56fffae7-539d-400d-9cab-2326468bb906.STL
+2025-07-14 12:27:59,678 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/56fffae7-539d-400d-9cab-2326468bb906.STL
+2025-07-14 12:32:44,174 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/b51987a0-2d52-4d30-9a1b-d13e6ca83038.STL
+2025-07-14 12:32:45,401 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/b51987a0-2d52-4d30-9a1b-d13e6ca83038.STL
+2025-07-14 12:37:29,973 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/15c626fb-62cc-4d7a-a30a-a095bfe7f5a3.STL
+2025-07-14 12:37:31,699 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/15c626fb-62cc-4d7a-a30a-a095bfe7f5a3.STL
+2025-07-14 12:42:13,917 - __main__ - INFO - Starting server initialization...
+2025-07-14 12:42:14,002 - __main__ - INFO - PIL imported successfully
+2025-07-14 12:42:15,104 - __main__ - INFO - FastAPI and related imports successful
+2025-07-14 12:42:15,210 - __main__ - INFO - Security imports successful
+2025-07-14 12:42:15,352 - __main__ - INFO - NumPy imported successfully
+2025-07-14 12:42:15,354 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 12:42:15,355 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 12:42:15,356 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 12:42:15,357 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 12:45:27,799 - __main__ - INFO - Starting server initialization...
+2025-07-14 12:45:27,866 - __main__ - INFO - PIL imported successfully
+2025-07-14 12:45:28,782 - __main__ - INFO - FastAPI and related imports successful
+2025-07-14 12:45:28,863 - __main__ - INFO - Security imports successful
+2025-07-14 12:45:28,988 - __main__ - INFO - NumPy imported successfully
+2025-07-14 12:45:28,989 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 12:45:28,991 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 12:45:28,992 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 12:45:28,994 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 12:58:00,609 - __main__ - INFO - Starting server initialization...
+2025-07-14 12:58:00,699 - __main__ - INFO - PIL imported successfully
+2025-07-14 12:58:01,773 - __main__ - INFO - FastAPI and related imports successful
+2025-07-14 12:58:01,865 - __main__ - INFO - Security imports successful
+2025-07-14 12:58:01,994 - __main__ - INFO - NumPy imported successfully
+2025-07-14 12:58:01,995 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 12:58:01,996 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 12:58:01,997 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 12:58:01,998 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 13:07:16,860 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 13:07:16,939 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 13:07:18,166 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 13:07:18,373 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 13:07:18,668 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 13:07:18,670 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 13:07:18,671 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 13:07:18,673 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 13:07:18,674 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 13:07:18,689 - simple_preview_server_no_env - WARNING - Error reading STL file: 'charmap' codec can't decode byte 0x9d in position 98: character maps to <undefined>
+2025-07-14 13:09:16,215 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 13:09:16,270 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 13:09:17,122 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 13:09:17,202 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 13:09:17,315 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 13:09:17,317 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 13:09:17,319 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 13:09:17,320 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 13:09:17,322 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 13:09:17,335 - simple_preview_server_no_env - WARNING - Error reading STL file: 'charmap' codec can't decode byte 0x9d in position 98: character maps to <undefined>
+2025-07-14 13:10:44,036 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 13:10:44,097 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 13:10:44,928 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 13:10:44,998 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 13:10:45,108 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 13:10:45,110 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 13:10:45,112 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 13:10:45,113 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 13:10:45,115 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 13:11:05,142 - __main__ - INFO - Starting server initialization...
+2025-07-14 13:11:05,194 - __main__ - INFO - PIL imported successfully
+2025-07-14 13:11:05,994 - __main__ - INFO - FastAPI and related imports successful
+2025-07-14 13:11:06,067 - __main__ - INFO - Security imports successful
+2025-07-14 13:11:06,176 - __main__ - INFO - NumPy imported successfully
+2025-07-14 13:11:06,177 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 13:11:06,178 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 13:11:06,179 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 13:11:06,180 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 13:12:42,073 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 13:12:42,149 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 13:12:43,184 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 13:12:43,261 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 13:12:43,383 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 13:12:43,385 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 13:12:43,387 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 13:12:43,389 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 13:12:43,390 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 15:52:43,490 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 15:52:43,612 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 15:52:44,945 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 15:52:45,050 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 15:52:45,217 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 15:52:45,218 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 15:52:45,220 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 15:52:45,221 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 15:52:45,223 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 15:54:11,977 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/0a05d2a5-23f3-4a10-96d4-1e60a4a50b09.STL
+2025-07-14 15:54:13,402 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/0a05d2a5-23f3-4a10-96d4-1e60a4a50b09.STL
+2025-07-14 16:10:48,695 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 16:10:48,781 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 16:10:49,947 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 16:10:50,045 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 16:10:50,180 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 16:10:50,181 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 16:10:50,183 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 16:10:50,184 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 16:10:50,186 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 16:11:36,765 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 16:11:36,834 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 16:11:37,877 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 16:11:37,953 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 16:11:38,071 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 16:11:38,074 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 16:11:38,075 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 16:11:38,077 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 16:11:38,078 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 16:13:20,344 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 16:13:20,395 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 16:13:21,224 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 16:13:21,299 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 16:13:21,410 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 16:13:21,412 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 16:13:21,413 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 16:13:21,415 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 16:13:21,416 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 16:14:26,850 - __main__ - INFO - Starting server initialization...
+2025-07-14 16:14:26,902 - __main__ - INFO - PIL imported successfully
+2025-07-14 16:14:27,681 - __main__ - INFO - FastAPI and related imports successful
+2025-07-14 16:14:27,753 - __main__ - INFO - Security imports successful
+2025-07-14 16:14:27,862 - __main__ - INFO - NumPy imported successfully
+2025-07-14 16:14:27,864 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 16:14:27,866 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 16:14:27,867 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 16:14:27,868 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 16:15:17,579 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 16:15:17,660 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 16:15:18,868 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 16:15:18,975 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 16:15:19,123 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 16:15:19,125 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 16:15:19,130 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 16:15:19,134 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 16:15:19,142 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 16:16:26,129 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/ab057e37-c58a-4db3-9778-9e1a71ce11f3.STL
+2025-07-14 16:16:27,399 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/ab057e37-c58a-4db3-9778-9e1a71ce11f3.STL
+2025-07-14 16:18:00,807 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/ad61726a-90f1-4044-83f2-3a6b5dd8ace9.STL
+2025-07-14 16:18:02,672 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/ad61726a-90f1-4044-83f2-3a6b5dd8ace9.STL
+2025-07-14 16:21:26,469 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/c328fbcb-1e9e-47a6-931c-2c502e4cdf2d.STL
+2025-07-14 16:24:36,646 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 16:24:36,727 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 16:24:37,736 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 16:24:37,818 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 16:24:37,940 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 16:24:37,941 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 16:24:37,942 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 16:24:37,944 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 16:24:37,945 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 16:25:47,146 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 16:25:47,210 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 16:25:48,013 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 16:25:48,092 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 16:25:48,208 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 16:25:48,210 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 16:25:48,211 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 16:25:48,213 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 16:25:48,214 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 16:29:54,208 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/8b2f59b9-bdf1-4727-82e2-90cf7234646d.STL
+2025-07-14 16:29:55,796 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/8b2f59b9-bdf1-4727-82e2-90cf7234646d.STL
+2025-07-14 16:32:36,383 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 16:32:36,469 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 16:32:39,024 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 16:32:39,328 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 16:32:39,674 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 16:32:39,677 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 16:32:39,681 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 16:32:39,686 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 16:32:39,694 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 16:33:39,909 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 16:33:39,981 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 16:33:40,825 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 16:33:40,896 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 16:33:41,020 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 16:33:41,022 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 16:33:41,025 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 16:33:41,027 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 16:33:41,030 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 16:33:41,111 - simple_preview_server_no_env - INFO - Reading STL file: storage/app/models/1/8b2f59b9-bdf1-4727-82e2-90cf7234646d.STL
+2025-07-14 16:33:41,111 - simple_preview_server_no_env - INFO - Processing as Binary STL
+2025-07-14 16:33:41,112 - simple_preview_server_no_env - INFO - Binary STL: Expected 15108 triangles
+2025-07-14 16:33:41,162 - simple_preview_server_no_env - INFO - Binary STL: Found 45324 vertices, 15108 triangles
+2025-07-14 16:33:41,164 - simple_preview_server_no_env - INFO - Successfully read 45324 vertices
+2025-07-14 16:33:41,309 - simple_preview_server_no_env - INFO - Reduced to 7546 unique vertices
+2025-07-14 16:33:41,316 - simple_preview_server_no_env - INFO - Bounds: X[129.05, 203.57] Y[326.93, 370.93] Z[92.19, 151.71]
+2025-07-14 16:34:14,918 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 16:34:14,981 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 16:34:15,886 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 16:34:15,967 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 16:34:16,091 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 16:34:16,094 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 16:34:16,095 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 16:34:16,097 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 16:34:16,098 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 16:34:16,137 - simple_preview_server_no_env - INFO - Reading STL file: storage/app/models/1/8b2f59b9-bdf1-4727-82e2-90cf7234646d.STL
+2025-07-14 16:34:16,138 - simple_preview_server_no_env - INFO - Processing as Binary STL
+2025-07-14 16:34:16,138 - simple_preview_server_no_env - INFO - Binary STL: Expected 15108 triangles
+2025-07-14 16:34:16,189 - simple_preview_server_no_env - INFO - Binary STL: Found 45324 vertices, 15108 triangles
+2025-07-14 16:34:16,189 - simple_preview_server_no_env - INFO - Successfully read 45324 vertices
+2025-07-14 16:34:16,335 - simple_preview_server_no_env - INFO - Reduced to 7546 unique vertices
+2025-07-14 16:34:16,340 - simple_preview_server_no_env - INFO - Bounds: X[129.05, 203.57] Y[326.93, 370.93] Z[92.19, 151.71]
+2025-07-14 16:36:21,431 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/100da7b8-be2b-4eee-9234-594cbbffd6f1.STL
+2025-07-14 16:36:22,787 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/100da7b8-be2b-4eee-9234-594cbbffd6f1.STL
+2025-07-14 16:38:34,387 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 16:38:34,460 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 16:38:35,479 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 16:38:35,579 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 16:38:35,717 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 16:38:35,719 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 16:38:35,721 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 16:38:35,723 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 16:38:35,726 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 16:38:35,859 - simple_preview_server_no_env - INFO - Reading STL file: storage/app/models/1/8b2f59b9-bdf1-4727-82e2-90cf7234646d.STL
+2025-07-14 16:38:35,859 - simple_preview_server_no_env - INFO - Processing as Binary STL
+2025-07-14 16:38:35,860 - simple_preview_server_no_env - INFO - Binary STL: Expected 15108 triangles
+2025-07-14 16:38:35,936 - simple_preview_server_no_env - INFO - Binary STL: Found 45324 vertices, 15108 triangles
+2025-07-14 16:38:35,939 - simple_preview_server_no_env - INFO - Successfully read 45324 vertices
+2025-07-14 16:38:36,096 - simple_preview_server_no_env - INFO - Reduced to 7546 unique vertices
+2025-07-14 16:38:36,100 - simple_preview_server_no_env - INFO - Bounds: X[129.05, 203.57] Y[326.93, 370.93] Z[92.19, 151.71]
+2025-07-14 16:39:25,880 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 16:39:27,507 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 16:43:34,893 - simple_preview_server_no_env - INFO - Starting server initialization...
+2025-07-14 16:43:34,968 - simple_preview_server_no_env - INFO - PIL imported successfully
+2025-07-14 16:43:36,375 - simple_preview_server_no_env - INFO - FastAPI and related imports successful
+2025-07-14 16:43:36,493 - simple_preview_server_no_env - INFO - Security imports successful
+2025-07-14 16:43:36,632 - simple_preview_server_no_env - INFO - NumPy imported successfully
+2025-07-14 16:43:36,634 - simple_preview_server_no_env - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 16:43:36,636 - simple_preview_server_no_env - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 16:43:36,637 - simple_preview_server_no_env - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 16:43:36,639 - simple_preview_server_no_env - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 16:43:36,675 - simple_preview_server_no_env - INFO - Reading STL file: storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 16:43:36,676 - simple_preview_server_no_env - INFO - Processing as Binary STL
+2025-07-14 16:43:36,676 - simple_preview_server_no_env - INFO - Binary STL: Expected 1964 triangles
+2025-07-14 16:43:36,683 - simple_preview_server_no_env - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-14 16:43:36,685 - simple_preview_server_no_env - INFO - Successfully read 5892 vertices
+2025-07-14 16:43:36,703 - simple_preview_server_no_env - INFO - Reduced to 970 unique vertices
+2025-07-14 16:43:36,704 - simple_preview_server_no_env - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-14 16:47:03,816 - __main__ - INFO - Starting server initialization...
+2025-07-14 16:47:03,903 - __main__ - INFO - PIL imported successfully
+2025-07-14 16:47:04,898 - __main__ - INFO - FastAPI and related imports successful
+2025-07-14 16:47:04,969 - __main__ - INFO - Security imports successful
+2025-07-14 16:47:05,081 - __main__ - INFO - NumPy imported successfully
+2025-07-14 16:47:05,082 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 16:47:05,083 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 16:47:05,084 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 16:47:05,085 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 17:03:04,207 - __main__ - INFO - Generating preview for: storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 17:04:35,934 - __main__ - INFO - Generating preview for: C:/xampp/htdocs/laravel/Pollux_3D/storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 17:04:35,958 - __main__ - INFO - Reading STL file: C:/xampp/htdocs/laravel/Pollux_3D/storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 17:04:35,959 - __main__ - INFO - Processing as Binary STL
+2025-07-14 17:04:35,959 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-14 17:04:35,965 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-14 17:04:35,966 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-14 17:04:35,989 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-14 17:04:35,990 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-14 17:06:06,642 - __main__ - INFO - Generating preview for: C:/xampp/htdocs/laravel/Pollux_3D/storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 17:06:06,666 - __main__ - INFO - Reading STL file: C:/xampp/htdocs/laravel/Pollux_3D/storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 17:06:06,667 - __main__ - INFO - Processing as Binary STL
+2025-07-14 17:06:06,668 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-14 17:06:06,673 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-14 17:06:06,674 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-14 17:06:06,692 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-14 17:06:06,692 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-14 17:06:24,593 - __main__ - INFO - Starting server initialization...
+2025-07-14 17:06:24,669 - __main__ - INFO - PIL imported successfully
+2025-07-14 17:06:26,677 - __main__ - INFO - FastAPI and related imports successful
+2025-07-14 17:06:26,988 - __main__ - INFO - Security imports successful
+2025-07-14 17:06:27,362 - __main__ - INFO - NumPy imported successfully
+2025-07-14 17:06:27,368 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 17:06:27,371 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 17:06:27,372 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 17:06:27,375 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 17:07:00,636 - __main__ - INFO - Generating preview for: C:/xampp/htdocs/laravel/Pollux_3D/storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 17:07:00,661 - __main__ - INFO - Reading STL file: C:/xampp/htdocs/laravel/Pollux_3D/storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 17:07:00,662 - __main__ - INFO - Processing as Binary STL
+2025-07-14 17:07:00,662 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-14 17:07:00,668 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-14 17:07:00,669 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-14 17:07:00,685 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-14 17:07:00,686 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-14 17:10:39,834 - __main__ - INFO - Starting server initialization...
+2025-07-14 17:10:39,902 - __main__ - INFO - PIL imported successfully
+2025-07-14 17:10:40,817 - __main__ - INFO - FastAPI and related imports successful
+2025-07-14 17:10:40,888 - __main__ - INFO - Security imports successful
+2025-07-14 17:10:40,995 - __main__ - INFO - NumPy imported successfully
+2025-07-14 17:10:40,996 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-14 17:10:40,997 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-14 17:10:40,998 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-14 17:10:40,999 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-14 17:11:25,688 - __main__ - INFO - Generating preview for: storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 17:11:25,712 - __main__ - INFO - Reading STL file: storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 17:11:25,714 - __main__ - INFO - Processing as Binary STL
+2025-07-14 17:11:25,714 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-14 17:11:25,721 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-14 17:11:25,721 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-14 17:11:25,736 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-14 17:11:25,737 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-14 17:13:20,085 - __main__ - INFO - Generating preview for: storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 17:13:20,109 - __main__ - INFO - Reading STL file: storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 17:13:20,112 - __main__ - INFO - Processing as Binary STL
+2025-07-14 17:13:20,113 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-14 17:13:20,118 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-14 17:13:20,118 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-14 17:13:20,135 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-14 17:13:20,136 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-14 17:13:34,133 - __main__ - INFO - Generating preview for: storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 17:13:34,160 - __main__ - INFO - Reading STL file: storage/app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-14 17:13:34,161 - __main__ - INFO - Processing as Binary STL
+2025-07-14 17:13:34,161 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-14 17:13:34,167 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-14 17:13:34,168 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-14 17:13:34,186 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-14 17:13:34,187 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 09:14:01,176 - __main__ - INFO - Starting server initialization...
+2025-07-15 09:14:01,291 - __main__ - INFO - PIL imported successfully
+2025-07-15 09:14:02,367 - __main__ - INFO - FastAPI and related imports successful
+2025-07-15 09:14:02,472 - __main__ - INFO - Security imports successful
+2025-07-15 09:14:02,662 - __main__ - INFO - NumPy imported successfully
+2025-07-15 09:14:02,663 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-15 09:14:02,664 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-15 09:14:02,665 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-15 09:14:02,666 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-15 09:34:48,464 - __main__ - INFO - Generating preview for: models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 09:35:37,461 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 09:35:37,487 - __main__ - INFO - Reading STL file: C:\xampp\htdocs\laravel\Pollux_3D\storage\app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 09:35:37,488 - __main__ - INFO - Processing as Binary STL
+2025-07-15 09:35:37,488 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 09:35:37,495 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 09:35:37,495 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 09:35:37,511 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 09:35:37,512 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 09:36:00,703 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 09:36:00,726 - __main__ - INFO - Reading STL file: C:\xampp\htdocs\laravel\Pollux_3D\storage\app/models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 09:36:00,727 - __main__ - INFO - Processing as Binary STL
+2025-07-15 09:36:00,727 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 09:36:00,733 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 09:36:00,733 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 09:36:00,752 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 09:36:00,753 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 10:00:30,145 - __main__ - INFO - Starting server initialization...
+2025-07-15 10:00:30,221 - __main__ - INFO - PIL imported successfully
+2025-07-15 10:00:31,093 - __main__ - INFO - FastAPI and related imports successful
+2025-07-15 10:00:31,179 - __main__ - INFO - Security imports successful
+2025-07-15 10:00:31,318 - __main__ - INFO - NumPy imported successfully
+2025-07-15 10:00:31,319 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-15 10:00:31,321 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-15 10:00:31,323 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-15 10:00:31,324 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-15 10:06:22,890 - __main__ - INFO - Starting server initialization...
+2025-07-15 10:06:22,985 - __main__ - INFO - PIL imported successfully
+2025-07-15 10:06:24,022 - __main__ - INFO - FastAPI and related imports successful
+2025-07-15 10:06:24,097 - __main__ - INFO - Security imports successful
+2025-07-15 10:06:24,224 - __main__ - INFO - NumPy imported successfully
+2025-07-15 10:06:24,225 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-15 10:06:24,226 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-15 10:06:24,228 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-15 10:06:24,229 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-15 10:09:54,955 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:09:54,989 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:09:54,990 - __main__ - INFO - Processing as Binary STL
+2025-07-15 10:09:54,990 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 10:09:54,997 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 10:09:54,997 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 10:09:55,014 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 10:09:55,015 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 10:11:15,332 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:11:15,360 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:11:15,361 - __main__ - INFO - Processing as Binary STL
+2025-07-15 10:11:15,361 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 10:11:15,368 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 10:11:15,368 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 10:11:15,386 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 10:11:15,387 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 10:19:30,044 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:19:30,073 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:19:30,074 - __main__ - INFO - Processing as Binary STL
+2025-07-15 10:19:30,074 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 10:19:30,080 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 10:19:30,080 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 10:19:30,097 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 10:19:30,098 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 10:19:30,199 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:19:30,199 - __main__ - INFO - Processing as Binary STL
+2025-07-15 10:19:30,199 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 10:19:30,205 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 10:19:30,207 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 10:19:30,224 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 10:19:30,225 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 10:20:38,365 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:20:38,392 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:20:38,393 - __main__ - INFO - Processing as Binary STL
+2025-07-15 10:20:38,393 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 10:20:38,398 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 10:20:38,399 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 10:20:38,415 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 10:20:38,415 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 10:20:38,761 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:20:38,797 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:20:38,798 - __main__ - INFO - Processing as Binary STL
+2025-07-15 10:20:38,798 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 10:20:38,803 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 10:20:38,803 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 10:20:38,820 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 10:20:38,821 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 10:20:39,153 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:20:39,406 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:20:39,437 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:20:39,437 - __main__ - INFO - Processing as Binary STL
+2025-07-15 10:20:39,437 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 10:20:39,444 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 10:20:39,444 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 10:20:39,464 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 10:20:39,465 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 10:20:39,615 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:20:39,615 - __main__ - INFO - Processing as Binary STL
+2025-07-15 10:20:39,616 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 10:20:39,620 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 10:20:39,621 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 10:20:39,638 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 10:20:39,639 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 10:24:45,646 - __main__ - INFO - Starting server initialization...
+2025-07-15 10:24:45,724 - __main__ - INFO - PIL imported successfully
+2025-07-15 10:24:46,792 - __main__ - INFO - FastAPI and related imports successful
+2025-07-15 10:24:46,896 - __main__ - INFO - Security imports successful
+2025-07-15 10:24:47,033 - __main__ - INFO - NumPy imported successfully
+2025-07-15 10:24:47,034 - __main__ - WARNING - OCC.Core import failed - STEP files will not be supported: No module named 'OCC'
+2025-07-15 10:24:47,035 - __main__ - WARNING - numpy-stl import failed - STL files will use basic support: No module named 'stl'
+2025-07-15 10:24:47,037 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-15 10:24:47,039 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-15 10:26:40,228 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:26:40,260 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 10:26:40,260 - __main__ - INFO - Processing as Binary STL
+2025-07-15 10:26:40,261 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 10:26:40,268 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 10:26:40,268 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 10:26:40,287 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 10:26:40,288 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 10:28:38,274 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/f14c72da-00d5-4826-8efb-dc84e51f6bc9.STL
+2025-07-15 11:14:12,378 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/aab6944e-f6a9-45e8-9e45-961a27adef1d.STL
+2025-07-15 11:14:12,402 - __main__ - INFO - Reading STL file: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/aab6944e-f6a9-45e8-9e45-961a27adef1d.STL
+2025-07-15 11:14:12,421 - __main__ - INFO - Processing as Binary STL
+2025-07-15 11:14:12,422 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 11:14:12,429 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 11:14:12,429 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 11:14:12,449 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 11:14:12,450 - __main__ - INFO - Bounds: X[187.84, 230.44] Y[280.78, 325.08] Z[108.05, 178.83]
+2025-07-15 11:14:14,317 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/aab6944e-f6a9-45e8-9e45-961a27adef1d.STL

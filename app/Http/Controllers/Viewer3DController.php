@@ -40,17 +40,25 @@ class Viewer3DController extends Controller
             'dimensions' => null,
             'vertices' => 0,
             'faces' => 0,
+            'triangles' => 0,
+            'volume' => null,
+            'area' => null,
             'fileSize' => $fileUpload->size,
             'uploadDate' => optional($fileUpload->uploaded_at)->format('Y-m-d H:i:s'),
             'processDate' => optional($fileUpload->processed_at)->format('Y-m-d H:i:s'),
+            'analysisTime' => null,
         ];
 
         if ($fileUpload->analysisResult) {
             $analysisData = $fileUpload->analysisResult->analysis_data;
             $metadata = array_merge($metadata, [
                 'dimensions' => $analysisData['dimensions'] ?? null,
-                'vertices' => $analysisData['vertex_count'] ?? 0,
-                'faces' => $analysisData['face_count'] ?? 0,
+                'vertices' => $analysisData['metadata']['vertices'] ?? 0,
+                'faces' => $analysisData['metadata']['faces'] ?? 0,
+                'triangles' => $analysisData['metadata']['triangles'] ?? 0,
+                'volume' => $analysisData['volume'] ?? null,
+                'area' => $analysisData['area'] ?? null,
+                'analysisTime' => $analysisData['analysis_time_ms'] ?? null,
             ]);
         }
 
@@ -66,7 +74,8 @@ class Viewer3DController extends Controller
             'uploadedAt' => $fileUpload->uploaded_at ? $fileUpload->uploaded_at->format('Y-m-d H:i:s') : null,
             'processedAt' => $fileUpload->processed_at ? $fileUpload->processed_at->format('Y-m-d H:i:s') : null,
             'size' => $fileUpload->size,
-            'metadata' => $metadata
+            'metadata' => $metadata,
+            'analysis_result' => $fileUpload->analysisResult ? $fileUpload->analysisResult->analysis_data : null,
         ];
 
         return Inertia::render('Viewer3D', [

@@ -57,6 +57,7 @@ interface FileAnalysisResult {
         schema?: string;
         warning?: string;
         analysis_complete?: boolean;
+        format?: string;  // Formato del archivo (BINARY, ASCII, etc.)
         debug_info?: {
             file_size_bytes: number;
             content_length: number;
@@ -82,11 +83,32 @@ interface FileUpload {
     size: number;
     status: string;
     created_at: string;
+    uploadedAt: string | null;
+    processedAt: string | null;
     processed_at?: string;
     analysis_result?: FileAnalysisResult;
     errors?: FileError[];
     disk: string;
-    storage_path?: string;  // Add this if needed
+    storage_path?: string;
+    metadata: {
+        dimensions?: {
+            x?: number;
+            y?: number;
+            z?: number;
+            width?: number;
+            height?: number;
+            depth?: number;
+        };
+        vertices?: number;
+        faces?: number;
+        triangles?: number;
+        volume?: number;
+        area?: number;
+        fileSize?: number;
+        uploadDate?: string;
+        processDate?: string;
+        analysisTime?: number;
+    };
 }
 
 interface Props {
@@ -96,6 +118,8 @@ interface Props {
 export default function Show({ fileUpload }: Props) {
     const [previews, setPreviews] = useState<Partial<Record<string, Preview>>>({});
     const [loadingPreviews, setLoadingPreviews] = useState(false);
+    const [generatingPreviews, setGeneratingPreviews] = useState<Set<string>>(new Set());
+    const [failedPreviews, setFailedPreviews] = useState<Set<string>>(new Set());
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
@@ -177,7 +201,12 @@ export default function Show({ fileUpload }: Props) {
     };
 
     const handleAnalyze = () => {
-        analyze(`/3d/${fileUpload.id}/analyze`);
+        analyze(`/3d/${fileUpload.id}/analyze`, {
+            onSuccess: () => {
+                // Recargar la página para mostrar los nuevos datos de análisis
+                window.location.reload();
+            }
+        });
     };
 
     const result = fileUpload.analysis_result;
@@ -185,6 +214,89 @@ export default function Show({ fileUpload }: Props) {
 
     // Check if file is a 3D model that can be viewed
     const isViewable3D = ['stl', 'obj', '3mf'].includes(fileUpload.extension.toLowerCase());
+
+    // Generate preview for a specific render type
+    const generatePreview = async (renderType: ViewTypeId) => {
+        try {
+            const response = await fetch(`/3d/${fileUpload.id}/preview`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                },
+                body: JSON.stringify({
+                    render_type: renderType
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const newPreview = data.preview;
+                
+                setPreviews(prev => ({
+                    ...prev,
+                    [renderType]: {
+                        id: newPreview.id,
+                        file_upload_id: newPreview.file_upload_id,
+                        image_path: newPreview.image_path,
+                        render_type: newPreview.render_type,
+                        created_at: newPreview.created_at
+                    }
+                }));
+                
+                return newPreview;
+            } else {
+                throw new Error(`Failed to generate ${renderType} preview`);
+            }
+        } catch (error) {
+            console.error(`Error generating ${renderType} preview:`, error);
+            throw error;
+        }
+    };
+
+    // Auto-generate missing previews
+    useEffect(() => {
+        const autoGeneratePreviews = async () => {
+            const viewTypesToGenerate = viewTypes.filter(viewType => 
+                !previews[viewType.id] && 
+                viewType.id !== '3d' &&
+                !generatingPreviews.has(viewType.id) &&
+                !failedPreviews.has(viewType.id)
+            );
+
+            for (const viewType of viewTypesToGenerate) {
+                try {
+                    setGeneratingPreviews(prev => new Set(prev).add(viewType.id));
+                    console.log(`Auto-generating ${viewType.id} preview...`);
+                    await generatePreview(viewType.id);
+                    setGeneratingPreviews(prev => {
+                        const newSet = new Set(prev);
+                        newSet.delete(viewType.id);
+                        return newSet;
+                    });
+                } catch (error) {
+                    console.error(`Failed to auto-generate ${viewType.id} preview:`, error);
+                    setGeneratingPreviews(prev => {
+                        const newSet = new Set(prev);
+                        newSet.delete(viewType.id);
+                        return newSet;
+                    });
+                    
+                    // If it's a 404 error, stop trying to generate for this file
+                    if (error instanceof Error && (error.message.includes('404') || error.message.includes('File not found'))) {
+                        console.warn(`Stopping preview generation for file ${fileUpload.id} due to missing file`);
+                        setFailedPreviews(prev => new Set(prev).add(viewType.id));
+                        return;
+                    }
+                }
+            }
+        };
+
+        // Only auto-generate if we have fetched previews and some are missing
+        if (!loadingPreviews && Object.keys(previews).length < viewTypes.length - 1) {
+            autoGeneratePreviews();
+        }
+    }, [previews, loadingPreviews, viewTypes, fileUpload.id]);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -263,7 +375,7 @@ export default function Show({ fileUpload }: Props) {
                 )}
 
                 {/* 3D Viewer - Show for uploaded or processed files */}
-                {isViewable3D && (fileUpload.status === 'processed' || fileUpload.status === 'uploaded') && (
+                {isViewable3D && (
                     <Card>
                         <CardHeader>
                             <CardTitle>Vista previa 3D</CardTitle>
@@ -290,79 +402,310 @@ export default function Show({ fileUpload }: Props) {
                     <h2 className="text-lg font-semibold">Análisis del archivo</h2>
 
                     {result ? (
-                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                            <Card>
-                                <CardHeader className="pb-2">
-                                    <CardTitle className="text-sm font-medium flex items-center gap-2">
-                                        <RulerIcon className="h-4 w-4" />
-                                        Dimensiones
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold">
-                                        {result.dimensions ?
-                                            (result.dimensions.x !== undefined ?
-                                                `${result.dimensions.x?.toFixed(1)} × ${result.dimensions.y?.toFixed(1)} × ${result.dimensions.z?.toFixed(1)}`
-                                                : `${result.dimensions.width?.toFixed(1)} × ${result.dimensions.height?.toFixed(1)} × ${result.dimensions.depth?.toFixed(1)}`
-                                            )
-                                            : 'N/A'
-                                        }
-                                    </div>
-                                    <p className="text-xs text-muted-foreground">mm</p>
-                                </CardContent>
-                            </Card>
+                        <div className="space-y-6">
+                            {/* Estadísticas principales */}
+                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                                <Card>
+                                    <CardHeader className="pb-2">
+                                        <CardTitle className="text-sm font-medium flex items-center gap-2">
+                                            <RulerIcon className="h-4 w-4" />
+                                            Dimensiones
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="text-2xl font-bold">
+                                            {result.dimensions ?
+                                                (result.dimensions.x !== undefined ?
+                                                    `${result.dimensions.x?.toFixed(1)} × ${result.dimensions.y?.toFixed(1)} × ${result.dimensions.z?.toFixed(1)}`
+                                                    : `${result.dimensions.width?.toFixed(1)} × ${result.dimensions.height?.toFixed(1)} × ${result.dimensions.depth?.toFixed(1)}`
+                                                )
+                                                : 'N/A'
+                                            }
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">mm</p>
+                                    </CardContent>
+                                </Card>
 
-                            <Card>
-                                <CardHeader className="pb-2">
-                                    <CardTitle className="text-sm font-medium flex items-center gap-2">
-                                        <BoxIcon className="h-4 w-4" />
-                                        Volumen
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold">
-                                        {result.volume ? result.volume.toFixed(2) : 'N/A'}
-                                    </div>
-                                    <p className="text-xs text-muted-foreground">
-                                        {result.volume ? 'mm³' : 'Requiere PythonOCC'}
-                                    </p>
-                                </CardContent>
-                            </Card>
+                                <Card>
+                                    <CardHeader className="pb-2">
+                                        <CardTitle className="text-sm font-medium flex items-center gap-2">
+                                            <BoxIcon className="h-4 w-4" />
+                                            Volumen
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="text-2xl font-bold">
+                                            {result.volume ? result.volume.toFixed(2) : 'N/A'}
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">
+                                            {result.volume ? 'mm³' : 'Requiere PythonOCC'}
+                                        </p>
+                                    </CardContent>
+                                </Card>
 
-                            <Card>
-                                <CardHeader className="pb-2">
-                                    <CardTitle className="text-sm font-medium flex items-center gap-2">
-                                        <LayersIcon className="h-4 w-4" />
-                                        Área superficial
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold">
-                                        {result.area ? result.area.toFixed(2) : 'N/A'}
-                                    </div>
-                                    <p className="text-xs text-muted-foreground">
-                                        {result.area ? 'mm²' : 'Requiere PythonOCC'}
-                                    </p>
-                                </CardContent>
-                            </Card>
+                                <Card>
+                                    <CardHeader className="pb-2">
+                                        <CardTitle className="text-sm font-medium flex items-center gap-2">
+                                            <LayersIcon className="h-4 w-4" />
+                                            Área superficial
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="text-2xl font-bold">
+                                            {result.area ? result.area.toFixed(2) : 'N/A'}
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">
+                                            {result.area ? 'mm²' : 'Requiere PythonOCC'}
+                                        </p>
+                                    </CardContent>
+                                </Card>
 
-                            <Card>
-                                <CardHeader className="pb-2">
-                                    <CardTitle className="text-sm font-medium flex items-center gap-2">
-                                        <ActivityIcon className="h-4 w-4" />
-                                        Tiempo de análisis
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold">
-                                        {result.analysis_time_ms ?
-                                            (result.analysis_time_ms / 1000).toFixed(2)
-                                            : 'N/A'
-                                        }
+                                <Card>
+                                    <CardHeader className="pb-2">
+                                        <CardTitle className="text-sm font-medium flex items-center gap-2">
+                                            <ActivityIcon className="h-4 w-4" />
+                                            Tiempo de análisis
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="text-2xl font-bold">
+                                            {result.analysis_time_ms ?
+                                                result.analysis_time_ms + ' ms'
+                                                : 'N/A'
+                                            }
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">milisegundos</p>
+                                    </CardContent>
+                                </Card>
+                            </div>
+
+                            {/* Estadísticas de geometría */}
+                            {result.metadata && (
+                                <div>
+                                    <h3 className="text-md font-semibold mb-3">Estadísticas de geometría</h3>
+                                    <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
+                                        {result.metadata.triangles !== undefined && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Triángulos</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-xl font-bold text-blue-600">
+                                                        {result.metadata.triangles.toLocaleString()}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.metadata.vertices !== undefined && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Vértices</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-xl font-bold text-green-600">
+                                                        {result.metadata.vertices.toLocaleString()}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.metadata.faces !== undefined && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Caras</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-xl font-bold text-purple-600">
+                                                        {result.metadata.faces.toLocaleString()}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.metadata.edges !== undefined && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Aristas</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-xl font-bold text-orange-600">
+                                                        {result.metadata.edges.toLocaleString()}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.metadata.surfaces !== undefined && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Superficies</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-xl font-bold text-teal-600">
+                                                        {result.metadata.surfaces.toLocaleString()}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.metadata.solids !== undefined && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Sólidos</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-xl font-bold text-red-600">
+                                                        {result.metadata.solids.toLocaleString()}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
                                     </div>
-                                    <p className="text-xs text-muted-foreground">segundos</p>
-                                </CardContent>
-                            </Card>
+                                </div>
+                            )}
+
+                            {/* Centro de masa y caja delimitadora */}
+                            {result.metadata && (result.metadata.center_of_mass || (result.metadata.bbox_min && result.metadata.bbox_max)) && (
+                                <div>
+                                    <h3 className="text-md font-semibold mb-3">Información espacial</h3>
+                                    <div className="grid gap-4 md:grid-cols-2">
+                                        {result.metadata.center_of_mass && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Centro de masa</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="space-y-2">
+                                                        <div className="flex justify-between">
+                                                            <span className="text-sm text-muted-foreground">X:</span>
+                                                            <span className="text-sm font-mono">{result.metadata.center_of_mass.x.toFixed(2)}</span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span className="text-sm text-muted-foreground">Y:</span>
+                                                            <span className="text-sm font-mono">{result.metadata.center_of_mass.y.toFixed(2)}</span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span className="text-sm text-muted-foreground">Z:</span>
+                                                            <span className="text-sm font-mono">{result.metadata.center_of_mass.z.toFixed(2)}</span>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.metadata.bbox_min && result.metadata.bbox_max && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Caja delimitadora</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="space-y-3">
+                                                        <div>
+                                                            <div className="text-xs font-medium text-muted-foreground mb-1">Mínimo:</div>
+                                                            <div className="text-xs font-mono bg-gray-100 p-2 rounded">
+                                                                ({result.metadata.bbox_min.x.toFixed(2)}, {result.metadata.bbox_min.y.toFixed(2)}, {result.metadata.bbox_min.z.toFixed(2)})
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div className="text-xs font-medium text-muted-foreground mb-1">Máximo:</div>
+                                                            <div className="text-xs font-mono bg-gray-100 p-2 rounded">
+                                                                ({result.metadata.bbox_max.x.toFixed(2)}, {result.metadata.bbox_max.y.toFixed(2)}, {result.metadata.bbox_max.z.toFixed(2)})
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Información técnica del archivo */}
+                            {result.metadata && (
+                                <div>
+                                    <h3 className="text-md font-semibold mb-3">Información técnica</h3>
+                                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                                        {result.metadata.file_size_kb && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Tamaño del archivo</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-lg font-bold text-indigo-600">
+                                                        {result.metadata.file_size_kb.toFixed(2)} KB
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.metadata.format && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Formato STL</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-lg font-bold text-yellow-600">
+                                                        {result.metadata.format}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.metadata.total_entities !== undefined && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Total entidades</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-lg font-bold text-pink-600">
+                                                        {result.metadata.total_entities.toLocaleString()}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.metadata.point_count !== undefined && result.metadata.point_count > 0 && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Puntos cartesianos</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-lg font-bold text-cyan-600">
+                                                        {result.metadata.point_count.toLocaleString()}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.metadata.schema && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Schema</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-lg font-bold text-emerald-600">
+                                                        {result.metadata.schema}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.metadata.file_name && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium">Nombre interno</CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-sm font-mono text-gray-600 break-all">
+                                                        {result.metadata.file_name}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <Card className="border-dashed">
@@ -380,10 +723,13 @@ export default function Show({ fileUpload }: Props) {
 
                     {/* Metadata section */}
                     <div className="mt-8">
-                        <h2 className="text-lg font-semibold mb-4">Metadatos</h2>
+                        <h2 className="text-lg font-semibold mb-4">Metadatos del archivo</h2>
                         <div className="grid gap-4 md:grid-cols-2">
                             <Card>
-                                <CardContent className="pt-6">
+                                <CardHeader className="pb-2">
+                                    <CardTitle className="text-sm font-medium">Información del archivo</CardTitle>
+                                </CardHeader>
+                                <CardContent>
                                     <dl className="space-y-2">
                                         <div>
                                             <dt className="text-sm font-medium">Tipo MIME</dt>
@@ -392,6 +738,16 @@ export default function Show({ fileUpload }: Props) {
                                         <div>
                                             <dt className="text-sm font-medium">Extensión</dt>
                                             <dd className="text-sm text-muted-foreground">.{fileUpload.extension}</dd>
+                                        </div>
+                                        <div>
+                                            <dt className="text-sm font-medium">Tamaño</dt>
+                                            <dd className="text-sm text-muted-foreground">{(fileUpload.size / 1024 / 1024).toFixed(2)} MB</dd>
+                                        </div>
+                                        <div>
+                                            <dt className="text-sm font-medium">Fecha de subida</dt>
+                                            <dd className="text-sm text-muted-foreground">
+                                                {new Date(fileUpload.created_at).toLocaleString()}
+                                            </dd>
                                         </div>
                                         <div>
                                             <dt className="text-sm font-medium">Fecha de procesamiento</dt>
@@ -420,130 +776,60 @@ export default function Show({ fileUpload }: Props) {
                                                 </AlertDescription>
                                             </Alert>
                                         )}
-                                        <dl className="space-y-2">
-                                            {result.metadata.faces !== undefined && (
-                                                <div>
-                                                    <dt className="text-sm font-medium">Caras</dt>
-                                                    <dd className="text-sm text-muted-foreground">{result.metadata.faces}</dd>
-                                                </div>
-                                            )}
-                                            {result.metadata.edges !== undefined && (
-                                                <div>
-                                                    <dt className="text-sm font-medium">Aristas</dt>
-                                                    <dd className="text-sm text-muted-foreground">{result.metadata.edges}</dd>
-                                                </div>
-                                            )}
-                                            {result.metadata.vertices !== undefined && (
-                                                <div>
-                                                    <dt className="text-sm font-medium">Vértices/Puntos</dt>
-                                                    <dd className="text-sm text-muted-foreground">{result.metadata.vertices}</dd>
-                                                </div>
-                                            )}
-                                            {result.metadata.surfaces !== undefined && (
-                                                <div>
-                                                    <dt className="text-sm font-medium">Superficies</dt>
-                                                    <dd className="text-sm text-muted-foreground">{result.metadata.surfaces}</dd>
-                                                </div>
-                                            )}
-                                            {result.metadata.solids !== undefined && (
-                                                <div>
-                                                    <dt className="text-sm font-medium">Sólidos</dt>
-                                                    <dd className="text-sm text-muted-foreground">{result.metadata.solids}</dd>
-                                                </div>
-                                            )}
-                                            {result.metadata.total_entities !== undefined && (
-                                                <div>
-                                                    <dt className="text-sm font-medium">Total de entidades</dt>
-                                                    <dd className="text-sm text-muted-foreground">{result.metadata.total_entities}</dd>
-                                                </div>
-                                            )}
-                                            {result.metadata.triangles !== undefined && (
-                                                <div>
-                                                    <dt className="text-sm font-medium">Triángulos</dt>
-                                                    <dd className="text-sm text-muted-foreground">{result.metadata.triangles}</dd>
-                                                </div>
-                                            )}
-                                            {result.metadata.center_of_mass && (
-                                                <div>
-                                                    <dt className="text-sm font-medium">Centro de masa</dt>
-                                                    <dd className="text-sm text-muted-foreground">
-                                                        X: {result.metadata.center_of_mass.x.toFixed(2)},
-                                                        Y: {result.metadata.center_of_mass.y.toFixed(2)},
-                                                        Z: {result.metadata.center_of_mass.z.toFixed(2)}
-                                                    </dd>
-                                                </div>
-                                            )}
-                                            {result.metadata.file_name && (
-                                                <div>
-                                                    <dt className="text-sm font-medium">Nombre en STEP</dt>
-                                                    <dd className="text-sm text-muted-foreground">{result.metadata.file_name}</dd>
-                                                </div>
-                                            )}
-                                            {result.metadata.schema && (
-                                                <div>
-                                                    <dt className="text-sm font-medium">Schema</dt>
-                                                    <dd className="text-sm text-muted-foreground">{result.metadata.schema}</dd>
-                                                </div>
-                                            )}
-                                            {result.metadata.point_count !== undefined && result.metadata.point_count > 0 && (
-                                                <div>
-                                                    <dt className="text-sm font-medium">Puntos cartesianos</dt>
-                                                    <dd className="text-sm text-muted-foreground">{result.metadata.point_count}</dd>
-                                                </div>
-                                            )}
-                                            {result.metadata.bbox_min && result.metadata.bbox_max && (
-                                                <div>
-                                                    <dt className="text-sm font-medium">Caja delimitadora</dt>
-                                                    <dd className="text-sm text-muted-foreground">
-                                                        Min: ({result.metadata.bbox_min.x}, {result.metadata.bbox_min.y}, {result.metadata.bbox_min.z})<br/>
-                                                        Max: ({result.metadata.bbox_max.x}, {result.metadata.bbox_max.y}, {result.metadata.bbox_max.z})
-                                                    </dd>
-                                                </div>
-                                            )}
-                                            {result.metadata.debug_info && (
-                                                <div className="mt-4 p-3 bg-muted/50 rounded-md">
-                                                    <h4 className="text-sm font-medium mb-2">Información de depuración</h4>
-                                                    <dl className="space-y-1 text-xs">
-                                                        <div>
-                                                            <dt className="inline font-medium">Tamaño del archivo:</dt>
-                                                            <dd className="inline ml-1">{result.metadata.debug_info.file_size_bytes} bytes</dd>
-                                                        </div>
-                                                        <div>
-                                                            <dt className="inline font-medium">Longitud del contenido:</dt>
-                                                            <dd className="inline ml-1">{result.metadata.debug_info.content_length}</dd>
-                                                        </div>
-                                                        <div>
-                                                            <dt className="inline font-medium">Tiene header:</dt>
-                                                            <dd className="inline ml-1">{result.metadata.debug_info.has_header ? 'Sí' : 'No'}</dd>
-                                                        </div>
-                                                        <div>
-                                                            <dt className="inline font-medium">Tiene sección DATA:</dt>
-                                                            <dd className="inline ml-1">{result.metadata.debug_info.has_data_section ? 'Sí' : 'No'}</dd>
-                                                        </div>
-                                                        {result.metadata.debug_info.first_100_chars && (
-                                                            <div>
-                                                                <dt className="font-medium">Primeros caracteres:</dt>
-                                                                <dd className="mt-1 font-mono text-xs bg-background p-2 rounded overflow-x-auto">
-                                                                    {result.metadata.debug_info.first_100_chars}
-                                                                </dd>
-                                                            </div>
-                                                        )}
-                                                    </dl>
-                                                </div>
-                                            )}
-                                        </dl>
+                                        
+                                        {/* Mostrar información específica del formato */}
+                                        {result.metadata.description && (
+                                            <div className="mb-4">
+                                                <dt className="text-sm font-medium">Descripción</dt>
+                                                <dd className="text-sm text-muted-foreground">{result.metadata.description}</dd>
+                                            </div>
+                                        )}
 
+                                        {/* Mostrar tipos de entidades si están disponibles */}
                                         {result.metadata.entity_types && Object.keys(result.metadata.entity_types).length > 0 && (
                                             <div className="mt-4">
                                                 <h4 className="text-sm font-medium mb-2">Tipos de entidades</h4>
-                                                <div className="text-xs space-y-1">
+                                                <div className="space-y-1">
                                                     {Object.entries(result.metadata.entity_types).map(([type, count]) => (
-                                                        <div key={type} className="flex justify-between">
+                                                        <div key={type} className="flex justify-between text-xs">
                                                             <span className="text-muted-foreground">{type}:</span>
-                                                            <span className="font-mono">{count}</span>
+                                                            <span className="font-mono font-medium">{count}</span>
                                                         </div>
                                                     ))}
                                                 </div>
+                                            </div>
+                                        )}
+
+                                        {/* Información de depuración si está disponible */}
+                                        {result.metadata.debug_info && (
+                                            <div className="mt-4 p-3 bg-muted/30 rounded-md">
+                                                <h4 className="text-sm font-medium mb-2">Información de depuración</h4>
+                                                <dl className="space-y-1 text-xs">
+                                                    <div>
+                                                        <dt className="inline font-medium">Tamaño del archivo:</dt>
+                                                        <dd className="inline ml-1">{result.metadata.debug_info.file_size_bytes} bytes</dd>
+                                                    </div>
+                                                    <div>
+                                                        <dt className="inline font-medium">Longitud del contenido:</dt>
+                                                        <dd className="inline ml-1">{result.metadata.debug_info.content_length}</dd>
+                                                    </div>
+                                                    <div>
+                                                        <dt className="inline font-medium">Tiene header:</dt>
+                                                        <dd className="inline ml-1">{result.metadata.debug_info.has_header ? 'Sí' : 'No'}</dd>
+                                                    </div>
+                                                    <div>
+                                                        <dt className="inline font-medium">Tiene sección DATA:</dt>
+                                                        <dd className="inline ml-1">{result.metadata.debug_info.has_data_section ? 'Sí' : 'No'}</dd>
+                                                    </div>
+                                                    {result.metadata.debug_info.first_100_chars && (
+                                                        <div>
+                                                            <dt className="font-medium">Primeros caracteres:</dt>
+                                                            <dd className="mt-1 font-mono text-xs bg-background p-2 rounded overflow-x-auto">
+                                                                {result.metadata.debug_info.first_100_chars}
+                                                            </dd>
+                                                        </div>
+                                                    )}
+                                                </dl>
                                             </div>
                                         )}
                                     </CardContent>

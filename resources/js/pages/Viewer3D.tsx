@@ -27,6 +27,29 @@ export interface FileUpload {
     extension: string;
     disk: string;
     storage_path?: string;
+    status: string;
+    uploadedAt: string | null;
+    processedAt: string | null;
+    size: number;
+    metadata: {
+        dimensions?: {
+            x?: number;
+            y?: number;
+            z?: number;
+            width?: number;
+            height?: number;
+            depth?: number;
+        };
+        vertices?: number;
+        faces?: number;
+        triangles?: number;
+        volume?: number;
+        area?: number;
+        fileSize?: number;
+        uploadDate?: string;
+        processDate?: string;
+        analysisTime?: number;
+    };
     analysis_result?: {
         dimensions?: {
             x?: number;

@@ -45,14 +45,16 @@ Route::prefix('api')->middleware(['auth'])->group(function () {
         ->name('api.file.download');
 });
 
-// Serve storage files
-Route::get('/storage/{path}', function($path) {
-    $fullPath = storage_path('app/' . $path);
-    if (!file_exists($fullPath)) {
-        abort(404);
-    }
-    return response()->file($fullPath);
-})->where('path', '.*');
+// Test CSRF route
+Route::post('/test-csrf', function () {
+    return response()->json([
+        'message' => 'CSRF test successful',
+        'token' => csrf_token()
+    ]);
+})->middleware('auth');
+
+// Test route - no CSRF protection
+Route::post('/test-preview/{fileUpload}', [FilePreviewController::class, 'generate'])->name('test.preview');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
