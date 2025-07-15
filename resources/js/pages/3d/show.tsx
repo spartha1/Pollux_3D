@@ -16,7 +16,13 @@ import {
     RulerIcon,
     LayersIcon,
     ActivityIcon,
-    AlertCircle
+    AlertCircle,
+    ScissorsIcon,
+    DrillIcon,
+    WrenchIcon,
+    SlidersIcon,
+    GaugeIcon,
+    CogIcon
 } from 'lucide-react';
 
 // Define types for the file upload data
@@ -32,6 +38,23 @@ interface FileAnalysisResult {
     volume?: number;
     area?: number;
     layers?: number;
+    manufacturing?: {
+        cutting_perimeters?: number;
+        cutting_length_mm?: number;
+        bend_orientations?: number;
+        holes_detected?: number;
+        work_planes?: {
+            xy_faces?: number;
+            xz_faces?: number;
+            yz_faces?: number;
+            dominant_plane?: string;
+        };
+        complexity?: {
+            surface_complexity?: string;
+            fabrication_difficulty?: string;
+        };
+        material_efficiency?: number;
+    };
     metadata?: {
         faces?: number;
         edges?: number;
@@ -435,10 +458,15 @@ export default function Show({ fileUpload }: Props) {
                                     </CardHeader>
                                     <CardContent>
                                         <div className="text-2xl font-bold">
-                                            {result.volume ? result.volume.toFixed(2) : 'N/A'}
+                                            {result.volume && result.volume > 1e-10 ? result.volume.toFixed(2) : 'N/A'}
                                         </div>
                                         <p className="text-xs text-muted-foreground">
-                                            {result.volume ? 'mm³' : 'Requiere PythonOCC'}
+                                            {result.volume && result.volume > 1e-10 ? 
+                                                'mm³' : 
+                                                result.volume && result.volume <= 1e-10 ? 
+                                                    'Modelo requiere reparación' : 
+                                                    'Requiere PythonOCC'
+                                            }
                                         </p>
                                     </CardContent>
                                 </Card>
@@ -614,6 +642,171 @@ export default function Show({ fileUpload }: Props) {
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Métricas de fabricación */}
+                            {result.manufacturing && (
+                                <div>
+                                    <h3 className="text-md font-semibold mb-3">Métricas de fabricación</h3>
+                                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                                        {result.manufacturing.cutting_perimeters !== undefined && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium flex items-center gap-2">
+                                                        <ScissorsIcon className="h-4 w-4" />
+                                                        Perímetros de corte
+                                                    </CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-2xl font-bold text-blue-600">
+                                                        {result.manufacturing.cutting_perimeters.toLocaleString()}
+                                                    </div>
+                                                    <p className="text-xs text-muted-foreground">operaciones</p>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.manufacturing.cutting_length_mm !== undefined && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium flex items-center gap-2">
+                                                        <RulerIcon className="h-4 w-4" />
+                                                        Longitud de corte
+                                                    </CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-2xl font-bold text-green-600">
+                                                        {result.manufacturing.cutting_length_mm.toFixed(1)}
+                                                    </div>
+                                                    <p className="text-xs text-muted-foreground">mm</p>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.manufacturing.holes_detected !== undefined && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium flex items-center gap-2">
+                                                        <DrillIcon className="h-4 w-4" />
+                                                        Agujeros detectados
+                                                    </CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-2xl font-bold text-purple-600">
+                                                        {result.manufacturing.holes_detected.toLocaleString()}
+                                                    </div>
+                                                    <p className="text-xs text-muted-foreground">operaciones</p>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.manufacturing.bend_orientations !== undefined && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium flex items-center gap-2">
+                                                        <WrenchIcon className="h-4 w-4" />
+                                                        Orientaciones de plegado
+                                                    </CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-2xl font-bold text-orange-600">
+                                                        {result.manufacturing.bend_orientations.toLocaleString()}
+                                                    </div>
+                                                    <p className="text-xs text-muted-foreground">orientaciones</p>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                    </div>
+                                    
+                                    {/* Información adicional de fabricación */}
+                                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-4">
+                                        {result.manufacturing.work_planes && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium flex items-center gap-2">
+                                                        <LayersIcon className="h-4 w-4" />
+                                                        Planos de trabajo
+                                                    </CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="space-y-2">
+                                                        <div className="flex justify-between">
+                                                            <span className="text-sm text-muted-foreground">XY:</span>
+                                                            <span className="text-sm font-mono">{result.manufacturing.work_planes.xy_faces || 0}</span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span className="text-sm text-muted-foreground">XZ:</span>
+                                                            <span className="text-sm font-mono">{result.manufacturing.work_planes.xz_faces || 0}</span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span className="text-sm text-muted-foreground">YZ:</span>
+                                                            <span className="text-sm font-mono">{result.manufacturing.work_planes.yz_faces || 0}</span>
+                                                        </div>
+                                                        <div className="flex justify-between font-medium">
+                                                            <span className="text-sm text-foreground">Dominante:</span>
+                                                            <span className="text-sm font-mono text-blue-600">{result.manufacturing.work_planes.dominant_plane || 'N/A'}</span>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.manufacturing.complexity && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium flex items-center gap-2">
+                                                        <SlidersIcon className="h-4 w-4" />
+                                                        Complejidad
+                                                    </CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="space-y-2">
+                                                        <div className="flex justify-between">
+                                                            <span className="text-sm text-muted-foreground">Superficie:</span>
+                                                            <Badge variant={
+                                                                result.manufacturing.complexity.surface_complexity === 'High' ? 'destructive' :
+                                                                result.manufacturing.complexity.surface_complexity === 'Medium' ? 'secondary' : 'default'
+                                                            }>
+                                                                {result.manufacturing.complexity.surface_complexity}
+                                                            </Badge>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span className="text-sm text-muted-foreground">Fabricación:</span>
+                                                            <Badge variant={
+                                                                result.manufacturing.complexity.fabrication_difficulty === 'Complex' ? 'destructive' :
+                                                                result.manufacturing.complexity.fabrication_difficulty === 'Medium' ? 'secondary' : 'default'
+                                                            }>
+                                                                {result.manufacturing.complexity.fabrication_difficulty}
+                                                            </Badge>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                        
+                                        {result.manufacturing.material_efficiency !== undefined && (
+                                            <Card>
+                                                <CardHeader className="pb-2">
+                                                    <CardTitle className="text-sm font-medium flex items-center gap-2">
+                                                        <GaugeIcon className="h-4 w-4" />
+                                                        Eficiencia del material
+                                                    </CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="text-2xl font-bold text-teal-600">
+                                                        {result.manufacturing.material_efficiency.toFixed(1)}%
+                                                    </div>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {result.manufacturing.material_efficiency > 80 ? 'Excelente' :
+                                                         result.manufacturing.material_efficiency > 60 ? 'Buena' :
+                                                         result.manufacturing.material_efficiency > 40 ? 'Regular' : 'Baja'
+                                                        }
+                                                    </p>
                                                 </CardContent>
                                             </Card>
                                         )}

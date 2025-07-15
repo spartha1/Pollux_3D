@@ -9,12 +9,12 @@ use App\Models\FilePreview;
 $app = require_once __DIR__ . '/bootstrap/app.php';
 $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
-echo "🚀 Generando TODOS los tipos de preview para archivo 22...\n";
+echo "🚀 Generando TODOS los tipos de preview para archivo 27...\n";
 
 // Buscar el archivo
-$file = FileUpload::find(22);
+$file = FileUpload::find(27);
 if (!$file) {
-    echo "❌ No se encontró el archivo con ID 22\n";
+    echo "❌ No se encontró el archivo con ID 27\n";
     exit(1);
 }
 

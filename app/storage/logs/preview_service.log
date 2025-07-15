@@ -913,3 +913,146 @@
 2025-07-15 11:14:12,449 - __main__ - INFO - Reduced to 970 unique vertices
 2025-07-15 11:14:12,450 - __main__ - INFO - Bounds: X[187.84, 230.44] Y[280.78, 325.08] Z[108.05, 178.83]
 2025-07-15 11:14:14,317 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/aab6944e-f6a9-45e8-9e45-961a27adef1d.STL
+2025-07-15 12:18:51,359 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:18:51,387 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:18:51,389 - __main__ - INFO - Processing as Binary STL
+2025-07-15 12:18:51,389 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 12:18:51,394 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 12:18:51,394 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 12:18:51,410 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 12:18:51,412 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 12:18:51,801 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:18:51,839 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:18:51,840 - __main__ - INFO - Processing as Binary STL
+2025-07-15 12:18:51,840 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 12:18:51,846 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 12:18:51,846 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 12:18:51,865 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 12:18:51,866 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 12:18:52,200 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:18:52,447 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:18:52,475 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:18:52,476 - __main__ - INFO - Processing as Binary STL
+2025-07-15 12:18:52,476 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 12:18:52,481 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 12:18:52,482 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 12:18:52,499 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 12:18:52,500 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 12:18:52,645 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:18:52,645 - __main__ - INFO - Processing as Binary STL
+2025-07-15 12:18:52,646 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 12:18:52,650 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 12:18:52,651 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 12:18:52,667 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 12:18:52,668 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 12:19:37,589 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/859b9661-13e1-4472-b910-5e41b962a61f.STEP
+2025-07-15 12:19:38,840 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/859b9661-13e1-4472-b910-5e41b962a61f.STEP
+2025-07-15 12:20:42,893 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/f1e835d8-f446-4df2-b280-dd9bedc7d90d.STL
+2025-07-15 12:20:42,925 - __main__ - INFO - Reading STL file: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/f1e835d8-f446-4df2-b280-dd9bedc7d90d.STL
+2025-07-15 12:20:42,926 - __main__ - INFO - Processing as Binary STL
+2025-07-15 12:20:42,926 - __main__ - INFO - Binary STL: Expected 5080 triangles
+2025-07-15 12:20:42,944 - __main__ - INFO - Binary STL: Found 15240 vertices, 5080 triangles
+2025-07-15 12:20:42,944 - __main__ - INFO - Successfully read 15240 vertices
+2025-07-15 12:20:42,995 - __main__ - INFO - Reduced to 2536 unique vertices
+2025-07-15 12:20:42,997 - __main__ - INFO - Bounds: X[0.00, 71.38] Y[0.00, 62.35] Z[0.00, 25.00]
+2025-07-15 12:20:44,368 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/f1e835d8-f446-4df2-b280-dd9bedc7d90d.STL
+2025-07-15 12:25:47,390 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/8caee19d-4828-422f-8793-ae8e1b42a532.STL
+2025-07-15 12:25:47,411 - __main__ - INFO - Reading STL file: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/8caee19d-4828-422f-8793-ae8e1b42a532.STL
+2025-07-15 12:25:47,411 - __main__ - INFO - Processing as Binary STL
+2025-07-15 12:25:47,411 - __main__ - INFO - Binary STL: Expected 1230 triangles
+2025-07-15 12:25:47,415 - __main__ - INFO - Binary STL: Found 3690 vertices, 1230 triangles
+2025-07-15 12:25:47,415 - __main__ - INFO - Successfully read 3690 vertices
+2025-07-15 12:25:47,426 - __main__ - INFO - Reduced to 611 unique vertices
+2025-07-15 12:25:47,426 - __main__ - INFO - Bounds: X[0.00, 16.00] Y[0.00, 36.00] Z[0.00, 10.00]
+2025-07-15 12:25:48,712 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/8caee19d-4828-422f-8793-ae8e1b42a532.STL
+2025-07-15 12:30:14,652 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/98d3df9c-ae02-4fec-9f3b-5ce8443e271c.STL
+2025-07-15 12:30:14,675 - __main__ - INFO - Reading STL file: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/98d3df9c-ae02-4fec-9f3b-5ce8443e271c.STL
+2025-07-15 12:30:14,676 - __main__ - INFO - Processing as Binary STL
+2025-07-15 12:30:14,676 - __main__ - INFO - Binary STL: Expected 7638 triangles
+2025-07-15 12:30:14,697 - __main__ - INFO - Binary STL: Found 22914 vertices, 7638 triangles
+2025-07-15 12:30:14,698 - __main__ - INFO - Successfully read 22914 vertices
+2025-07-15 12:30:14,763 - __main__ - INFO - Reduced to 3817 unique vertices
+2025-07-15 12:30:14,766 - __main__ - INFO - Bounds: X[0.00, 82.00] Y[0.00, 10.00] Z[0.00, 42.00]
+2025-07-15 12:30:16,388 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/98d3df9c-ae02-4fec-9f3b-5ce8443e271c.STL
+2025-07-15 12:32:19,446 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:32:19,470 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:32:19,471 - __main__ - INFO - Processing as Binary STL
+2025-07-15 12:32:19,471 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 12:32:19,477 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 12:32:19,478 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 12:32:19,494 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 12:32:19,494 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 12:32:19,968 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:32:19,995 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:32:19,996 - __main__ - INFO - Processing as Binary STL
+2025-07-15 12:32:19,996 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 12:32:20,001 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 12:32:20,002 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 12:32:20,018 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 12:32:20,019 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 12:32:20,361 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:32:20,662 - __main__ - INFO - Generating preview for: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:32:20,695 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:32:20,695 - __main__ - INFO - Processing as Binary STL
+2025-07-15 12:32:20,696 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 12:32:20,702 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 12:32:20,702 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 12:32:20,722 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 12:32:20,723 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 12:32:20,896 - __main__ - INFO - Reading STL file: c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 12:32:20,899 - __main__ - INFO - Processing as Binary STL
+2025-07-15 12:32:20,900 - __main__ - INFO - Binary STL: Expected 1964 triangles
+2025-07-15 12:32:20,906 - __main__ - INFO - Binary STL: Found 5892 vertices, 1964 triangles
+2025-07-15 12:32:20,907 - __main__ - INFO - Successfully read 5892 vertices
+2025-07-15 12:32:20,934 - __main__ - INFO - Reduced to 970 unique vertices
+2025-07-15 12:32:20,936 - __main__ - INFO - Bounds: X[253.74, 296.34] Y[280.78, 325.08] Z[206.24, 277.02]
+2025-07-15 12:32:50,828 - __main__ - INFO - Generating preview for: 98d3df9c-ae02-4fec-9f3b-5ce8443e271c.STL
+2025-07-15 12:32:51,044 - __main__ - INFO - Generating preview for: 98d3df9c-ae02-4fec-9f3b-5ce8443e271c.STL
+2025-07-15 12:32:51,263 - __main__ - INFO - Generating preview for: 98d3df9c-ae02-4fec-9f3b-5ce8443e271c.STL
+2025-07-15 12:32:51,481 - __main__ - INFO - Generating preview for: 98d3df9c-ae02-4fec-9f3b-5ce8443e271c.STL
+2025-07-15 13:32:44,573 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/c1bc34d4-df6e-4caa-900e-5a0d70b41c3c.STL
+2025-07-15 13:35:20,473 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/e697967c-5255-4cc9-99ec-f41bce02b7b8.STL
+2025-07-15 13:35:20,498 - __main__ - INFO - Reading STL file: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/e697967c-5255-4cc9-99ec-f41bce02b7b8.STL
+2025-07-15 13:35:20,499 - __main__ - INFO - Processing as Binary STL
+2025-07-15 13:35:20,499 - __main__ - INFO - Binary STL: Expected 7640 triangles
+2025-07-15 13:35:20,552 - __main__ - INFO - Binary STL: Found 22920 vertices, 7640 triangles
+2025-07-15 13:35:20,553 - __main__ - INFO - Successfully read 22920 vertices
+2025-07-15 13:35:20,629 - __main__ - INFO - Reduced to 3818 unique vertices
+2025-07-15 13:35:20,633 - __main__ - INFO - Bounds: X[0.00, 82.00] Y[0.00, 10.00] Z[0.00, 42.00]
+2025-07-15 13:35:22,003 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/e697967c-5255-4cc9-99ec-f41bce02b7b8.STL
+2025-07-15 13:48:13,368 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/d3a21771-81dc-4a73-ac21-f1ce03ad1b00.STL
+2025-07-15 13:48:13,393 - __main__ - INFO - Reading STL file: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/d3a21771-81dc-4a73-ac21-f1ce03ad1b00.STL
+2025-07-15 13:48:13,394 - __main__ - INFO - Processing as Binary STL
+2025-07-15 13:48:13,396 - __main__ - INFO - Binary STL: Expected 7638 triangles
+2025-07-15 13:48:13,422 - __main__ - INFO - Binary STL: Found 22914 vertices, 7638 triangles
+2025-07-15 13:48:13,423 - __main__ - INFO - Successfully read 22914 vertices
+2025-07-15 13:48:13,502 - __main__ - INFO - Reduced to 3817 unique vertices
+2025-07-15 13:48:13,505 - __main__ - INFO - Bounds: X[0.00, 82.00] Y[0.00, 10.00] Z[0.00, 42.00]
+2025-07-15 13:48:15,198 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/d3a21771-81dc-4a73-ac21-f1ce03ad1b00.STL
+2025-07-15 13:50:18,045 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/dca0046b-53ee-4cde-a6d7-e4fe7286e089.STL
+2025-07-15 13:50:18,066 - __main__ - INFO - Reading STL file: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/dca0046b-53ee-4cde-a6d7-e4fe7286e089.STL
+2025-07-15 13:50:18,066 - __main__ - INFO - Processing as Binary STL
+2025-07-15 13:50:18,067 - __main__ - INFO - Binary STL: Expected 10476 triangles
+2025-07-15 13:50:18,096 - __main__ - INFO - Binary STL: Found 31428 vertices, 10476 triangles
+2025-07-15 13:50:18,096 - __main__ - INFO - Successfully read 31428 vertices
+2025-07-15 13:50:18,189 - __main__ - INFO - Reduced to 5234 unique vertices
+2025-07-15 13:50:18,193 - __main__ - INFO - Bounds: X[0.05, 34.10] Y[0.05, 45.55] Z[0.00, 3.00]
+2025-07-15 13:50:19,621 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/dca0046b-53ee-4cde-a6d7-e4fe7286e089.STL
+2025-07-15 13:51:48,177 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/58db5c88-c51f-4b4a-970e-1e45d060719c.STL
+2025-07-15 13:51:48,202 - __main__ - INFO - Reading STL file: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/58db5c88-c51f-4b4a-970e-1e45d060719c.STL
+2025-07-15 13:51:48,203 - __main__ - INFO - Processing as Binary STL
+2025-07-15 13:51:48,203 - __main__ - INFO - Binary STL: Expected 18390 triangles
+2025-07-15 13:51:48,266 - __main__ - INFO - Binary STL: Found 55170 vertices, 18390 triangles
+2025-07-15 13:51:48,267 - __main__ - INFO - Successfully read 55170 vertices
+2025-07-15 13:51:48,451 - __main__ - INFO - Reduced to 9177 unique vertices
+2025-07-15 13:51:48,463 - __main__ - INFO - Bounds: X[0.00, 87.00] Y[0.00, 51.00] Z[0.00, 83.50]
+2025-07-15 13:51:50,489 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/58db5c88-c51f-4b4a-970e-1e45d060719c.STL
+2025-07-15 16:57:40,385 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/319c298c-3709-460d-8d05-423654a656e7.STL
+2025-07-15 16:57:40,411 - __main__ - INFO - Reading STL file: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/319c298c-3709-460d-8d05-423654a656e7.STL
+2025-07-15 16:57:40,412 - __main__ - INFO - Processing as Binary STL
+2025-07-15 16:57:40,412 - __main__ - INFO - Binary STL: Expected 16498 triangles
+2025-07-15 16:57:40,494 - __main__ - INFO - Binary STL: Found 49494 vertices, 16498 triangles
+2025-07-15 16:57:40,494 - __main__ - INFO - Successfully read 49494 vertices
+2025-07-15 16:57:40,643 - __main__ - INFO - Reduced to 8237 unique vertices
+2025-07-15 16:57:40,651 - __main__ - INFO - Bounds: X[0.00, 51.80] Y[0.00, 24.50] Z[0.00, 44.70]
+2025-07-15 16:57:41,977 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/319c298c-3709-460d-8d05-423654a656e7.STL

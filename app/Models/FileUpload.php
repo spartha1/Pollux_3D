@@ -102,6 +102,7 @@ class FileUpload extends Model
             'volume' => $data['volume'] ?? null,
             'area' => $data['area'] ?? $data['surface_area'] ?? null,
             'layers' => $data['layers'] ?? null,
+            'manufacturing' => $data['manufacturing'] ?? null,
             'metadata' => $data['metadata'] ?? [],
             'analysis_time_ms' => $data['analysis_time_ms'] ?? $data['processing_time'] ?? null,
         ];

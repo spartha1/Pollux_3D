@@ -49,7 +49,7 @@ class FileAnalysisController extends Controller
 
             // Select the appropriate analyzer based on file extension
             $analyzerScript = match($extension) {
-                'stl' => app_path('Services/FileAnalyzers/analyze_stl_simple.py'),
+                'stl' => app_path('Services/FileAnalyzers/analyze_stl_manufacturing.py'),
                 'step', 'stp' => app_path('Services/FileAnalyzers/analyze_step_simple.py'),
                 'dxf', 'dwg' => app_path('Services/FileAnalyzers/analyze_dxf_dwg.py'),
                 'eps', 'ai' => app_path('Services/FileAnalyzers/analyze_ai_eps.py'),
@@ -86,7 +86,7 @@ class FileAnalysisController extends Controller
                 'PYTHONHASHSEED' => '0'
             ]);
 
-            $process->setTimeout(30);
+            $process->setTimeout(300);
             $process->run();
 
             if (!$process->isSuccessful()) {
@@ -114,7 +114,7 @@ class FileAnalysisController extends Controller
                         'PYTHONHASHSEED' => '0'
                     ]);
                     
-                    $fallbackProcess->setTimeout(30);
+                    $fallbackProcess->setTimeout(300);
                     $fallbackProcess->run();
                     
                     if ($fallbackProcess->isSuccessful()) {
@@ -145,7 +145,7 @@ class FileAnalysisController extends Controller
                         'PYTHONHASHSEED' => '0'
                     ]);
                     
-                    $directProcess->setTimeout(30);
+                    $directProcess->setTimeout(300);
                     $directProcess->run();
                     
                     if ($directProcess->isSuccessful()) {
@@ -175,12 +175,20 @@ class FileAnalysisController extends Controller
             }
 
             // Store analysis result
-            $analysisResult = new FileAnalysisResult([
-                'file_upload_id' => $fileUpload->id,
-                'analyzer_type' => $extension,
-                'analysis_data' => $result
-            ]);
-            $analysisResult->save();
+            $analysisResult = $fileUpload->analysisResult;
+            if ($analysisResult) {
+                $analysisResult->update([
+                    'analyzer_type' => $extension,
+                    'analysis_data' => $result
+                ]);
+            } else {
+                $analysisResult = new FileAnalysisResult([
+                    'file_upload_id' => $fileUpload->id,
+                    'analyzer_type' => $extension,
+                    'analysis_data' => $result
+                ]);
+                $analysisResult->save();
+            }
 
             // Update file status
             $fileUpload->update([
