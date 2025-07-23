@@ -42,7 +42,7 @@ return [
     ],
 
     'preview' => [
-        'url' => env('PREVIEW_SERVICE_URL', 'http://localhost:8050'),
+        'url' => env('PREVIEW_SERVICE_URL', 'http://localhost:8052'),
         'api_key' => env('PREVIEW_SERVICE_API_KEY'),
         'python_path' => env('CONDA_ROOT', 'C:\\Users\\' . getenv('USERNAME') . '\\miniconda3') . '\\envs\\' . env('CONDA_ENV', 'pollux-preview-env') . '\\python.exe',
     ],

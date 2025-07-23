@@ -86,7 +86,7 @@ class FileAnalysisController extends Controller
                 'PYTHONHASHSEED' => '0'
             ]);
 
-            $process->setTimeout(300);
+            $process->setTimeout(30);
             $process->run();
 
             if (!$process->isSuccessful()) {
@@ -114,7 +114,7 @@ class FileAnalysisController extends Controller
                         'PYTHONHASHSEED' => '0'
                     ]);
                     
-                    $fallbackProcess->setTimeout(300);
+                    $fallbackProcess->setTimeout(30);
                     $fallbackProcess->run();
                     
                     if ($fallbackProcess->isSuccessful()) {
@@ -145,7 +145,7 @@ class FileAnalysisController extends Controller
                         'PYTHONHASHSEED' => '0'
                     ]);
                     
-                    $directProcess->setTimeout(300);
+                    $directProcess->setTimeout(30);
                     $directProcess->run();
                     
                     if ($directProcess->isSuccessful()) {

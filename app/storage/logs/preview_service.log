@@ -1056,3 +1056,162 @@
 2025-07-15 16:57:40,643 - __main__ - INFO - Reduced to 8237 unique vertices
 2025-07-15 16:57:40,651 - __main__ - INFO - Bounds: X[0.00, 51.80] Y[0.00, 24.50] Z[0.00, 44.70]
 2025-07-15 16:57:41,977 - __main__ - INFO - Generating preview for: C:\xampp\htdocs\laravel\Pollux_3D\storage\app\models/1/319c298c-3709-460d-8d05-423654a656e7.STL
+2025-07-21 14:02:33,086 - __main__ - INFO - Starting server initialization...
+2025-07-21 14:02:33,143 - __main__ - INFO - PIL imported successfully
+2025-07-21 14:02:33,257 - __main__ - INFO - FastAPI and related imports successful
+2025-07-21 14:02:34,168 - __main__ - INFO - NumPy imported successfully
+2025-07-21 14:02:34,644 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-21 14:02:35,724 - __main__ - WARNING - PyVista/VTK import failed - STL files and visualization will be limited: DLL load failed while importing vtkGeovisCore: No se puede encontrar el módulo especificado.
+2025-07-21 14:02:35,724 - __main__ - INFO - Import phase completed
+2025-07-21 14:02:35,724 - __main__ - INFO - Configuring CORS with origins: ['*']
+2025-07-21 14:02:35,761 - __main__ - INFO - Starting preview service on 127.0.0.1:8051
+2025-07-21 14:02:35,830 - __main__ - INFO - Preview service starting up...
+2025-07-21 14:02:35,830 - __main__ - INFO - Service initialized. STEP support: True, STL support: False
+2025-07-21 14:50:16,929 - __main__ - INFO - Starting server initialization...
+2025-07-21 14:50:16,997 - __main__ - INFO - PIL imported successfully
+2025-07-21 14:50:17,098 - __main__ - INFO - FastAPI and related imports successful
+2025-07-21 14:50:17,290 - __main__ - INFO - NumPy imported successfully
+2025-07-21 14:50:17,744 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-21 14:50:18,714 - __main__ - WARNING - PyVista/VTK import failed - STL files and visualization will be limited: DLL load failed while importing vtkGeovisCore: No se puede encontrar el módulo especificado.
+2025-07-21 14:50:18,714 - __main__ - INFO - Import phase completed
+2025-07-21 14:50:18,714 - __main__ - INFO - Configuring CORS with origins: ['*']
+2025-07-21 14:50:18,746 - __main__ - INFO - Starting preview service on 127.0.0.1:8051
+2025-07-21 14:50:18,799 - __main__ - INFO - Preview service starting up...
+2025-07-21 14:50:18,799 - __main__ - INFO - Service initialized. STEP support: True, STL support: False
+2025-07-21 14:51:36,773 - __main__ - INFO - Starting server initialization...
+2025-07-21 14:51:36,829 - __main__ - INFO - PIL imported successfully
+2025-07-21 14:51:36,943 - __main__ - INFO - FastAPI and related imports successful
+2025-07-21 14:51:37,394 - __main__ - INFO - NumPy imported successfully
+2025-07-21 14:51:38,068 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-21 14:51:39,089 - __main__ - WARNING - PyVista/VTK import failed - STL files and visualization will be limited: DLL load failed while importing vtkGeovisCore: No se puede encontrar el módulo especificado.
+2025-07-21 14:51:39,089 - __main__ - INFO - Import phase completed
+2025-07-21 14:51:39,089 - __main__ - INFO - Configuring CORS with origins: ['*']
+2025-07-21 14:51:39,123 - __main__ - INFO - Starting preview service on 127.0.0.1:8051
+2025-07-21 14:51:39,181 - __main__ - INFO - Preview service starting up...
+2025-07-21 14:51:39,181 - __main__ - INFO - Service initialized. STEP support: True, STL support: False
+2025-07-21 15:34:51,212 - __main__ - INFO - Starting server initialization...
+2025-07-21 15:34:51,278 - __main__ - INFO - PIL imported successfully
+2025-07-21 15:34:51,376 - __main__ - INFO - FastAPI and related imports successful
+2025-07-21 15:34:51,569 - __main__ - INFO - NumPy imported successfully
+2025-07-21 15:34:52,236 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-21 15:34:53,667 - __main__ - WARNING - PyVista/VTK import failed - STL files and visualization will be limited: DLL load failed while importing vtkGeovisCore: No se puede encontrar el módulo especificado.
+2025-07-21 15:34:53,667 - __main__ - INFO - Import phase completed
+2025-07-21 15:34:53,667 - __main__ - INFO - Configuring CORS with origins: ['*']
+2025-07-21 15:34:53,717 - __main__ - INFO - Starting preview service on 127.0.0.1:8051
+2025-07-21 15:34:53,832 - __main__ - INFO - Preview service starting up...
+2025-07-21 15:34:53,833 - __main__ - INFO - Service initialized. STEP support: True, STL support: False
+2025-07-21 15:35:27,851 - __main__ - INFO - Starting server initialization...
+2025-07-21 15:35:27,902 - __main__ - INFO - PIL imported successfully
+2025-07-21 15:35:27,993 - __main__ - INFO - FastAPI and related imports successful
+2025-07-21 15:35:28,171 - __main__ - INFO - NumPy imported successfully
+2025-07-21 15:35:28,576 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-21 15:35:29,341 - __main__ - WARNING - PyVista/VTK import failed - STL files and visualization will be limited: DLL load failed while importing vtkGeovisCore: No se puede encontrar el módulo especificado.
+2025-07-21 15:35:29,341 - __main__ - INFO - Import phase completed
+2025-07-21 15:35:29,344 - __main__ - INFO - Configuring CORS with origins: ['*']
+2025-07-21 15:35:29,373 - __main__ - INFO - Starting preview service on 127.0.0.1:8051
+2025-07-21 15:35:29,428 - __main__ - INFO - Preview service starting up...
+2025-07-21 15:35:29,430 - __main__ - INFO - Service initialized. STEP support: True, STL support: False
+2025-07-21 15:38:37,990 - __main__ - INFO - Starting server initialization...
+2025-07-21 15:38:38,041 - __main__ - INFO - PIL imported successfully
+2025-07-21 15:38:38,124 - __main__ - INFO - FastAPI and related imports successful
+2025-07-21 15:38:38,291 - __main__ - INFO - NumPy imported successfully
+2025-07-21 15:38:38,724 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-21 15:38:39,358 - __main__ - WARNING - PyVista/VTK import failed - STL files and visualization will be limited: DLL load failed while importing vtkGeovisCore: No se puede encontrar el módulo especificado.
+2025-07-21 15:38:39,358 - __main__ - INFO - Import phase completed
+2025-07-21 15:38:39,358 - __main__ - INFO - Configuring CORS with origins: ['*']
+2025-07-21 15:38:39,378 - __main__ - INFO - Starting preview service on 127.0.0.1:8051
+2025-07-21 15:38:39,512 - __main__ - INFO - Preview service starting up...
+2025-07-21 15:38:39,513 - __main__ - INFO - Service initialized. STEP support: True, STL support: False
+2025-07-21 15:39:03,675 - __main__ - INFO - Starting server initialization...
+2025-07-21 15:39:03,719 - __main__ - INFO - PIL imported successfully
+2025-07-21 15:39:03,814 - __main__ - INFO - FastAPI and related imports successful
+2025-07-21 15:39:03,988 - __main__ - INFO - NumPy imported successfully
+2025-07-21 15:39:04,421 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-21 15:39:05,321 - __main__ - WARNING - PyVista/VTK import failed - STL files and visualization will be limited: DLL load failed while importing vtkGeovisCore: No se puede encontrar el módulo especificado.
+2025-07-21 15:39:05,321 - __main__ - INFO - Import phase completed
+2025-07-21 15:39:05,321 - __main__ - INFO - Configuring CORS with origins: ['*']
+2025-07-21 15:39:05,354 - __main__ - INFO - Starting preview service on 127.0.0.1:8051
+2025-07-21 15:39:05,405 - __main__ - INFO - Preview service starting up...
+2025-07-21 15:39:05,407 - __main__ - INFO - Service initialized. STEP support: True, STL support: False
+2025-07-21 15:42:20,353 - __main__ - INFO - Starting server initialization...
+2025-07-21 15:42:20,398 - __main__ - INFO - PIL imported successfully
+2025-07-21 15:42:20,489 - __main__ - INFO - FastAPI and related imports successful
+2025-07-21 15:42:20,655 - __main__ - INFO - NumPy imported successfully
+2025-07-21 15:42:21,064 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-21 15:42:21,883 - __main__ - WARNING - PyVista/VTK import failed - STL files and visualization will be limited: DLL load failed while importing vtkGeovisCore: No se puede encontrar el módulo especificado.
+2025-07-21 15:42:21,883 - __main__ - INFO - Import phase completed
+2025-07-21 15:42:21,883 - __main__ - INFO - Configuring CORS with origins: ['*']
+2025-07-21 15:42:21,916 - __main__ - INFO - Starting preview service on 127.0.0.1:8051
+2025-07-21 15:42:21,955 - __main__ - INFO - Preview service starting up...
+2025-07-21 15:42:21,965 - __main__ - INFO - Service initialized. STEP support: True, STL support: False
+2025-07-21 15:56:39,049 - __main__ - INFO - Starting server initialization...
+2025-07-21 15:56:39,102 - __main__ - INFO - PIL imported successfully
+2025-07-21 15:56:39,273 - __main__ - INFO - FastAPI and related imports successful
+2025-07-21 15:56:39,767 - __main__ - INFO - NumPy imported successfully
+2025-07-21 15:56:40,620 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-21 15:56:41,784 - __main__ - WARNING - PyVista/VTK import failed - STL files and visualization will be limited: DLL load failed while importing vtkGeovisCore: No se puede encontrar el módulo especificado.
+2025-07-21 15:56:41,784 - __main__ - INFO - Import phase completed
+2025-07-21 15:56:41,784 - __main__ - INFO - Configuring CORS with origins: ['*']
+2025-07-21 15:56:41,820 - __main__ - INFO - Starting preview service on 127.0.0.1:8051
+2025-07-21 15:56:41,954 - __main__ - INFO - Preview service starting up...
+2025-07-21 15:56:41,954 - __main__ - INFO - Service initialized. STEP support: True, STL support: False
+2025-07-21 16:16:17,547 - __main__ - INFO - Starting server initialization...
+2025-07-21 16:16:17,594 - __main__ - INFO - PIL imported successfully
+2025-07-21 16:16:17,677 - __main__ - INFO - FastAPI and related imports successful
+2025-07-21 16:16:17,862 - __main__ - INFO - NumPy imported successfully
+2025-07-21 16:16:18,279 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-21 16:16:19,293 - __main__ - WARNING - PyVista/VTK import failed - STL files and visualization will be limited: DLL load failed while importing vtkGeovisCore: No se puede encontrar el módulo especificado.
+2025-07-21 16:16:19,293 - __main__ - INFO - Import phase completed
+2025-07-21 16:16:19,295 - __main__ - INFO - Configuring CORS with origins: ['*']
+2025-07-21 16:16:19,324 - __main__ - INFO - Starting preview service on 127.0.0.1:8051
+2025-07-21 16:16:19,363 - __main__ - INFO - Preview service starting up...
+2025-07-21 16:16:19,379 - __main__ - INFO - Service initialized. STEP support: True, STL support: False
+2025-07-22 10:34:09,498 - __main__ - INFO - Starting server initialization...
+2025-07-22 10:34:09,588 - __main__ - INFO - PIL imported successfully
+2025-07-22 10:34:09,714 - __main__ - INFO - FastAPI and related imports successful
+2025-07-22 10:34:10,112 - __main__ - INFO - NumPy imported successfully
+2025-07-22 10:34:10,976 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-22 10:34:12,587 - __main__ - WARNING - PyVista/VTK import failed - STL files and visualization will be limited: DLL load failed while importing vtkGeovisCore: No se puede encontrar el módulo especificado.
+2025-07-22 10:34:12,587 - __main__ - INFO - Import phase completed
+2025-07-22 10:34:12,587 - __main__ - INFO - Configuring CORS with origins: ['*']
+2025-07-22 10:34:12,623 - __main__ - INFO - Starting preview service on 127.0.0.1:8051
+2025-07-22 10:34:12,690 - __main__ - INFO - Preview service starting up...
+2025-07-22 10:34:12,690 - __main__ - INFO - Service initialized. STEP support: True, STL support: False
+2025-07-22 10:45:40,145 - __main__ - INFO - Starting server initialization...
+2025-07-22 10:45:40,210 - __main__ - INFO - PIL imported successfully
+2025-07-22 10:45:40,307 - __main__ - INFO - FastAPI and related imports successful
+2025-07-22 10:45:40,488 - __main__ - INFO - NumPy imported successfully
+2025-07-22 10:45:40,878 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-22 10:45:41,614 - __main__ - WARNING - PyVista/VTK import failed - STL files and visualization will be limited: DLL load failed while importing vtkGeovisCore: No se puede encontrar el módulo especificado.
+2025-07-22 10:45:41,614 - __main__ - INFO - Import phase completed
+2025-07-22 10:45:41,617 - __main__ - INFO - Configuring CORS with origins: ['*']
+2025-07-22 10:45:41,642 - __main__ - INFO - Starting preview service on 127.0.0.1:8051
+2025-07-22 10:45:41,698 - __main__ - INFO - Preview service starting up...
+2025-07-22 10:45:41,700 - __main__ - INFO - Service initialized. STEP support: True, STL support: False
+2025-07-22 11:12:44,843 - __main__ - INFO - Starting server initialization...
+2025-07-22 11:12:44,920 - __main__ - INFO - PIL imported successfully
+2025-07-22 11:12:46,005 - __main__ - INFO - FastAPI and related imports successful
+2025-07-22 11:12:46,117 - __main__ - INFO - Security imports successful
+2025-07-22 11:12:46,293 - __main__ - INFO - NumPy imported successfully
+2025-07-22 11:12:46,683 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-22 11:12:46,752 - __main__ - INFO - numpy-stl imported successfully - STL files supported
+2025-07-22 11:12:46,754 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-22 11:12:46,755 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-22 12:01:22,136 - __main__ - INFO - Starting server initialization...
+2025-07-22 12:01:22,186 - __main__ - INFO - PIL imported successfully
+2025-07-22 12:01:23,185 - __main__ - INFO - FastAPI and related imports successful
+2025-07-22 12:01:23,284 - __main__ - INFO - Security imports successful
+2025-07-22 12:01:23,424 - __main__ - INFO - NumPy imported successfully
+2025-07-22 12:01:23,753 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-22 12:01:23,791 - __main__ - INFO - numpy-stl imported successfully - STL files supported
+2025-07-22 12:01:23,793 - __main__ - WARNING - ezdxf import failed - DXF files will not be supported: No module named 'ezdxf'
+2025-07-22 12:01:23,794 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: No module named 'pyvista'
+2025-07-22 13:03:13,720 - __main__ - INFO - Starting server initialization...
+2025-07-22 13:03:13,810 - __main__ - INFO - PIL imported successfully
+2025-07-22 13:03:15,003 - __main__ - INFO - FastAPI and related imports successful
+2025-07-22 13:03:15,093 - __main__ - INFO - Security imports successful
+2025-07-22 13:03:15,271 - __main__ - INFO - NumPy imported successfully
+2025-07-22 13:03:15,743 - __main__ - INFO - OCC.Core imported successfully - STEP files supported
+2025-07-22 13:03:15,785 - __main__ - INFO - numpy-stl imported successfully - STL files supported
+2025-07-22 13:03:16,306 - __main__ - INFO - ezdxf imported successfully - DXF files supported
+2025-07-22 13:03:17,343 - __main__ - WARNING - PyVista/VTK import failed - Advanced 3D visualization will be limited: DLL load failed while importing vtkGeovisCore: No se puede encontrar el módulo especificado.
