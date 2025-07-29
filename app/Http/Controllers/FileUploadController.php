@@ -18,13 +18,16 @@ class FileUploadController extends Controller
      */
     public function index(Request $request)
     {
+        $perPage = $request->get('per_page', 30); // Permitir personalizar, por defecto 30
+        $perPage = in_array($perPage, [20, 30, 50, 100]) ? $perPage : 30; // Limitar opciones válidas
+        
         $files = $request->user()->fileUploads()
             ->with(['analysisResult', 'previews'])
             ->latest()
-            ->paginate(20);
+            ->paginate($perPage);
 
         return Inertia::render('3d/index', [
-            'files' => $files->items()
+            'files' => $files
         ]);
     }
 
@@ -103,6 +106,7 @@ class FileUploadController extends Controller
             ]);
 
             $fileUpload = $request->user()->fileUploads()->create([
+                'uuid' => Str::uuid(),
                 'filename_original' => $originalName,
                 'filename_stored' => $storedName,
                 'extension' => $extension,

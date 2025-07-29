@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('file_uploads', function (Blueprint $table) {
             $table->id();
+            $table->string('uuid')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
 
             $table->string('filename_original');
@@ -21,10 +22,10 @@ return new class extends Migration
             $table->string('mime_type')->nullable();
             $table->unsignedBigInteger('size');
 
-            $table->enum('status', ['uploaded', 'processing', 'analyzed', 'error'])->default('uploaded');
+            $table->enum('status', ['uploaded', 'processing', 'processed', 'analyzed', 'error'])->default('uploaded');
 
-            $table->string('storage_path'); // private/models/1/file.stl
-            $table->string('disk')->default('local'); // útil si luego pasas a s3, etc.
+            $table->string('storage_path'); // Ruta completa del archivo: models/1/uuid.stl
+            $table->string('disk')->default('local'); // Disco de almacenamiento
 
             $table->timestamp('uploaded_at')->useCurrent();
             $table->timestamp('processed_at')->nullable();

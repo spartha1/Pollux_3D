@@ -22,12 +22,12 @@ class CheckFile extends Command
 
         $this->info("File Details:");
         $this->line("ID: {$file->id}");
-        $this->line("Filename: {$file->filename}");
-        $this->line("Original Name: {$file->original_filename}");
+        $this->line("Filename: {$file->filename_stored}");
+        $this->line("Original Name: {$file->filename_original}");
         $this->line("Storage Path: {$file->storage_path}");
         $this->line("Status: {$file->status}");
         $this->line("MIME Type: {$file->mime_type}");
-        $this->line("File Size: {$file->file_size} bytes");
+        $this->line("File Size: {$file->size} bytes");
         $this->line("Created: {$file->created_at}");
 
         $fullPath = storage_path('app/' . $file->storage_path);

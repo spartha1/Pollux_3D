@@ -4,7 +4,7 @@ import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 // @ts-expect-error - Three.js examples don't have TypeScript declarations
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-export type ViewTypeId = '2d' | 'wireframe' | '3d';
+export type ViewTypeId = '2d' | 'wireframe' | 'wireframe_2d' | '3d';
 
 export interface ViewType {
     id: ViewTypeId;
@@ -508,14 +508,16 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                                 />
                             )}
 
-                            {/* 2D Preview */}
-                            {activeView === '2d' && (
+                            {/* Image-based Previews (2D and Wireframe 2D) */}
+                            {(activeView === '2d' || activeView === 'wireframe_2d') && (
                                 <>
-                                    {previews['2d'] ? (
+                                    {previews[activeView] ? (
                                         <div className="w-full h-full flex flex-col bg-white">
                                             {/* Zoom Controls */}
                                             <div className="flex items-center justify-between p-3 border-b border-gray-200 bg-gray-50">
-                                                <div className="text-sm font-medium text-gray-700">2D Top View</div>
+                                                <div className="text-sm font-medium text-gray-700">
+                                                    {activeView === '2d' ? '2D Top View' : 'Wireframe 2D View'}
+                                                </div>
                                                 <div className="flex items-center gap-2">
                                                     <button
                                                         onClick={() => setImageZoom(Math.max(0.5, imageZoom - 0.25))}
@@ -552,7 +554,7 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                                                         Fit
                                                     </button>
                                                     <button
-                                                        onClick={() => window.open(`/storage/${previews['2d']?.image_path}`, '_blank')}
+                                                        onClick={() => window.open(`/storage/${previews[activeView]?.image_path}`, '_blank')}
                                                         className="px-2 py-1 text-xs bg-gray-500 text-white rounded hover:bg-gray-600"
                                                         title="Open full size in new tab"
                                                     >
@@ -578,8 +580,8 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                                                     }}
                                                 >
                                                     <img
-                                                        src={`/storage/${previews['2d'].image_path}`}
-                                                        alt="2D preview"
+                                                        src={`/storage/${previews[activeView].image_path}`}
+                                                        alt={`${activeView} preview`}
                                                         className="transition-transform duration-200 select-none pointer-events-none"
                                                         style={{
                                                             transform: `scale(${imageZoom})`,
@@ -591,8 +593,8 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                                                             setLoading(false);
                                                         }}
                                                         onError={(e) => {
-                                                            console.error('Failed to load 2D preview:', e);
-                                                            setError('Failed to load 2D preview');
+                                                            console.error(`Failed to load ${activeView} preview:`, e);
+                                                            setError(`Failed to load ${activeView} preview`);
                                                             setLoading(false);
                                                         }}
                                                         draggable={false}
@@ -603,8 +605,8 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                                     ) : (
                                         <div className="flex items-center justify-center h-full text-gray-500">
                                             <div className="text-center">
-                                                <p>2D preview not available</p>
-                                                <p className="text-sm">Generate a preview to see the 2D view</p>
+                                                <p>{activeView === '2d' ? '2D' : 'Wireframe 2D'} preview not available</p>
+                                                <p className="text-sm">Generate a preview to see the {activeView === '2d' ? '2D' : 'wireframe 2D'} view</p>
                                             </div>
                                         </div>
                                     )}
@@ -630,8 +632,8 @@ export default function Viewer3D({ fileUpload, previews = {}, viewTypes }: Viewe
                             )}
                         </div>
 
-                        {/* 2D Preview Help Text */}
-                        {activeView === '2d' && previews['2d'] && (
+                        {/* Image Preview Help Text */}
+                        {(activeView === '2d' || activeView === 'wireframe_2d') && previews[activeView] && (
                             <div className="bg-blue-50 border border-blue-200 rounded-md p-3 m-4">
                                 <p className="text-sm text-blue-800">
                                     <strong>Navigation:</strong> Use mouse wheel to zoom, click and drag to pan the image.

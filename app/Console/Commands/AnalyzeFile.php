@@ -46,7 +46,7 @@ class AnalyzeFile extends Command
 
         $this->info("File found:");
         $this->info("- ID: {$file->id}");
-        $this->info("- Filename: {$file->filename}");
+        $this->info("- Filename: {$file->filename_original}");
         $this->info("- Path: {$file->storage_path}");
         $this->info("- Status: {$file->status}");
 

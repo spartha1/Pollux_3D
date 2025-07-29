@@ -19,7 +19,9 @@ return Application::configure(basePath: dirname(__DIR__))
         // Exclude test routes from CSRF protection
         $middleware->validateCsrfTokens(except: [
             'test-preview/*',
-            'api/*'
+            'api/*',
+            'debug-preview/*',
+            '3d/*/preview'  // Exclude 3D preview generation routes
         ]);
 
         $middleware->web(append: [

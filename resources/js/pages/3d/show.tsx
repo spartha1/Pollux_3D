@@ -143,6 +143,7 @@ export default function Show({ fileUpload }: Props) {
     const [loadingPreviews, setLoadingPreviews] = useState(false);
     const [generatingPreviews, setGeneratingPreviews] = useState<Set<string>>(new Set());
     const [failedPreviews, setFailedPreviews] = useState<Set<string>>(new Set());
+    const [autoGenerationComplete, setAutoGenerationComplete] = useState(false);
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
@@ -168,13 +169,18 @@ export default function Show({ fileUpload }: Props) {
         },
         {
             id: '2d',
-            name: '2D',
-            description: 'Vista 2D del modelo'
+            name: '2D Technical',
+            description: 'Vista 2D técnica del modelo'
         },
         {
             id: 'wireframe',
-            name: 'Wireframe',
-            description: 'Vista del modelo en modo wireframe'
+            name: 'Wireframe 3D',
+            description: 'Vista 3D en modo wireframe'
+        },
+        {
+            id: 'wireframe_2d',
+            name: 'Wireframe 2D',
+            description: 'Vista 2D en modo wireframe'
         }
     ];
 
@@ -241,11 +247,14 @@ export default function Show({ fileUpload }: Props) {
     // Generate preview for a specific render type
     const generatePreview = async (renderType: ViewTypeId) => {
         try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            console.log(`Generating ${renderType} preview with CSRF token:`, csrfToken ? 'Present' : 'Missing');
+            
             const response = await fetch(`/3d/${fileUpload.id}/preview`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                    'X-CSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify({
                     render_type: renderType
@@ -269,7 +278,13 @@ export default function Show({ fileUpload }: Props) {
                 
                 return newPreview;
             } else {
-                throw new Error(`Failed to generate ${renderType} preview`);
+                const errorData = await response.text();
+                console.error(`Preview generation failed for ${renderType}:`, {
+                    status: response.status,
+                    statusText: response.statusText,
+                    body: errorData
+                });
+                throw new Error(`Failed to generate ${renderType} preview: ${response.status} ${response.statusText}`);
             }
         } catch (error) {
             console.error(`Error generating ${renderType} preview:`, error);
@@ -280,12 +295,23 @@ export default function Show({ fileUpload }: Props) {
     // Auto-generate missing previews
     useEffect(() => {
         const autoGeneratePreviews = async () => {
+            // Skip if auto-generation is already complete for this file
+            if (autoGenerationComplete) {
+                return;
+            }
+            
             const viewTypesToGenerate = viewTypes.filter(viewType => 
                 !previews[viewType.id] && 
                 viewType.id !== '3d' &&
                 !generatingPreviews.has(viewType.id) &&
                 !failedPreviews.has(viewType.id)
             );
+
+            // Don't run if there's nothing to generate
+            if (viewTypesToGenerate.length === 0) {
+                setAutoGenerationComplete(true);
+                return;
+            }
 
             for (const viewType of viewTypesToGenerate) {
                 try {
@@ -305,21 +331,30 @@ export default function Show({ fileUpload }: Props) {
                         return newSet;
                     });
                     
+                    // Mark as failed to prevent infinite retries
+                    setFailedPreviews(prev => new Set(prev).add(viewType.id));
+                    
                     // If it's a 404 error, stop trying to generate for this file
                     if (error instanceof Error && (error.message.includes('404') || error.message.includes('File not found'))) {
                         console.warn(`Stopping preview generation for file ${fileUpload.id} due to missing file`);
-                        setFailedPreviews(prev => new Set(prev).add(viewType.id));
                         return;
                     }
                 }
             }
+            
+            // Mark auto-generation as complete after processing all types
+            setAutoGenerationComplete(true);
         };
 
         // Only auto-generate if we have fetched previews and some are missing
-        if (!loadingPreviews && Object.keys(previews).length < viewTypes.length - 1) {
+        // but not currently generating anything and auto-generation is not complete
+        if (!loadingPreviews && 
+            !autoGenerationComplete &&
+            Object.keys(previews).length < viewTypes.length - 1 && 
+            generatingPreviews.size === 0) {
             autoGeneratePreviews();
         }
-    }, [previews, loadingPreviews, viewTypes, fileUpload.id]);
+    }, [previews, loadingPreviews, viewTypes, fileUpload.id, generatingPreviews.size, failedPreviews.size, autoGenerationComplete]);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

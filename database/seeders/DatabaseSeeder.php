@@ -19,5 +19,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Add sample files for testing
+        $this->call([
+            FileUploadsSeeder::class,
+        ]);
     }
 }

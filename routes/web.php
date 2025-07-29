@@ -56,5 +56,23 @@ Route::post('/test-csrf', function () {
 // Test route - no CSRF protection
 Route::post('/test-preview/{fileUpload}', [FilePreviewController::class, 'generate'])->name('test.preview');
 
+// Simple debug test route
+Route::get('/debug-test', function() {
+    return response()->json([
+        'status' => 'OK',
+        'timestamp' => now(),
+        'message' => 'Debug endpoint working'
+    ]);
+});
+
+// Debug file view without auth
+Route::get('/debug-file/{fileUpload}', [FileUploadController::class, 'show'])
+    ->name('debug.file.show')
+    ->withoutMiddleware(['auth', 'verified']);
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+
+// Debug preview route completely outside middleware groups
+Route::post('/debug-preview/{fileUpload}', [FilePreviewController::class, 'generate'])
+    ->name('debug.preview');

@@ -17,6 +17,7 @@ import {
     SidebarRail,
     SidebarTrigger,
 } from '@/components/ui/sidebar';
+import { NavUser } from '@/components/nav-user';
 import { type BreadcrumbItem } from '@/types';
 import { type PropsWithChildren } from 'react';
 import { Link } from '@inertiajs/react';
@@ -102,7 +103,7 @@ export default function AppSidebarLayout({ children, breadcrumbs }: AppLayoutPro
                     </SidebarGroup>
                 </SidebarContent>
                 <SidebarFooter>
-                    {/* Add user menu or other footer content here */}
+                    <NavUser />
                 </SidebarFooter>
                 <SidebarRail />
             </Sidebar>

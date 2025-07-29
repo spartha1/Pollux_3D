@@ -14,6 +14,7 @@ class FileUpload extends Model
 
     protected $fillable = [
         'user_id',
+        'uuid',
         'filename_original',
         'filename_stored',
         'extension',

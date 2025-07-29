@@ -1,0 +1,20 @@
+{
+    "base_path": "",
+    "storage": {
+        "app": "storage/app",
+        "uploads": "storage/app/uploads",
+        "models": "storage/app/models", 
+        "temp": "storage/app/temp",
+        "previews": "storage/app/temp/previews",
+        "public": "storage/app/public",
+        "logs": "storage/logs"
+    },
+    "public": {
+        "storage": "public/storage",
+        "previews": "public/storage/previews"
+    },
+    "python_server": {
+        "host": "127.0.0.1",
+        "port": 8052
+    }
+}
