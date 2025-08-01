@@ -25,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [FileUploadController::class, 'store'])->name('3d.store');
         Route::get('/{fileUpload}', [FileUploadController::class, 'show'])->name('3d.show');
         Route::post('/{fileUpload}/analyze', [FileAnalysisController::class, 'analyze'])->name('3d.analyze');
+        Route::post('/{fileUpload}/reanalyze', [FileAnalysisController::class, 'reanalyze'])->name('3d.reanalyze');
         Route::get('/{fileUpload}/download', [FileUploadController::class, 'download'])->name('3d.download');
         Route::delete('/{fileUpload}', [FileUploadController::class, 'destroy'])->name('3d.destroy');
 

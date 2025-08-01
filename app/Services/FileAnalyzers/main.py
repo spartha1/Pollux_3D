@@ -9,9 +9,9 @@ def debug(msg):
     """Print debug messages to stderr"""
     print(msg, file=sys.stderr, flush=True)
 
-# Extension to script mapping
+# Extension to script mapping - FORCE MANUFACTURING ANALYZER FOR STL
 EXTENSION_MAP = {
-    '.stl': 'analyze_stl_simple.py',
+    '.stl': 'analyze_stl_manufacturing.py',  # FORCE manufacturing analyzer
     '.step': 'analyze_step_simple.py',
     '.stp': 'analyze_step_simple.py',
     '.dxf': 'analyze_dxf_dwg.py',
@@ -88,7 +88,7 @@ def run_analyzer(script_path, file_path, timeout=120):
         # Get analyze function based on file extension
         ext = get_extension(file_path)
         analyze_funcs = {
-            '.stl': ['analyze_stl', 'analyze_stl_simple'],
+            '.stl': ['analyze_stl_with_manufacturing', 'analyze_stl', 'analyze_stl_simple'],
             '.step': ['analyze_step', 'analyze_step_simple'],
             '.stp': ['analyze_step', 'analyze_step_simple'],
             '.dxf': ['analyze_dxf'],

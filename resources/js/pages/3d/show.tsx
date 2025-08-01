@@ -54,6 +54,17 @@ interface FileAnalysisResult {
             fabrication_difficulty?: string;
         };
         material_efficiency?: number;
+        weight_estimates?: {
+            [material: string]: {
+                name: string;
+                type: string;
+                weight_grams: number;
+                weight_kg: number;
+                density: number;
+                estimated_cost_usd: number;
+                cost_per_kg: number;
+            };
+        };
     };
     metadata?: {
         faces?: number;
@@ -230,7 +241,11 @@ export default function Show({ fileUpload }: Props) {
     };
 
     const handleAnalyze = () => {
-        analyze(`/3d/${fileUpload.id}/analyze`, {
+        const route = (fileUpload.status === 'analyzed' || fileUpload.status === 'processed') 
+            ? `/3d/${fileUpload.id}/reanalyze` 
+            : `/3d/${fileUpload.id}/analyze`;
+        
+        analyze(route, {
             onSuccess: () => {
                 // Recargar la página para mostrar los nuevos datos de análisis
                 window.location.reload();
@@ -398,7 +413,7 @@ export default function Show({ fileUpload }: Props) {
                                 Analizar
                             </Button>
                         )}
-                        {fileUpload.status === 'processed' && (
+                        {(fileUpload.status === 'processed' || fileUpload.status === 'analyzed') && (
                             <Button
                                 variant="outline"
                                 size="sm"
@@ -684,6 +699,26 @@ export default function Show({ fileUpload }: Props) {
                                 </div>
                             )}
 
+                            {/* DEBUG: Manufacturing Data Check */}
+                            {process.env.NODE_ENV === 'development' && (
+                                <div className="bg-yellow-50 border border-yellow-200 rounded p-4 mb-4">
+                                    <h4 className="text-sm font-semibold text-yellow-800">DEBUG INFO:</h4>
+                                    <p className="text-xs text-yellow-700">
+                                        result exists: {result ? 'YES' : 'NO'}
+                                    </p>
+                                    {result && (
+                                        <p className="text-xs text-yellow-700">
+                                            result.manufacturing exists: {result.manufacturing ? 'YES' : 'NO'}
+                                        </p>
+                                    )}
+                                    {result?.manufacturing && (
+                                        <pre className="text-xs text-yellow-700 mt-2 bg-yellow-100 p-2 rounded">
+                                            {JSON.stringify(result.manufacturing, null, 2)}
+                                        </pre>
+                                    )}
+                                </div>
+                            )}
+
                             {/* Métricas de fabricación */}
                             {result.manufacturing && (
                                 <div>
@@ -846,6 +881,68 @@ export default function Show({ fileUpload }: Props) {
                                             </Card>
                                         )}
                                     </div>
+
+                                    {/* Estimaciones de peso por material */}
+                                    {result.manufacturing.weight_estimates && (
+                                        <div className="mt-6">
+                                            <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                                                <CogIcon className="h-4 w-4" />
+                                                Estimaciones de peso y costo por material
+                                            </h4>
+                                            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                                                {Object.entries(result.manufacturing.weight_estimates).map(([key, material]) => (
+                                                    <Card key={key} className="border-l-4 border-l-blue-500">
+                                                        <CardHeader className="pb-2">
+                                                            <CardTitle className="text-sm font-medium flex items-center justify-between">
+                                                                <span>{material.name}</span>
+                                                                <Badge variant="outline" className="text-xs">
+                                                                    {material.type}
+                                                                </Badge>
+                                                            </CardTitle>
+                                                        </CardHeader>
+                                                        <CardContent>
+                                                            <div className="space-y-2">
+                                                                <div className="flex justify-between items-center">
+                                                                    <span className="text-xs text-muted-foreground">Peso:</span>
+                                                                    <div className="text-right">
+                                                                        <div className="text-sm font-bold text-blue-600">
+                                                                            {material.weight_grams.toFixed(2)}g
+                                                                        </div>
+                                                                        <div className="text-xs text-muted-foreground">
+                                                                            {material.weight_kg.toFixed(4)}kg
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex justify-between items-center">
+                                                                    <span className="text-xs text-muted-foreground">Costo est.:</span>
+                                                                    <div className="text-right">
+                                                                        <div className="text-sm font-bold text-green-600">
+                                                                            ${material.estimated_cost_usd.toFixed(2)}
+                                                                        </div>
+                                                                        <div className="text-xs text-muted-foreground">
+                                                                            ${material.cost_per_kg}/kg
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex justify-between items-center">
+                                                                    <span className="text-xs text-muted-foreground">Densidad:</span>
+                                                                    <span className="text-xs font-mono">
+                                                                        {material.density}g/cm³
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </CardContent>
+                                                    </Card>
+                                                ))}
+                                            </div>
+                                            <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                                                <p className="text-xs text-blue-800">
+                                                    <strong>Nota:</strong> Las estimaciones se basan en el volumen calculado ({result.volume?.toFixed(2)} mm³) 
+                                                    y densidades estándar de materiales. Los costos son aproximados y pueden variar según el proveedor.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             )}
 

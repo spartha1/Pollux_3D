@@ -35,10 +35,10 @@ return [
     ],
 
     'python' => [
-        'conda_root' => env('CONDA_ROOT', 'C:\\Users\\' . getenv('USERNAME') . '\\miniconda3'),
+        'conda_root' => env('CONDA_ROOT'),
         'conda_env' => env('CONDA_ENV', 'pollux-preview-env'),
-        'conda_path' => env('CONDA_ROOT', 'C:\\Users\\' . getenv('USERNAME') . '\\miniconda3') . '\\Scripts\\conda.exe',
-        'executable' => env('CONDA_ROOT', 'C:\\Users\\' . getenv('USERNAME') . '\\miniconda3') . '\\envs\\' . env('CONDA_ENV', 'pollux-preview-env') . '\\python.exe',
+        'conda_path' => env('CONDA_ROOT') ? env('CONDA_ROOT') . '\\Scripts\\conda.exe' : null,
+        'executable' => env('PYTHON_EXECUTABLE'), // Let the controller handle path detection
     ],
 
     'preview' => [

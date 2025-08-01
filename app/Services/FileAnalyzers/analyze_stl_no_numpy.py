@@ -124,6 +124,80 @@ def calculate_triangle_area(v1, v2, v3):
     # Area is half the magnitude
     return magnitude / 2.0
 
+def calculate_manufacturing_metrics(volume_cm3, area_cm2):
+    """Calculate manufacturing metrics for different materials"""
+    debug("Calculating manufacturing metrics...")
+    
+    # Material properties (density in g/cm³, cost per kg in USD)
+    materials = {
+        'aluminum': {'density': 2.7, 'cost_per_kg': 2.5, 'name': 'Aluminio', 'type': 'metal'},
+        'steel': {'density': 7.85, 'cost_per_kg': 1.2, 'name': 'Acero', 'type': 'metal'},
+        'stainless_steel': {'density': 8.0, 'cost_per_kg': 4.0, 'name': 'Acero Inoxidable', 'type': 'metal'},
+        'copper': {'density': 8.96, 'cost_per_kg': 8.5, 'name': 'Cobre', 'type': 'metal'},
+        'brass': {'density': 8.5, 'cost_per_kg': 6.0, 'name': 'Latón', 'type': 'metal'},
+        'pla': {'density': 1.24, 'cost_per_kg': 25.0, 'name': 'PLA', 'type': 'plastic'},
+        'abs': {'density': 1.05, 'cost_per_kg': 30.0, 'name': 'ABS', 'type': 'plastic'},
+        'petg': {'density': 1.27, 'cost_per_kg': 35.0, 'name': 'PETG', 'type': 'plastic'},
+        'nylon': {'density': 1.15, 'cost_per_kg': 45.0, 'name': 'Nylon', 'type': 'plastic'},
+        'wood': {'density': 0.6, 'cost_per_kg': 3.0, 'name': 'Madera', 'type': 'composite'},
+        'carbon_fiber': {'density': 1.6, 'cost_per_kg': 50.0, 'name': 'Fibra de Carbono', 'type': 'composite'}
+    }
+    
+    weight_estimates = {}
+    
+    for material_id, props in materials.items():
+        # Calculate weight in grams and kg
+        weight_grams = volume_cm3 * props['density']
+        weight_kg = weight_grams / 1000.0
+        
+        # Calculate estimated cost
+        estimated_cost = weight_kg * props['cost_per_kg']
+        
+        weight_estimates[material_id] = {
+            'name': props['name'],
+            'type': props['type'],
+            'weight_grams': round(weight_grams, 2),
+            'weight_kg': round(weight_kg, 4),
+            'density': props['density'],
+            'estimated_cost_usd': round(estimated_cost, 2),
+            'cost_per_kg': props['cost_per_kg']
+        }
+    
+    # Basic manufacturing complexity analysis
+    complexity_score = min(100, (volume_cm3 * 0.1) + (area_cm2 * 0.01))
+    
+    if complexity_score < 30:
+        fabrication_difficulty = "Baja"
+        surface_complexity = "Simple"
+    elif complexity_score < 70:
+        fabrication_difficulty = "Media"
+        surface_complexity = "Moderada"
+    else:
+        fabrication_difficulty = "Alta"
+        surface_complexity = "Compleja"
+    
+    manufacturing_data = {
+        'cutting_perimeters': int(area_cm2 / 10),  # Estimate based on surface area
+        'cutting_length_mm': round(area_cm2 * 2, 2),  # Approximate cutting length
+        'bend_orientations': 2,  # Default estimate
+        'holes_detected': 0,  # Would need more complex geometry analysis
+        'work_planes': {
+            'xy_faces': 1,
+            'xz_faces': 1, 
+            'yz_faces': 1,
+            'dominant_plane': 'xy'
+        },
+        'complexity': {
+            'surface_complexity': surface_complexity,
+            'fabrication_difficulty': fabrication_difficulty
+        },
+        'material_efficiency': round(min(95.0, 85.0 + (10.0 / (1 + complexity_score/50))), 2),
+        'weight_estimates': weight_estimates
+    }
+    
+    debug(f"Generated manufacturing data for {len(weight_estimates)} materials")
+    return manufacturing_data
+
 def analyze_stl(filepath):
     """Analyze an STL file and return metadata"""
     start_time = time.time()
@@ -179,6 +253,11 @@ def analyze_stl(filepath):
         
         debug("Analysis complete")
         
+        # Calculate manufacturing metrics
+        volume_cm3 = volume  # Volume is already in cm³
+        area_cm2 = total_area  # Area is already in cm²
+        manufacturing_data = calculate_manufacturing_metrics(volume_cm3, area_cm2)
+        
         # Prepare result
         result = {
             "dimensions": {
@@ -188,6 +267,7 @@ def analyze_stl(filepath):
             },
             "volume": float(volume),
             "area": float(total_area),
+            "manufacturing": manufacturing_data,
             "analysis_time_ms": analysis_time,
             "metadata": {
                 "triangles": triangle_count,

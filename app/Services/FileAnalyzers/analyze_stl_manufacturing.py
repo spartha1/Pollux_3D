@@ -11,6 +11,114 @@ import time
 from pathlib import Path
 from collections import defaultdict
 
+def calculate_weight_estimates(volume_mm3):
+    """
+    Calcular estimaciones de peso para diferentes materiales comunes en fabricación
+    
+    Args:
+        volume_mm3: Volumen en mm³
+    
+    Returns:
+        dict: Estimaciones de peso para diferentes materiales
+    """
+    if volume_mm3 <= 0:
+        return {}
+    
+    # Convertir de mm³ a cm³ (dividir por 1000)
+    volume_cm3 = volume_mm3 / 1000.0
+    
+    # Densidades de materiales comunes (g/cm³)
+    material_densities = {
+        # Metales
+        "aluminum": {
+            "density": 2.70,  # g/cm³
+            "name": "Aluminio",
+            "type": "Metal",
+            "cost_per_kg": 2.0  # USD aproximado
+        },
+        "steel": {
+            "density": 7.85,
+            "name": "Acero",
+            "type": "Metal",
+            "cost_per_kg": 1.5
+        },
+        "stainless_steel": {
+            "density": 8.0,
+            "name": "Acero Inoxidable",
+            "type": "Metal",
+            "cost_per_kg": 4.0
+        },
+        "copper": {
+            "density": 8.96,
+            "name": "Cobre",
+            "type": "Metal",
+            "cost_per_kg": 8.0
+        },
+        "brass": {
+            "density": 8.5,
+            "name": "Latón",
+            "type": "Metal",
+            "cost_per_kg": 6.0
+        },
+        # Plásticos
+        "pla": {
+            "density": 1.25,
+            "name": "PLA",
+            "type": "Plástico",
+            "cost_per_kg": 25.0
+        },
+        "abs": {
+            "density": 1.05,
+            "name": "ABS",
+            "type": "Plástico",
+            "cost_per_kg": 30.0
+        },
+        "petg": {
+            "density": 1.27,
+            "name": "PETG",
+            "type": "Plástico",
+            "cost_per_kg": 35.0
+        },
+        "nylon": {
+            "density": 1.15,
+            "name": "Nylon",
+            "type": "Plástico",
+            "cost_per_kg": 50.0
+        },
+        # Otros materiales
+        "wood": {
+            "density": 0.6,
+            "name": "Madera (Pino)",
+            "type": "Orgánico",
+            "cost_per_kg": 3.0
+        },
+        "carbon_fiber": {
+            "density": 1.6,
+            "name": "Fibra de Carbono",
+            "type": "Compuesto",
+            "cost_per_kg": 200.0
+        }
+    }
+    
+    weight_estimates = {}
+    
+    for material_id, props in material_densities.items():
+        weight_grams = volume_cm3 * props["density"]
+        weight_kg = weight_grams / 1000.0
+        estimated_cost = weight_kg * props["cost_per_kg"]
+        
+        weight_estimates[material_id] = {
+            "name": props["name"],
+            "type": props["type"],
+            "weight_grams": round(weight_grams, 2),
+            "weight_kg": round(weight_kg, 4),
+            "density": props["density"],
+            "estimated_cost_usd": round(estimated_cost, 2),
+            "cost_per_kg": props["cost_per_kg"]
+        }
+    
+    return weight_estimates
+
 def analyze_stl_with_manufacturing(filepath):
     """Analizar archivo STL con métricas de fabricación"""
     debug_enabled = False
@@ -275,7 +383,8 @@ def analyze_stl_with_manufacturing(filepath):
                     "surface_complexity": "High" if len(triangles) > 5000 else "Medium" if len(triangles) > 1000 else "Low",
                     "fabrication_difficulty": "Complex" if cutting_perimeters > 50 else "Medium" if cutting_perimeters > 10 else "Simple"
                 },
-                "material_efficiency": float(round((volume / (dimensions[0] * dimensions[1] * dimensions[2])) * 100, 1)) if np.prod(dimensions) > 0 else 0.0
+                "material_efficiency": float(round((volume / (dimensions[0] * dimensions[1] * dimensions[2])) * 100, 1)) if np.prod(dimensions) > 0 else 0.0,
+                "weight_estimates": calculate_weight_estimates(volume)
             }
         }
         
