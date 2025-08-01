@@ -238,10 +238,21 @@ def analyze_stl(filepath):
         
         debug(f"Total surface area: {total_area}")
         
-        # For STL files, volume calculation requires watertight mesh
-        # We'll set it to 0 for now as it requires complex algorithms
-        volume = 0.0
-        debug(f"Total volume: {volume}")
+        # Calculate volume using bounding box approximation with density factor
+        # This is an approximation for STL files without complex mesh analysis
+        width = stats['dimensions'][0]
+        height = stats['dimensions'][1] 
+        depth = stats['dimensions'][2]
+        
+        # Use bounding box volume with a density factor (typical for 3D printed objects)
+        # Most 3D printed objects are 15-40% of their bounding box volume
+        bounding_box_volume = width * height * depth
+        
+        # Use a conservative 25% density factor for estimation
+        volume = bounding_box_volume * 0.25
+        
+        debug(f"Bounding box volume: {bounding_box_volume}")
+        debug(f"Estimated volume (25% density): {volume}")
         
         debug(f"Center of mass: {stats['center_of_mass']}")
         
