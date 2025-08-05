@@ -4,6 +4,8 @@ import json
 import subprocess
 import os
 import time
+# Importar configuración portable
+from portable_config import get_config
 
 def debug(msg):
     """Print debug messages to stderr"""
@@ -13,14 +15,18 @@ def analyze_ai_eps(filepath):
     """Analyze AI/EPS files using Ghostscript"""
     debug(f"Analyzing file: {filepath}")
     start_time = time.time()
+    config = get_config()
 
     try:
         # Verificar que el archivo existe
         if not os.path.exists(filepath):
             raise FileNotFoundError(f"File not found: {filepath}")
 
-        # Verificar que Ghostscript está instalado
-        gs_path = r"C:\Program Files\gs\gs10.05.1\bin\gswin64c.exe"
+        # Verificar que Ghostscript está instalado usando configuración portable
+        gs_path = config.ghostscript_path
+        if not gs_path:
+            raise RuntimeError("Ghostscript not found. Please install Ghostscript and make sure it's in your PATH")
+            
         try:
             version = subprocess.run([gs_path, '--version'],
                                   capture_output=True,
@@ -28,7 +34,7 @@ def analyze_ai_eps(filepath):
                                   timeout=5)
             debug(f"Ghostscript version: {version.stdout.strip()}")
         except subprocess.SubprocessError:
-            raise RuntimeError("Ghostscript not found. Please install Ghostscript and make sure it's in your PATH")
+            raise RuntimeError(f"Failed to run Ghostscript at: {gs_path}")
 
         # Ejecutar Ghostscript
         debug("Running Ghostscript analysis...")

@@ -8,14 +8,17 @@ import sys
 import json
 import subprocess
 import time
+# Importar configuración portable
+from portable_config import get_config
 
 def simulate_laravel_analysis():
     """
     Simular el análisis como lo haría Laravel
     """
+    config = get_config()
     
-    # Ruta del entorno Python como la configuraría Laravel
-    python_path = r"C:\Users\DANIELIVANVALDEZRODR\miniconda3\envs\pollux-preview-env\python.exe"
+    # Usar configuración portable en lugar de rutas hardcodeadas
+    python_path = config.to_dict().get('python_executable', 'python')
     
     # Archivo de prueba
     test_file = r"test_stl_files\test_cube.stl"
@@ -23,11 +26,12 @@ def simulate_laravel_analysis():
     # Script main.py
     main_script = r"main.py"
     
-    print("🔬 SIMULACIÓN DE ANÁLISIS DESDE LARAVEL")
+    print("🔬 SIMULACIÓN DE ANÁLISIS DESDE LARAVEL (PORTABLE)")
     print("=" * 50)
     print(f"Python path: {python_path}")
     print(f"Test file: {test_file}")
     print(f"Main script: {main_script}")
+    print(f"Project root: {config.project_root}")
     print()
     
     if not os.path.exists(test_file):
@@ -121,13 +125,14 @@ def check_laravel_config():
     """
     Verificar la configuración que usaría Laravel
     """
-    print("\n🔧 VERIFICACIÓN DE CONFIGURACIÓN LARAVEL")
+    config = get_config()
+    print("\n🔧 VERIFICACIÓN DE CONFIGURACIÓN LARAVEL (PORTABLE)")
     print("=" * 50)
     
-    # Verificar que el archivo de configuración de Laravel tenga la ruta correcta
-    config_path = r"C:\Users\DANIELIVANVALDEZRODR\miniconda3\envs\pollux-preview-env\python.exe"
+    # Usar configuración portable
+    config_path = config.to_dict().get('python_executable', 'python')
     
-    if os.path.exists(config_path):
+    if os.path.exists(config_path) if config_path != 'python' else True:
         print(f"✅ Python path configurado correctamente: {config_path}")
         
         # Verificar que numpy esté disponible

@@ -5,15 +5,15 @@ setlocal EnableDelayedExpansion
 
 REM Configurar las variables de entorno de conda
 REM Estas rutas serán reemplazadas por el script de generación
-set CONDA_PREFIX=C:\Users\DANIELIVANVALDEZRODR\miniconda3\envs\pollux-preview-env
-set CONDA_DEFAULT_ENV=pollux-preview-env
+set CONDA_PREFIX={{CONDA_PREFIX}}
+set CONDA_DEFAULT_ENV={{CONDA_ENV}}
 set PATH=%CONDA_PREFIX%;%CONDA_PREFIX%\Scripts;%CONDA_PREFIX%\Library\bin;%PATH%
 
 REM Deshabilitar randomización de hash de Python para evitar errores de inicialización
 set PYTHONHASHSEED=0
 
 REM Cambiar al directorio del proyecto
-cd /d "C:\xampp\htdocs\laravel\Pollux_3D"
+cd /d "{{PROJECT_ROOT}}"
 
 REM Ejecutar el analizador usando Python del entorno conda
-"C:\Users\DANIELIVANVALDEZRODR\miniconda3\envs\pollux-preview-env\python.exe" "app\Services\FileAnalyzers\analyze_stl_manufacturing.py" "%1"
+"{{PYTHON_EXECUTABLE}}" "app\Services\FileAnalyzers\analyze_stl_manufacturing.py" "%1"

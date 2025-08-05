@@ -57,16 +57,20 @@ class FileAnalysisController extends Controller
             } else {
                 $analyzerScript = match($extension) {
                     'step', 'stp' => app_path('Services/FileAnalyzers/analyze_step_simple.py'),
-                    'dxf', 'dwg' => app_path('Services/FileAnalyzers/analyze_dxf_dwg.py'),
-                    'eps', 'ai' => app_path('Services/FileAnalyzers/analyze_ai_eps.py'),
+                    'dxf', 'dwg' => app_path('Services/FileAnalyzers/analyze_dxf_dwg_complete.py'),
+                    'eps', 'ai' => app_path('Services/FileAnalyzers/analyze_ai_eps_complete.py'),
                     default => throw new \Exception("Unsupported file type: {$extension}")
                 };
             }
 
-            // For STL files, have a fallback analyzer without numpy
+            // Setup fallback analyzers for each file type
             $fallbackScript = null;
             if ($extension === 'stl') {
                 $fallbackScript = app_path('Services/FileAnalyzers/analyze_stl_no_numpy.py');
+            } elseif (in_array($extension, ['dxf', 'dwg'])) {
+                $fallbackScript = app_path('Services/FileAnalyzers/analyze_dxf_dwg.py');
+            } elseif (in_array($extension, ['eps', 'ai'])) {
+                $fallbackScript = app_path('Services/FileAnalyzers/analyze_ai_eps.py');
             }
 
             // Check if analyzer exists
@@ -517,7 +521,8 @@ class FileAnalysisController extends Controller
         // 2. From CONDA_PREFIX environment variable (most reliable in conda environments)
         $condaPrefix = getenv('CONDA_PREFIX');
         if ($condaPrefix) {
-            $paths[] = $condaPrefix . DIRECTORY_SEPARATOR . 'python.exe';
+            $pythonExecutable = PHP_OS_FAMILY === 'Windows' ? 'python.exe' : 'python';
+            $paths[] = $condaPrefix . DIRECTORY_SEPARATOR . $pythonExecutable;
         }
         
         // 3. Try current conda environment from PATH
@@ -526,32 +531,58 @@ class FileAnalysisController extends Controller
             $paths[] = $pythonFromPath;
         }
         
-        // 4. Common conda installation paths
+        // 4. From config CONDA_ROOT + environment name
+        $condaRoot = config('services.python.conda_root');
+        $condaEnv = config('services.python.conda_env');
+        if ($condaRoot && $condaEnv) {
+            $pythonExecutable = PHP_OS_FAMILY === 'Windows' ? 'python.exe' : 'python';
+            $envPath = $condaRoot . DIRECTORY_SEPARATOR . 'envs' . DIRECTORY_SEPARATOR . $condaEnv . DIRECTORY_SEPARATOR . $pythonExecutable;
+            $paths[] = $envPath;
+        }
+        
+        // 5. Common conda installation paths (OS-specific)
         $username = getenv('USERNAME') ?: getenv('USER');
         if ($username) {
-            $commonPaths = [
-                "C:\\Users\\{$username}\\miniconda3\\envs\\pollux-preview-env\\python.exe",
-                "C:\\Users\\{$username}\\anaconda3\\envs\\pollux-preview-env\\python.exe",
-                "C:\\miniconda3\\envs\\pollux-preview-env\\python.exe",
-                "C:\\anaconda3\\envs\\pollux-preview-env\\python.exe",
-            ];
+            if (PHP_OS_FAMILY === 'Windows') {
+                $commonPaths = [
+                    "C:\\Users\\{$username}\\miniconda3\\envs\\pollux-preview-env\\python.exe",
+                    "C:\\Users\\{$username}\\anaconda3\\envs\\pollux-preview-env\\python.exe",
+                    "C:\\miniconda3\\envs\\pollux-preview-env\\python.exe",
+                    "C:\\anaconda3\\envs\\pollux-preview-env\\python.exe",
+                ];
+            } else {
+                // Linux/Mac paths
+                $commonPaths = [
+                    "/home/{$username}/miniconda3/envs/pollux-preview-env/bin/python",
+                    "/home/{$username}/anaconda3/envs/pollux-preview-env/bin/python",
+                    "/opt/miniconda3/envs/pollux-preview-env/bin/python",
+                    "/opt/anaconda3/envs/pollux-preview-env/bin/python",
+                ];
+            }
             $paths = array_merge($paths, $commonPaths);
         }
         
-        // 5. System Python as last resort
-        $paths[] = 'python';
-        $paths[] = 'python.exe';
+        // 6. System Python as last resort
+        if (PHP_OS_FAMILY === 'Windows') {
+            $paths[] = 'python';
+            $paths[] = 'python.exe';
+        } else {
+            $paths[] = 'python3';
+            $paths[] = 'python';
+        }
         
         return array_filter(array_unique($paths));
     }
 
     /**
-     * Find Python executable in system PATH
+     * Find Python executable in system PATH (cross-platform)
      */
     private function findPythonInPath()
     {
-        // Try to find python in PATH
-        $process = new Process(['where', 'python']);
+        // Use appropriate command for OS
+        $command = PHP_OS_FAMILY === 'Windows' ? ['where', 'python'] : ['which', 'python3'];
+        
+        $process = new Process($command);
         $process->run();
         
         if ($process->isSuccessful()) {

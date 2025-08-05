@@ -1,9 +1,7 @@
 @echo off
-REM Template para wrapper de conda multiplataforma
-REM ESTE ES UN TEMPLATE - usar generate_scripts.php para crear la versión final
 setlocal
 
-:: Set conda environment paths from configuration
+:: Set conda environment paths directly
 set CONDA_ROOT=C:\Users\DANIELIVANVALDEZRODR\miniconda3
 set CONDA_ENV=pollux-preview-env
 set CONDA_PREFIX=%CONDA_ROOT%\envs\%CONDA_ENV%
@@ -17,10 +15,10 @@ set CONDA_PREFIX=%CONDA_PREFIX%
 set PYTHONHASHSEED=0
 
 :: Verify Python exists
-if not exist "C:\Users\DANIELIVANVALDEZRODR\miniconda3\envs\pollux-preview-env\python.exe" (
-    echo ERROR: Python not found at C:\Users\DANIELIVANVALDEZRODR\miniconda3\envs\pollux-preview-env\python.exe
+if not exist "%CONDA_PREFIX%\python.exe" (
+    echo ERROR: Python not found at %CONDA_PREFIX%\python.exe
     exit /b 1
 )
 
 :: Run the Python script directly
-"C:\Users\DANIELIVANVALDEZRODR\miniconda3\envs\pollux-preview-env\python.exe" %*
+"%CONDA_PREFIX%\python.exe" %*

@@ -4,8 +4,8 @@ REM ESTE ES UN TEMPLATE - usar generate_scripts.php para crear la versión final
 setlocal
 
 :: Set conda environment paths from configuration
-set CONDA_ROOT=C:\Users\DANIELIVANVALDEZRODR\miniconda3
-set CONDA_ENV=pollux-preview-env
+set CONDA_ROOT={{CONDA_ROOT}}
+set CONDA_ENV={{CONDA_ENV}}
 set CONDA_PREFIX=%CONDA_ROOT%\envs\%CONDA_ENV%
 
 :: Set PATH to include all necessary directories
@@ -17,10 +17,10 @@ set CONDA_PREFIX=%CONDA_PREFIX%
 set PYTHONHASHSEED=0
 
 :: Verify Python exists
-if not exist "C:\Users\DANIELIVANVALDEZRODR\miniconda3\envs\pollux-preview-env\python.exe" (
-    echo ERROR: Python not found at C:\Users\DANIELIVANVALDEZRODR\miniconda3\envs\pollux-preview-env\python.exe
+if not exist "{{PYTHON_EXECUTABLE}}" (
+    echo ERROR: Python not found at {{PYTHON_EXECUTABLE}}
     exit /b 1
 )
 
 :: Run the Python script directly
-"C:\Users\DANIELIVANVALDEZRODR\miniconda3\envs\pollux-preview-env\python.exe" %*
+"{{PYTHON_EXECUTABLE}}" %*
