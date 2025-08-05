@@ -1,10 +1,8 @@
 @echo off
 REM Script dedicado para ejecutar el analizador de manufactura con entorno conda
-REM ESTE ES UN TEMPLATE - usar generate_scripts.php para crear la versión final
 setlocal EnableDelayedExpansion
 
 REM Configurar las variables de entorno de conda
-REM Estas rutas serán reemplazadas por el script de generación
 set CONDA_PREFIX=C:\Users\DANIELIVANVALDEZRODR\miniconda3\envs\pollux-preview-env
 set CONDA_DEFAULT_ENV=pollux-preview-env
 set PATH=%CONDA_PREFIX%;%CONDA_PREFIX%\Scripts;%CONDA_PREFIX%\Library\bin;%PATH%

@@ -36,12 +36,21 @@ print_error() {
     exit 1
 }
 
+print_warning() {
+    echo -e "${YELLOW}⚠️  $1${NC}"
+}
+
+# Verificar si estamos en el directorio correcto
+if [ ! -f "composer.json" ] || [ ! -f "artisan" ]; then
+    print_error "No se encontró composer.json o artisan. ¿Estás en el directorio raíz del proyecto Laravel?"
+fi
+
 # 1. Verificar prerrequisitos
 print_step "1. Verificando prerrequisitos..."
 
 # Verificar Node.js
 if ! command -v node &> /dev/null; then
-    print_error "Node.js no está instalado. Instale Node.js primero."
+    print_error "Node.js no está instalado. Instale Node.js primero: curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt install -y nodejs"
 fi
 NODE_VERSION=$(node -v)
 print_success "Node.js detectado: $NODE_VERSION"
@@ -55,17 +64,30 @@ print_success "npm detectado: $NPM_VERSION"
 
 # Verificar PHP
 if ! command -v php &> /dev/null; then
-    print_error "PHP no está instalado."
+    print_error "PHP no está instalado. Instale PHP: sudo apt install -y php8.2 php8.2-fpm php8.2-mysql php8.2-xml php8.2-curl php8.2-zip php8.2-mbstring"
 fi
 PHP_VERSION=$(php -v | head -n 1)
 print_success "PHP detectado: $PHP_VERSION"
 
 # Verificar Composer
 if ! command -v composer &> /dev/null; then
-    print_error "Composer no está instalado."
+    print_error "Composer no está instalado. Instale Composer: curl -sS https://getcomposer.org/installer | php && sudo mv composer.phar /usr/local/bin/composer"
 fi
 COMPOSER_VERSION=$(composer -V | head -n 1)
 print_success "Composer detectado: $COMPOSER_VERSION"
+
+# Verificar conda (opcional pero recomendado)
+if ! command -v conda &> /dev/null; then
+    print_warning "Conda no está en PATH. Asegúrese de que el entorno conda esté configurado correctamente."
+    if [ -z "$CONDA_PREFIX" ]; then
+        print_warning "CONDA_PREFIX no está definido. Verifique la configuración de conda en .env"
+    else
+        print_success "CONDA_PREFIX detectado: $CONDA_PREFIX"
+    fi
+else
+    CONDA_VERSION=$(conda -V)
+    print_success "Conda detectado: $CONDA_VERSION"
+fi
 
 echo ""
 
