@@ -252,11 +252,7 @@ class FilePreviewController extends Controller
             $payload = [
                 'file_id' => (string) $fileUpload->id,
                 'file_path' => $filePath, // Send relative path, Python will convert to absolute
-                'preview_type' => $renderType,
-                'width' => 800,
-                'height' => 600,
-                'background_color' => '#FFFFFF',
-                'file_type' => $fileUpload->extension
+                'render_type' => $renderType  // Use 'render_type' not 'preview_type'
             ];
 
             $response = Http::timeout(120)

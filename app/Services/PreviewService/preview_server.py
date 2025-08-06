@@ -84,7 +84,7 @@ class PreviewRequest(BaseModel):
     background_color: str = "#FFFFFF"
     file_type: str = None
     output_dir: str = None  # Laravel envía este campo
-    
+
     @model_validator(mode='before')
     @classmethod
     def validate_render_type(cls, data):
@@ -195,12 +195,12 @@ def generate_stl_preview(file_path: str, render_type: str) -> str:
 async def generate_preview(request: PreviewRequest, background_tasks: BackgroundTasks):
     """Generate preview for 3D files"""
     file_path = request.file_path
-    
+
     # Si la ruta no es absoluta, asumir que es relativa al directorio storage/app de Laravel
     if not os.path.isabs(file_path):
         storage_path = config.BASE_DIR / 'storage' / 'app' / file_path
         file_path = str(storage_path)
-    
+
     if not os.path.exists(file_path):
         raise HTTPException(404, f"Archivo no encontrado: {file_path}")
 
@@ -216,6 +216,7 @@ async def generate_preview(request: PreviewRequest, background_tasks: Background
             raise HTTPException(400, f"Tipo de archivo no soportado: {ext}")
 
         return {
+            "success": True,
             "file_id": request.file_id,
             "image_data": image_data,
             "render_type": request.render_type

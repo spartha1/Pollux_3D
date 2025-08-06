@@ -4,7 +4,7 @@ from pathlib import Path
 class Config:
     """Configuration class for the preview service"""
     # Rutas base
-    BASE_DIR = Path(__file__).parent.parent.parent.absolute()
+    BASE_DIR = Path(__file__).parent.parent.parent.parent.absolute()
 
     # Valores por defecto (se actualizarán en initialize())
     HOST = None
