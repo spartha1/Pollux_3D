@@ -56,7 +56,7 @@ class FileAnalysisController extends Controller
                 ]);
             } else {
                 $analyzerScript = match($extension) {
-                    'step', 'stp' => app_path('Services/FileAnalyzers/analyze_step_simple.py'),
+                    'step', 'stp' => app_path('Services/FileAnalyzers/analyze_step.py'),
                     'dxf', 'dwg' => app_path('Services/FileAnalyzers/analyze_dxf_dwg_complete.py'),
                     'eps', 'ai' => app_path('Services/FileAnalyzers/analyze_ai_eps_complete.py'),
                     default => throw new \Exception("Unsupported file type: {$extension}")
@@ -92,30 +92,30 @@ class FileAnalysisController extends Controller
                     'script' => $analyzerScript,
                     'file_path' => $filePath
                 ]);
-                
+
                 // Use the dedicated batch script for manufacturing analysis
                 $batchScript = base_path('run_manufacturing_analyzer.bat');
                 $relativePath = str_replace('/', '\\', $fileUpload->storage_path);
                 $filePathForCmd = "storage\\app\\{$relativePath}";
-                
+
                 Log::info("Using dedicated batch script for manufacturing analyzer", [
                     'batch_script' => $batchScript,
                     'file_path' => $filePathForCmd,
                     'file_id' => $fileUpload->id
                 ]);
-                
+
                 $process = new Process([$batchScript, $filePathForCmd]);
                 $process->setWorkingDirectory(base_path());
                 $process->setTimeout(120); // 2 minutes for manufacturing analysis
                 $process->run();
-                
+
                 Log::info('Manufacturing analyzer execution completed', [
                     'exit_code' => $process->getExitCode(),
                     'successful' => $process->isSuccessful(),
                     'output_length' => strlen($process->getOutput()),
                     'error_length' => strlen($process->getErrorOutput())
                 ]);
-                
+
                 if (!$process->isSuccessful()) {
                     Log::error('Manufacturing analyzer failed - detailed error', [
                         'exit_code' => $process->getExitCode(),
@@ -124,24 +124,24 @@ class FileAnalysisController extends Controller
                         'error' => $process->getErrorOutput(),
                         'working_directory' => $process->getWorkingDirectory()
                     ]);
-                    
+
                     // Only use fallback if manufacturing analyzer completely failed
                     $fallbackScript = app_path('Services/FileAnalyzers/analyze_stl_no_numpy.py');
                     if (file_exists($fallbackScript)) {
                         Log::warning('Attempting fallback analyzer (manufacturing metrics will be missing)', [
                             'fallback_script' => $fallbackScript
                         ]);
-                        
+
                         $fallbackProcess = new Process([
                             $pythonPath,
                             $fallbackScript,
                             $filePath
                         ]);
-                        
+
                         $fallbackProcess->setEnv(['PYTHONHASHSEED' => '0']);
                         $fallbackProcess->setTimeout(30);
                         $fallbackProcess->run();
-                        
+
                         if ($fallbackProcess->isSuccessful()) {
                             $output = $fallbackProcess->getOutput();
                             Log::warning('Fallback analysis succeeded - manufacturing metrics missing', [
@@ -159,25 +159,25 @@ class FileAnalysisController extends Controller
                     }
                 } else {
                     $output = $process->getOutput();
-                    
+
                     Log::info('Raw manufacturing analyzer output', [
                         'raw_output_length' => strlen($output),
                         'raw_output_preview' => substr($output, 0, 500),
                         'contains_manufacturing_raw' => strpos($output, 'manufacturing') !== false
                     ]);
-                    
+
                     // Clean the output to extract only JSON
                     $cleanOutput = $this->extractJsonFromOutput($output);
-                    
+
                     Log::info('Cleaned manufacturing analyzer output', [
                         'clean_output_length' => strlen($cleanOutput),
                         'clean_output_preview' => substr($cleanOutput, 0, 500),
                         'contains_manufacturing_clean' => strpos($cleanOutput, 'manufacturing') !== false
                     ]);
-                    
+
                     // Use the cleaned output
                     $output = $cleanOutput;
-                    
+
                     Log::info('Manufacturing analyzer succeeded', [
                         'output_preview' => substr($output, 0, 200) . '...',
                         'contains_manufacturing' => strpos($output, 'manufacturing') !== false,
@@ -186,7 +186,12 @@ class FileAnalysisController extends Controller
                 }
             } else {
                 // For non-STL files, use the conda wrapper
-                $wrapperScript = app_path('Services/FileAnalyzers/run_with_conda.bat');
+                // Detect OS and use appropriate wrapper script
+                $isWindows = PHP_OS_FAMILY === 'Windows';
+                $wrapperScript = $isWindows
+                    ? app_path('Services/FileAnalyzers/run_with_conda.bat')
+                    : app_path('Services/FileAnalyzers/run_with_conda.sh');
+
                 $process = new Process([
                     $wrapperScript,
                     $analyzerScript,
@@ -201,53 +206,71 @@ class FileAnalysisController extends Controller
                 $process->setTimeout($timeout);
                 $process->run();
 
+                $output = $process->getOutput();
+
+                // Check if the process failed
                 if (!$process->isSuccessful()) {
-                    throw new \Exception('Analysis failed: ' . $process->getErrorOutput());
-                } else {
-                    $output = $process->getOutput();
+                    // Try to parse output as JSON to see if it's a structured error
+                    $errorOutput = $process->getErrorOutput();
+                    $possibleJson = json_decode($output, true);
+
+                    if (json_last_error() === JSON_ERROR_NONE && isset($possibleJson['error'])) {
+                        // The analyzer returned a structured error
+                        throw new \Exception('Analysis failed: ' . $possibleJson['error']);
+                    } else {
+                        // Generic process failure
+                        throw new \Exception('Analysis failed: ' . $errorOutput);
+                    }
                 }
             }
+
+            // Try to parse the output as JSON
             $result = json_decode($output, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Invalid analyzer output - JSON decode error: ' . json_last_error_msg() . '. Output preview: ' . substr($output, 0, 500));
             }
 
+            // Check if the result contains an error (even with successful process)
+            if (isset($result['error'])) {
+                throw new \Exception('Analysis failed: ' . $result['error']);
+            }
+
             // For STL files, validate that manufacturing data is present
             if ($extension === 'stl') {
                 $hasManufacturing = isset($result['manufacturing']);
                 $hasWeightEstimates = isset($result['manufacturing']['weight_estimates']);
-                
+
                 Log::info('STL analysis result validation', [
                     'has_manufacturing' => $hasManufacturing,
                     'has_weight_estimates' => $hasWeightEstimates,
                     'manufacturing_keys' => $hasManufacturing ? array_keys($result['manufacturing']) : [],
                     'result_keys' => array_keys($result)
                 ]);
-                
+
                 if (!$hasManufacturing) {
                     Log::warning('STL analysis completed but manufacturing data missing', [
                         'available_keys' => array_keys($result),
                         'analyzer_used' => basename($analyzerScript),
                         'output_preview' => substr($output, 0, 300)
                     ]);
-                    
+
                     // This suggests the fallback analyzer was used instead
                     // Log this as a potential issue for monitoring
                     Log::warning('Manufacturing data missing - fallback analyzer may have been used');
                 }
-                
+
                 // Validate manufacturing data structure if present
                 if ($hasManufacturing) {
                     $requiredKeys = ['cutting_perimeters', 'work_planes', 'complexity', 'weight_estimates'];
                     $missingKeys = [];
-                    
+
                     foreach ($requiredKeys as $key) {
                         if (!isset($result['manufacturing'][$key])) {
                             $missingKeys[] = $key;
                         }
                     }
-                    
+
                     if (!empty($missingKeys)) {
                         Log::warning('Manufacturing data incomplete', [
                             'missing_keys' => $missingKeys,
@@ -494,14 +517,14 @@ class FileAnalysisController extends Controller
     private function getPythonExecutablePath()
     {
         $possiblePaths = $this->getAllPossiblePythonPaths();
-        
+
         foreach ($possiblePaths as $path) {
             if ($path && file_exists($path)) {
                 Log::info('Found Python executable', ['path' => $path]);
                 return $path;
             }
         }
-        
+
         return null;
     }
 
@@ -511,26 +534,26 @@ class FileAnalysisController extends Controller
     private function getAllPossiblePythonPaths()
     {
         $paths = [];
-        
+
         // 1. From Laravel config (current method)
         $configPath = config('services.python.executable');
         if ($configPath) {
             $paths[] = $configPath;
         }
-        
+
         // 2. From CONDA_PREFIX environment variable (most reliable in conda environments)
         $condaPrefix = getenv('CONDA_PREFIX');
         if ($condaPrefix) {
             $pythonExecutable = PHP_OS_FAMILY === 'Windows' ? 'python.exe' : 'python';
             $paths[] = $condaPrefix . DIRECTORY_SEPARATOR . $pythonExecutable;
         }
-        
+
         // 3. Try current conda environment from PATH
         $pythonFromPath = $this->findPythonInPath();
         if ($pythonFromPath) {
             $paths[] = $pythonFromPath;
         }
-        
+
         // 4. From config CONDA_ROOT + environment name
         $condaRoot = config('services.python.conda_root');
         $condaEnv = config('services.python.conda_env');
@@ -539,7 +562,7 @@ class FileAnalysisController extends Controller
             $envPath = $condaRoot . DIRECTORY_SEPARATOR . 'envs' . DIRECTORY_SEPARATOR . $condaEnv . DIRECTORY_SEPARATOR . $pythonExecutable;
             $paths[] = $envPath;
         }
-        
+
         // 5. Common conda installation paths (OS-specific)
         $username = getenv('USERNAME') ?: getenv('USER');
         if ($username) {
@@ -561,7 +584,7 @@ class FileAnalysisController extends Controller
             }
             $paths = array_merge($paths, $commonPaths);
         }
-        
+
         // 6. System Python as last resort
         if (PHP_OS_FAMILY === 'Windows') {
             $paths[] = 'python';
@@ -570,7 +593,7 @@ class FileAnalysisController extends Controller
             $paths[] = 'python3';
             $paths[] = 'python';
         }
-        
+
         return array_filter(array_unique($paths));
     }
 
@@ -581,14 +604,14 @@ class FileAnalysisController extends Controller
     {
         // Use appropriate command for OS
         $command = PHP_OS_FAMILY === 'Windows' ? ['where', 'python'] : ['which', 'python3'];
-        
+
         $process = new Process($command);
         $process->run();
-        
+
         if ($process->isSuccessful()) {
             $output = trim($process->getOutput());
             $lines = explode("\n", $output);
-            
+
             // Return the first python found that contains 'pollux-preview-env'
             foreach ($lines as $line) {
                 $line = trim($line);
@@ -596,14 +619,14 @@ class FileAnalysisController extends Controller
                     return $line;
                 }
             }
-            
+
             // If no conda env found, return the first python
             return $lines[0] ?? null;
         }
-        
+
         return null;
     }
-    
+
     /**
      * Extract clean JSON from mixed output that might contain PowerShell messages
      */
@@ -612,17 +635,17 @@ class FileAnalysisController extends Controller
         // Look for the first opening brace and last closing brace
         $firstBrace = strpos($output, '{');
         $lastBrace = strrpos($output, '}');
-        
+
         if ($firstBrace !== false && $lastBrace !== false && $lastBrace > $firstBrace) {
             $jsonPart = substr($output, $firstBrace, $lastBrace - $firstBrace + 1);
-            
+
             // Test if this is valid JSON
             $decoded = json_decode($jsonPart, true);
             if (json_last_error() === JSON_ERROR_NONE) {
                 return $jsonPart;
             }
         }
-        
+
         // If extraction failed, return original output
         return $output;
     }

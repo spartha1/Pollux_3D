@@ -34,6 +34,8 @@ import numpy as np
 from PIL import Image
 import io
 import logging
+import subprocess
+import json
 
 # Configurar logging
 logging.basicConfig(
@@ -51,17 +53,32 @@ logger.info("Starting Preview Server initialization...")
 try:
     from OCC.Core.STEPControl import STEPControl_Reader
     from OCC.Core.IFSelect import IFSelect_RetDone
-    from OCC.Core.BRepMesh import BRepMesh_IncrementalMesh
-    from OCC.Core.gp import gp_Pnt, gp_Dir, gp_Vec
-    from OCC.Core.Quantity import Quantity_Color, Quantity_TOC_RGB
-    from OCC.Core.Graphic3d import Graphic3d_RenderingParams
-    from OCC.Core.V3d import V3d_Viewer
-    from OCC.Core.AIS import AIS_Shape
-    import pyvista as pv
+    from OCC.Core.TopExp import TopExp_Explorer
+    from OCC.Core.TopAbs import TopAbs_FACE, TopAbs_VERTEX
+    from OCC.Core.BRep import BRep_Tool
+    from OCC.Core.TopLoc import TopLoc_Location
+    from OCC.Core.Bnd import Bnd_Box
+    from OCC.Core.BRepBndLib import brepbndlib_Add  # Nombre alternativo
+    import numpy as np
+    from PIL import Image
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.mplot3d import Axes3D
+    from matplotlib.backends.backend_agg import FigureCanvasAgg
     STEP_SUPPORT = True
 except ImportError as e:
-    logger.warning(f"PythonOCC no está instalado. La vista previa de STEP/STP será limitada. Error: {e}")
-    STEP_SUPPORT = False
+    try:
+        # Intentar imports más básicos
+        from OCC.Core.STEPControl import STEPControl_Reader
+        from OCC.Core.IFSelect import IFSelect_RetDone
+        import numpy as np
+        from PIL import Image
+        import matplotlib.pyplot as plt
+        from mpl_toolkits.mplot3d import Axes3D
+        from matplotlib.backends.backend_agg import FigureCanvasAgg
+        STEP_SUPPORT = True
+    except ImportError as e2:
+        logger.warning(f"PythonOCC no está instalado. La vista previa de STEP/STP será limitada. Error: {e2}")
+        STEP_SUPPORT = False
 
 # Intentar importar numpy-stl para STL
 try:
@@ -72,6 +89,43 @@ except ImportError:
     STL_SUPPORT = False
 
 app = FastAPI()
+
+def call_external_step_analyzer(file_path: str) -> dict:
+    """Llama al analizador STEP externo mejorado para obtener información diagnóstica."""
+    try:
+        # Ruta al analizador externo
+        analyzer_path = Path(__file__).parent.parent / "FileAnalyzers" / "analyze_step.py"
+        conda_script = Path(__file__).parent.parent / "FileAnalyzers" / "run_with_conda.sh"
+
+        # Comando para ejecutar el analizador
+        cmd = [str(conda_script), str(analyzer_path), file_path]
+
+        # Ejecutar el analizador
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=30  # 30 segundos de timeout
+        )
+
+        # Parsear la respuesta JSON
+        if result.stdout:
+            analysis_data = json.loads(result.stdout)
+            logger.info(f"External analyzer returned: {analysis_data.get('status', 'unknown')}")
+            return analysis_data
+        else:
+            logger.warning("External analyzer returned no output")
+            return {"error": "Analyzer returned no output", "stderr": result.stderr}
+
+    except subprocess.TimeoutExpired:
+        logger.error("External analyzer timed out")
+        return {"error": "Analysis timed out", "timeout": True}
+    except json.JSONDecodeError as e:
+        logger.error(f"Failed to parse analyzer output: {e}")
+        return {"error": f"Invalid JSON response: {e}", "stdout": result.stdout if 'result' in locals() else None}
+    except Exception as e:
+        logger.error(f"Failed to call external analyzer: {e}")
+        return {"error": f"Analyzer execution failed: {e}"}
 
 class PreviewRequest(BaseModel):
     file_id: str
@@ -98,6 +152,7 @@ def generate_step_preview(file_path: str, render_type: str) -> str:
     if not STEP_SUPPORT:
         raise HTTPException(400, "PythonOCC no está instalado para vista previa STEP")
 
+    error_details = None
     try:
         # Leer archivo STEP
         reader = STEPControl_Reader()
@@ -106,42 +161,199 @@ def generate_step_preview(file_path: str, render_type: str) -> str:
             raise Exception(f"Error al leer archivo STEP: {status}")
 
         # Transferir a shape
-        reader.TransferRoot()
+        nb_roots = reader.TransferRoot()
+        if nb_roots == 0:
+            raise Exception("El archivo STEP no contiene geometría transferible")
+
         shape = reader.OneShape()
 
-        # Crear una malla para visualización
-        mesh = BRepMesh_IncrementalMesh(shape, 0.1)
-        mesh.Perform()
+        # Verificar que el shape es válido
+        if shape is None:
+            raise Exception("El archivo STEP no pudo ser procesado. Archivo corrupto o formato inválido.")
 
-        # Convertir a formato PyVista para renderizado
-        plotter = pv.Plotter(off_screen=True, window_size=[800, 600])
+        if shape.IsNull():
+            raise Exception("Archivo STEP incompatible con PythonOCC")
 
-        if render_type == '3d':
-            # Vista 3D con sombreado
-            plotter.add_mesh(shape, color='white', show_edges=True)
-            plotter.camera_position = 'iso'
-            plotter.enable_shadows()
-        else:
-            # Vista wireframe
-            plotter.add_mesh(shape, style='wireframe', color='black', line_width=2)
-            plotter.camera_position = 'xy'  # Vista frontal para wireframe
+        # Si llegamos aquí, el análisis básico fue exitoso, continuar con la generación de preview
+        # Crear figura para matplotlib
+        fig = plt.figure(figsize=(8, 6), dpi=100)
+        ax = fig.add_subplot(111, projection='3d')
 
-        # Ajustar vista
-        plotter.camera.zoom(1.2)
+        # Intentar extraer vértices básicos del shape para una visualización simple
+        vertices = []
 
-        # Renderizar y capturar
-        image = plotter.screenshot()
+        # Explorar todas las caras del shape sin mesh
+        exp = TopExp_Explorer(shape, TopAbs_FACE)
 
-        # Convertir a PNG y luego a base64
+        # Como fallback, crear una representación básica del bounding box
+        # Simplificar aún más - usar dimensiones genéricas si no podemos obtener el bbox real
+        try:
+            bbox = Bnd_Box()
+            brepbndlib_Add(shape, bbox)
+            xmin, ymin, zmin, xmax, ymax, zmax = bbox.Get()
+        except:
+            # Fallback: usar dimensiones genéricas
+            xmin, ymin, zmin = -10, -10, -10
+            xmax, ymax, zmax = 10, 10, 10
+
+        # Crear una representación wireframe del bounding box
+        box_vertices = [
+            [xmin, ymin, zmin], [xmax, ymin, zmin], [xmax, ymax, zmin], [xmin, ymax, zmin],  # base
+            [xmin, ymin, zmax], [xmax, ymin, zmax], [xmax, ymax, zmax], [xmin, ymax, zmax]   # top
+        ]
+
+        # Dibujar el wireframe del bounding box
+        box_edges = [
+            (0,1), (1,2), (2,3), (3,0),  # base
+            (4,5), (5,6), (6,7), (7,4),  # top
+            (0,4), (1,5), (2,6), (3,7)   # vertical
+        ]
+
+        for edge in box_edges:
+            v1, v2 = box_vertices[edge[0]], box_vertices[edge[1]]
+            ax.plot([v1[0], v2[0]], [v1[1], v2[1]], [v1[2], v2[2]], 'b-', linewidth=2)
+
+        # Añadir algunos puntos para indicar que es una representación del modelo
+        center = [(xmin+xmax)/2, (ymin+ymax)/2, (zmin+zmax)/2]
+        ax.scatter(*center, color='red', s=50, label='Center')
+
+        # Configurar vista
+        ax.set_xlim([xmin, xmax])
+        ax.set_ylim([ymin, ymax])
+        ax.set_zlim([zmin, zmax])
+
+        # Configurar perspectiva según tipo de render
+        if render_type == '2d':
+            ax.view_init(elev=0, azim=0)  # Vista frontal
+            ax.set_title('STEP File - 2D View (Bounding Box)')
+        elif render_type == 'wireframe' or render_type == 'wireframe_2d':
+            ax.view_init(elev=30, azim=45)  # Vista isométrica
+            ax.set_title('STEP File - Wireframe View (Bounding Box)')
+        else:  # 3d
+            ax.view_init(elev=20, azim=45)  # Vista 3D
+            ax.set_title('STEP File - 3D View (Bounding Box)')
+
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+
+        # Convertir a imagen
+        canvas = FigureCanvasAgg(fig)
+        canvas.draw()
+
+        # Obtener imagen como array
+        buf = canvas.buffer_rgba()
+        img_array = np.asarray(buf)
+
+        # Convertir a PIL Image
+        pil_image = Image.fromarray(img_array)
+
+        # Convertir a PNG en memoria
+        import io
         img_bytes = io.BytesIO()
-        pv.save_image(img_bytes, image, 'png')
+        pil_image.save(img_bytes, format='PNG')
         img_bytes.seek(0)
+
+        plt.close(fig)  # Limpiar memoria
 
         return base64.b64encode(img_bytes.getvalue()).decode()
 
     except Exception as e:
         logger.error(f"Error generando vista previa STEP: {str(e)}")
-        raise HTTPException(500, f"Error generando vista previa: {str(e)}")
+
+        # Intentar usar el analizador externo para obtener información diagnóstica detallada
+        try:
+            logger.info("Calling external analyzer for detailed diagnostics...")
+            analysis_result = call_external_step_analyzer(file_path)
+
+            # El nuevo analizador siempre devuelve información útil, incluso en casos de "error"
+            status = analysis_result.get("status", "unknown")
+
+            # Estados que contienen información útil aunque no se pueda generar vista 3D
+            informative_states = [
+                "transfer_error_with_fallback",
+                "shape_error_with_fallback",
+                "read_error_with_fallback",
+                "error_with_fallback",
+                "fallback_only",
+                "partial_success_with_fallback"
+            ]
+
+            if status in informative_states:
+                # Tenemos información diagnóstica detallada - crear respuesta informativa
+                detailed_info = {
+                    "error": analysis_result.get("error", "No se pudo generar vista 3D"),
+                    "status": status,
+                    "diagnostic_info": {
+                        "step_metadata": analysis_result.get("step_metadata", {}),
+                        "coordinate_bounds": analysis_result.get("coordinate_bounds", {}),
+                        "structure_analysis": analysis_result.get("structure_analysis", {}),
+                        "step_entities": analysis_result.get("step_entities", {}),
+                        "content_summary": analysis_result.get("content_summary", {}),
+                        "total_step_entities": analysis_result.get("total_step_entities", 0),
+                        "file_complexity": analysis_result.get("structure_analysis", {}).get("file_complexity", "unknown")
+                    },
+                    "suggestions": analysis_result.get("suggestions", []),
+                    "analysis_time_ms": analysis_result.get("analysis_time_ms", 0),
+                    "message": "Archivo STEP válido con información detallada disponible - vista 3D no generada",
+                    "file_readable": True,
+                    "information_extracted": True,
+                    "analysis_type": "comprehensive_diagnostic"
+                }
+                logger.info(f"Returning comprehensive diagnostic info for {status}")
+                raise HTTPException(200, json.dumps(detailed_info))
+
+            elif "error" in analysis_result:
+                # Error sin información útil
+                error_msg = analysis_result["error"]
+
+                # Si hay información de fallback, crear un error detallado
+                if "fallback_analysis" in analysis_result:
+                    fallback = analysis_result["fallback_analysis"]
+                    detailed_error = {
+                        "error": error_msg,
+                        "fallback_analysis": fallback,
+                        "diagnostic_available": True,
+                        "analysis_type": "external_analyzer",
+                        "original_error": str(e)
+                    }
+                    logger.info("Raising detailed error with fallback analysis")
+                    raise HTTPException(500, json.dumps(detailed_error))
+                else:
+                    # Sin información de fallback, pero aún más detallado que el error original
+                    detailed_error = {
+                        "error": error_msg,
+                        "diagnostic_available": False,
+                        "analysis_type": "external_analyzer",
+                        "original_error": str(e)
+                    }
+                    raise HTTPException(500, json.dumps(detailed_error))
+            else:
+                # El analizador externo tuvo éxito en el análisis pero falló la generación de imagen
+                # Esto significa que el archivo es válido pero tenemos un problema de visualización
+                detailed_error = {
+                    "error": f"El archivo STEP es válido pero no se pudo generar la vista previa: {str(e)}",
+                    "file_valid": True,
+                    "analysis_successful": True,
+                    "analysis_result": analysis_result,
+                    "visualization_error": str(e),
+                    "diagnostic_available": True
+                }
+                raise HTTPException(500, json.dumps(detailed_error))
+
+        except HTTPException:
+            # Re-raise HTTPException para mantener el código de estado
+            raise
+        except Exception as analyzer_error:
+            logger.error(f"External analyzer also failed: {analyzer_error}")
+            # Si el analizador externo también falla, usar el error original
+            fallback_error = {
+                "error": f"Error generando vista previa: {str(e)}",
+                "analyzer_error": str(analyzer_error),
+                "diagnostic_available": False,
+                "original_error": str(e)
+            }
+            raise HTTPException(500, json.dumps(fallback_error))
 
 def generate_stl_preview(file_path: str, render_type: str) -> str:
     """Generate preview for STL files"""

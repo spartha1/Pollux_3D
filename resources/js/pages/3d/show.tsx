@@ -1,5 +1,5 @@
 import { Head, useForm } from '@inertiajs/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Button } from '@/components/ui/button';
@@ -99,8 +99,94 @@ interface FileAnalysisResult {
             has_data_section: boolean;
             first_100_chars?: string;
         };
+        // STEP-specific metadata
+        solidworks_info?: {
+            sw_version?: string;
+            sw_partno?: string;
+            sw_rev?: string;
+            sw_author?: string;
+            sw_created?: string;
+            sw_modified?: string;
+            sw_material?: string;
+        };
+        general?: {
+            file_description?: string;
+            file_name?: string;
+            file_schema?: string;
+            timestamp?: string;
+            units?: string;
+        };
+        components?: string[];
+        materials?: string[];
+        assembly?: boolean;
+        assembly_components?: number;
     };
     analysis_time_ms?: number;
+    // STEP-specific fields
+    file_info?: {
+        file_size_mb?: number;
+        file_type?: string;
+        file_extension?: string;
+        encoding?: string;
+        first_lines?: string[];
+        modified_date?: string;
+        created_date?: string;
+        absolute_path?: string;
+        exists?: boolean;
+    };
+    weldment_info?: {
+        weldment_detected?: boolean;
+        weld_beads?: number;
+        weld_fillets?: number;
+        weld_grooves?: number;
+        members?: string[];
+        gussets?: number;
+        end_caps?: number;
+        trim_extend?: number;
+    };
+    structure_info?: {
+        is_assembly?: boolean;
+        components?: Array<{
+            id: string;
+            name: string;
+        }>;
+        weldment_features?: Array<{
+            feature: string;
+            count: number;
+        }>;
+        entity_counts?: Record<string, number>;
+        materials?: string[];
+    };
+    coordinate_bounds?: {
+        x?: { min: number; max: number };
+        y?: { min: number; max: number };
+        z?: { min: number; max: number };
+        units?: string;
+        approximate_dimensions?: {
+            width: number;
+            height: number;
+            depth: number;
+        };
+        coordinate_points_analyzed?: number;
+    };
+    solidworks_specific?: {
+        export_options?: {
+            suggested: string;
+            avoid: string;
+        };
+        weldment_handling?: {
+            tip: string;
+            common_issues: string[];
+        };
+    };
+    status?: string;
+    error?: string;
+    suggestions?: string[];
+    read_status?: string;
+    transfer_roots?: boolean | number;
+    analysis_complete?: boolean;
+    geometric_analysis?: boolean;
+    file_validity?: string;
 }
 
 interface FileError {
@@ -172,7 +258,7 @@ export default function Show({ fileUpload }: Props) {
     ];
 
     // Define available view types
-    const viewTypes: ViewType[] = [
+    const viewTypes: ViewType[] = useMemo(() => [
         {
             id: '3d',
             name: '3D',
@@ -193,7 +279,7 @@ export default function Show({ fileUpload }: Props) {
             name: 'Wireframe 2D',
             description: 'Vista 2D en modo wireframe'
         }
-    ];
+    ], []);
 
     const { delete: destroy, processing } = useForm();
     const { post: analyze, processing: analyzing } = useForm();
@@ -241,10 +327,10 @@ export default function Show({ fileUpload }: Props) {
     };
 
     const handleAnalyze = () => {
-        const route = (fileUpload.status === 'analyzed' || fileUpload.status === 'processed') 
-            ? `/3d/${fileUpload.id}/reanalyze` 
+        const route = (fileUpload.status === 'analyzed' || fileUpload.status === 'processed')
+            ? `/3d/${fileUpload.id}/reanalyze`
             : `/3d/${fileUpload.id}/analyze`;
-        
+
         analyze(route, {
             onSuccess: () => {
                 // Recargar la página para mostrar los nuevos datos de análisis
@@ -258,13 +344,14 @@ export default function Show({ fileUpload }: Props) {
 
     // Check if file is a 3D model that can be viewed
     const isViewable3D = ['stl', 'obj', '3mf'].includes(fileUpload.extension.toLowerCase());
+    const isSTEPFile = ['step', 'stp'].includes(fileUpload.extension.toLowerCase());
 
     // Generate preview for a specific render type
-    const generatePreview = async (renderType: ViewTypeId) => {
+    const generatePreview = useCallback(async (renderType: ViewTypeId) => {
         try {
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
             console.log(`Generating ${renderType} preview with CSRF token:`, csrfToken ? 'Present' : 'Missing');
-            
+
             const response = await fetch(`/3d/${fileUpload.id}/preview`, {
                 method: 'POST',
                 headers: {
@@ -279,7 +366,7 @@ export default function Show({ fileUpload }: Props) {
             if (response.ok) {
                 const data = await response.json();
                 const newPreview = data.preview;
-                
+
                 setPreviews(prev => ({
                     ...prev,
                     [renderType]: {
@@ -290,7 +377,7 @@ export default function Show({ fileUpload }: Props) {
                         created_at: newPreview.created_at
                     }
                 }));
-                
+
                 return newPreview;
             } else {
                 const errorData = await response.text();
@@ -305,7 +392,7 @@ export default function Show({ fileUpload }: Props) {
             console.error(`Error generating ${renderType} preview:`, error);
             throw error;
         }
-    };
+    }, [fileUpload.id]);
 
     // Auto-generate missing previews
     useEffect(() => {
@@ -314,9 +401,15 @@ export default function Show({ fileUpload }: Props) {
             if (autoGenerationComplete) {
                 return;
             }
-            
-            const viewTypesToGenerate = viewTypes.filter(viewType => 
-                !previews[viewType.id] && 
+
+            // Skip auto-generation for STEP files as they don't support 3D previews yet
+            if (isSTEPFile) {
+                setAutoGenerationComplete(true);
+                return;
+            }
+
+            const viewTypesToGenerate = viewTypes.filter(viewType =>
+                !previews[viewType.id] &&
                 viewType.id !== '3d' &&
                 !generatingPreviews.has(viewType.id) &&
                 !failedPreviews.has(viewType.id)
@@ -345,10 +438,10 @@ export default function Show({ fileUpload }: Props) {
                         newSet.delete(viewType.id);
                         return newSet;
                     });
-                    
+
                     // Mark as failed to prevent infinite retries
                     setFailedPreviews(prev => new Set(prev).add(viewType.id));
-                    
+
                     // If it's a 404 error, stop trying to generate for this file
                     if (error instanceof Error && (error.message.includes('404') || error.message.includes('File not found'))) {
                         console.warn(`Stopping preview generation for file ${fileUpload.id} due to missing file`);
@@ -356,20 +449,20 @@ export default function Show({ fileUpload }: Props) {
                     }
                 }
             }
-            
+
             // Mark auto-generation as complete after processing all types
             setAutoGenerationComplete(true);
         };
 
         // Only auto-generate if we have fetched previews and some are missing
         // but not currently generating anything and auto-generation is not complete
-        if (!loadingPreviews && 
+        if (!loadingPreviews &&
             !autoGenerationComplete &&
-            Object.keys(previews).length < viewTypes.length - 1 && 
+            Object.keys(previews).length < viewTypes.length - 1 &&
             generatingPreviews.size === 0) {
             autoGeneratePreviews();
         }
-    }, [previews, loadingPreviews, viewTypes, fileUpload.id, generatingPreviews.size, failedPreviews.size, autoGenerationComplete]);
+    }, [previews, loadingPreviews, viewTypes, fileUpload.id, generatingPreviews, failedPreviews, autoGenerationComplete, isSTEPFile, generatePreview]);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -413,7 +506,7 @@ export default function Show({ fileUpload }: Props) {
                                 Analizar
                             </Button>
                         )}
-                        {(fileUpload.status === 'processed' || fileUpload.status === 'analyzed') && (
+                        {(fileUpload.status === 'processed' || fileUpload.status === 'analyzed' || fileUpload.status === 'error') && (
                             <Button
                                 variant="outline"
                                 size="sm"
@@ -470,6 +563,411 @@ export default function Show({ fileUpload }: Props) {
                     </Card>
                 )}
 
+                {/* Debug information for STEP files */}
+                {process.env.NODE_ENV === 'development' && isSTEPFile && (
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-sm">Debug Info - STEP File</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-xs space-y-2">
+                                <div>isSTEPFile: {isSTEPFile ? 'YES' : 'NO'}</div>
+                                <div>result exists: {result ? 'YES' : 'NO'}</div>
+                                <div>fileUpload.status: {fileUpload.status}</div>
+                                <div>fileUpload.analysis_result exists: {fileUpload.analysis_result ? 'YES' : 'NO'}</div>
+                                {result && (
+                                    <div>
+                                        <div>result keys: {Object.keys(result).join(', ')}</div>
+                                        <pre className="bg-gray-100 p-2 rounded text-xs overflow-auto max-h-40">
+                                            {JSON.stringify(result, null, 2)}
+                                        </pre>
+                                    </div>
+                                )}
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
+
+                {/* STEP File Information - Show for STEP files */}
+                {isSTEPFile && (
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <FileIcon className="h-5 w-5" />
+                                Información del archivo STEP
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            {!result && (
+                                <div className="text-center py-8">
+                                    <div className="text-muted-foreground mb-4">
+                                        <AlertCircle className="h-12 w-12 mx-auto mb-2" />
+                                        No hay análisis disponible para este archivo STEP
+                                    </div>
+                                    <div className="text-sm text-muted-foreground">
+                                        El archivo necesita ser analizado para ver información detallada.
+                                    </div>
+                                    {(fileUpload.status === 'uploaded' || fileUpload.status === 'error') && (
+                                        <Button
+                                            className="mt-4"
+                                            onClick={handleAnalyze}
+                                            disabled={analyzing}
+                                        >
+                                            {analyzing ? 'Analizando...' : fileUpload.status === 'error' ? 'Re-analizar archivo' : 'Analizar archivo'}
+                                        </Button>
+                                    )}
+                                </div>
+                            )}
+
+                            {result && (
+                                <>
+                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                                {/* File Info */}
+                                {result.file_info && (
+                                    <div className="space-y-2">
+                                        <h4 className="text-sm font-medium text-muted-foreground">Archivo</h4>
+                                        <div className="space-y-1">
+                                            <div className="flex justify-between text-sm">
+                                                <span>Tipo:</span>
+                                                <span className="font-mono">{result.file_info.file_type || 'STEP'}</span>
+                                            </div>
+                                            <div className="flex justify-between text-sm">
+                                                <span>Tamaño:</span>
+                                                <span className="font-mono">{result.file_info.file_size_mb} MB</span>
+                                            </div>
+                                            <div className="flex justify-between text-sm">
+                                                <span>Codificación:</span>
+                                                <span className="font-mono">{result.file_info.encoding}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* SOLIDWORKS Info */}
+                                {result.metadata?.solidworks_info && Object.keys(result.metadata.solidworks_info).length > 0 && (
+                                    <div className="space-y-2">
+                                        <h4 className="text-sm font-medium text-muted-foreground">SOLIDWORKS</h4>
+                                        <div className="space-y-1">
+                                            {result.metadata.solidworks_info.sw_version && (
+                                                <div className="flex justify-between text-sm">
+                                                    <span>Versión:</span>
+                                                    <span className="font-mono">{result.metadata.solidworks_info.sw_version}</span>
+                                                </div>
+                                            )}
+                                            {result.metadata.solidworks_info.sw_author && (
+                                                <div className="flex justify-between text-sm">
+                                                    <span>Autor:</span>
+                                                    <span className="font-mono">{result.metadata.solidworks_info.sw_author}</span>
+                                                </div>
+                                            )}
+                                            {result.metadata.solidworks_info.sw_material && (
+                                                <div className="flex justify-between text-sm">
+                                                    <span>Material:</span>
+                                                    <span className="font-mono">{result.metadata.solidworks_info.sw_material}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* General STEP Info */}
+                                {result.metadata?.general && (
+                                    <div className="space-y-2">
+                                        <h4 className="text-sm font-medium text-muted-foreground">STEP</h4>
+                                        <div className="space-y-1">
+                                            {result.metadata.general.file_schema && (
+                                                <div className="flex justify-between text-sm">
+                                                    <span>Esquema:</span>
+                                                    <span className="font-mono">{result.metadata.general.file_schema}</span>
+                                                </div>
+                                            )}
+                                            {result.metadata.general.file_description && (
+                                                <div className="flex justify-between text-sm">
+                                                    <span>Descripción:</span>
+                                                    <span className="font-mono">{result.metadata.general.file_description}</span>
+                                                </div>
+                                            )}
+                                            {result.metadata.general.timestamp && (
+                                                <div className="flex justify-between text-sm">
+                                                    <span>Fecha:</span>
+                                                    <span className="font-mono">{new Date(result.metadata.general.timestamp).toLocaleDateString()}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Assembly Components */}
+                            {result.structure_info?.is_assembly && result.structure_info.components && result.structure_info.components.length > 0 && (
+                                <div className="mt-6">
+                                    <h4 className="text-sm font-medium text-muted-foreground mb-3">
+                                        Componentes del ensamblaje ({result.structure_info.components.length})
+                                    </h4>
+                                    <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+                                        {result.structure_info.components.slice(0, 12).map((component, index) => (
+                                            <div key={index} className="bg-muted/50 rounded p-2">
+                                                <div className="text-xs font-mono text-muted-foreground">#{component.id}</div>
+                                                <div className="text-sm font-medium truncate">{component.name}</div>
+                                            </div>
+                                        ))}
+                                        {result.structure_info.components.length > 12 && (
+                                            <div className="bg-muted/30 rounded p-2 flex items-center justify-center">
+                                                <span className="text-sm text-muted-foreground">
+                                                    +{result.structure_info.components.length - 12} más
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Entity Counts */}
+                            {result.structure_info?.entity_counts && (
+                                <div className="mt-6">
+                                    <h4 className="text-sm font-medium text-muted-foreground mb-3">Entidades STEP</h4>
+                                    <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
+                                        {Object.entries(result.structure_info.entity_counts).map(([entity, count]) => (
+                                            <div key={entity} className="bg-muted/50 rounded p-2 text-center">
+                                                <div className="text-lg font-bold text-blue-600">{count.toLocaleString()}</div>
+                                                <div className="text-xs text-muted-foreground">{entity.replace('_', ' ')}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Status and Suggestions */}
+                            {(result.status || result.suggestions) && (
+                                <div className="mt-6">
+                                    <div className="grid gap-4 md:grid-cols-2">
+                                        {result.status && (
+                                            <div className="space-y-2">
+                                                <h4 className="text-sm font-medium text-muted-foreground">Estado del análisis</h4>
+                                                <Badge variant={
+                                                    result.status === "success" ? "default" :
+                                                    result.status.includes("with_analysis") ? "secondary" : "destructive"
+                                                }>
+                                                    {result.status.replace(/_/g, ' ')}
+                                                </Badge>
+                                                {result.error && (
+                                                    <p className="text-sm text-muted-foreground">{result.error}</p>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {result.suggestions && result.suggestions.length > 0 && (
+                                            <div className="space-y-2">
+                                                <h4 className="text-sm font-medium text-muted-foreground">Sugerencias</h4>
+                                                <ul className="text-sm text-muted-foreground space-y-1">
+                                                    {result.suggestions.slice(0, 3).map((suggestion, index) => (
+                                                        <li key={index} className="flex items-start gap-2">
+                                                            <span className="text-blue-500 mt-1">•</span>
+                                                            <span>{suggestion}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Coordinate Bounds */}
+                            {result.coordinate_bounds && (
+                                <div className="mt-6">
+                                    <h4 className="text-sm font-medium text-muted-foreground mb-3">Dimensiones y coordenadas</h4>
+                                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                                        {result.coordinate_bounds.approximate_dimensions && (
+                                            <div className="bg-muted/50 rounded p-3">
+                                                <div className="text-xs font-medium text-muted-foreground mb-2">Dimensiones aproximadas</div>
+                                                <div className="space-y-1">
+                                                    <div className="flex justify-between text-sm">
+                                                        <span>Ancho:</span>
+                                                        <span className="font-mono">{result.coordinate_bounds.approximate_dimensions.width.toFixed(2)} {result.coordinate_bounds.units || 'mm'}</span>
+                                                    </div>
+                                                    <div className="flex justify-between text-sm">
+                                                        <span>Alto:</span>
+                                                        <span className="font-mono">{result.coordinate_bounds.approximate_dimensions.height.toFixed(2)} {result.coordinate_bounds.units || 'mm'}</span>
+                                                    </div>
+                                                    <div className="flex justify-between text-sm">
+                                                        <span>Profundidad:</span>
+                                                        <span className="font-mono">{result.coordinate_bounds.approximate_dimensions.depth.toFixed(2)} {result.coordinate_bounds.units || 'mm'}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {result.coordinate_bounds.x && (
+                                            <div className="bg-muted/50 rounded p-3">
+                                                <div className="text-xs font-medium text-muted-foreground mb-2">Límites X</div>
+                                                <div className="space-y-1">
+                                                    <div className="flex justify-between text-sm">
+                                                        <span>Mínimo:</span>
+                                                        <span className="font-mono">{result.coordinate_bounds.x.min.toFixed(3)}</span>
+                                                    </div>
+                                                    <div className="flex justify-between text-sm">
+                                                        <span>Máximo:</span>
+                                                        <span className="font-mono">{result.coordinate_bounds.x.max.toFixed(3)}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {result.coordinate_bounds.y && (
+                                            <div className="bg-muted/50 rounded p-3">
+                                                <div className="text-xs font-medium text-muted-foreground mb-2">Límites Y</div>
+                                                <div className="space-y-1">
+                                                    <div className="flex justify-between text-sm">
+                                                        <span>Mínimo:</span>
+                                                        <span className="font-mono">{result.coordinate_bounds.y.min.toFixed(3)}</span>
+                                                    </div>
+                                                    <div className="flex justify-between text-sm">
+                                                        <span>Máximo:</span>
+                                                        <span className="font-mono">{result.coordinate_bounds.y.max.toFixed(3)}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {result.coordinate_bounds.z && (
+                                            <div className="bg-muted/50 rounded p-3">
+                                                <div className="text-xs font-medium text-muted-foreground mb-2">Límites Z</div>
+                                                <div className="space-y-1">
+                                                    <div className="flex justify-between text-sm">
+                                                        <span>Mínimo:</span>
+                                                        <span className="font-mono">{result.coordinate_bounds.z.min.toFixed(3)}</span>
+                                                    </div>
+                                                    <div className="flex justify-between text-sm">
+                                                        <span>Máximo:</span>
+                                                        <span className="font-mono">{result.coordinate_bounds.z.max.toFixed(3)}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {result.coordinate_bounds.coordinate_points_analyzed && (
+                                        <div className="mt-3 text-sm text-muted-foreground">
+                                            <span className="font-medium">{result.coordinate_bounds.coordinate_points_analyzed.toLocaleString()}</span> puntos de coordenadas analizados
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Weldment Information */}
+                            {result.weldment_info && result.weldment_info.weldment_detected && (
+                                <div className="mt-6">
+                                    <h4 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
+                                        <WrenchIcon className="h-4 w-4" />
+                                        Información de soldadura
+                                    </h4>
+                                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                                        {result.weldment_info.weld_beads !== undefined && (
+                                            <div className="bg-blue-50 rounded p-3 text-center">
+                                                <div className="text-xl font-bold text-blue-600">{result.weldment_info.weld_beads}</div>
+                                                <div className="text-xs text-blue-700">Cordones de soldadura</div>
+                                            </div>
+                                        )}
+                                        {result.weldment_info.weld_fillets !== undefined && (
+                                            <div className="bg-green-50 rounded p-3 text-center">
+                                                <div className="text-xl font-bold text-green-600">{result.weldment_info.weld_fillets}</div>
+                                                <div className="text-xs text-green-700">Filetes de soldadura</div>
+                                            </div>
+                                        )}
+                                        {result.weldment_info.gussets !== undefined && (
+                                            <div className="bg-purple-50 rounded p-3 text-center">
+                                                <div className="text-xl font-bold text-purple-600">{result.weldment_info.gussets}</div>
+                                                <div className="text-xs text-purple-700">Cartelas</div>
+                                            </div>
+                                        )}
+                                        {result.weldment_info.end_caps !== undefined && (
+                                            <div className="bg-orange-50 rounded p-3 text-center">
+                                                <div className="text-xl font-bold text-orange-600">{result.weldment_info.end_caps}</div>
+                                                <div className="text-xs text-orange-700">Tapas finales</div>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {result.weldment_info.members && result.weldment_info.members.length > 0 && (
+                                        <div className="mt-4">
+                                            <div className="text-xs font-medium text-muted-foreground mb-2">
+                                                Miembros estructurales ({result.weldment_info.members.length})
+                                            </div>
+                                            <div className="flex flex-wrap gap-1">
+                                                {result.weldment_info.members.slice(0, 10).map((member, index) => (
+                                                    <Badge key={index} variant="outline" className="text-xs">
+                                                        {member}
+                                                    </Badge>
+                                                ))}
+                                                {result.weldment_info.members.length > 10 && (
+                                                    <Badge variant="secondary" className="text-xs">
+                                                        +{result.weldment_info.members.length - 10} más
+                                                    </Badge>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* SOLIDWORKS-specific suggestions */}
+                            {result.solidworks_specific && (
+                                <div className="mt-6">
+                                    <h4 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
+                                        <CogIcon className="h-4 w-4" />
+                                        Recomendaciones específicas para SOLIDWORKS
+                                    </h4>
+                                    <div className="grid gap-4 md:grid-cols-2">
+                                        {result.solidworks_specific.export_options && (
+                                            <div className="bg-green-50 rounded p-4">
+                                                <div className="text-sm font-medium text-green-800 mb-2">Opciones de exportación</div>
+                                                <div className="space-y-2">
+                                                    <div>
+                                                        <div className="text-xs font-medium text-green-700">Recomendado:</div>
+                                                        <div className="text-xs text-green-600">{result.solidworks_specific.export_options.suggested}</div>
+                                                    </div>
+                                                    <div>
+                                                        <div className="text-xs font-medium text-green-700">Evitar:</div>
+                                                        <div className="text-xs text-green-600">{result.solidworks_specific.export_options.avoid}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {result.solidworks_specific.weldment_handling && (
+                                            <div className="bg-blue-50 rounded p-4">
+                                                <div className="text-sm font-medium text-blue-800 mb-2">Manejo de soldaduras</div>
+                                                <div className="space-y-2">
+                                                    <div>
+                                                        <div className="text-xs font-medium text-blue-700">Consejo:</div>
+                                                        <div className="text-xs text-blue-600">{result.solidworks_specific.weldment_handling.tip}</div>
+                                                    </div>
+                                                    {result.solidworks_specific.weldment_handling.common_issues && (
+                                                        <div>
+                                                            <div className="text-xs font-medium text-blue-700">Problemas comunes:</div>
+                                                            <ul className="text-xs text-blue-600 space-y-1">
+                                                                {result.solidworks_specific.weldment_handling.common_issues.map((issue, index) => (
+                                                                    <li key={index} className="flex items-start gap-1">
+                                                                        <span className="text-blue-500 mt-0.5">•</span>
+                                                                        <span>{issue}</span>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                                </>
+                            )}
+                        </CardContent>
+                    </Card>
+                )}
+
                 {/* Main Content */}
                 <div className="space-y-4">
                     <h2 className="text-lg font-semibold">Análisis del archivo</h2>
@@ -487,7 +985,9 @@ export default function Show({ fileUpload }: Props) {
                                     </CardHeader>
                                     <CardContent>
                                         <div className="text-2xl font-bold">
-                                            {result.dimensions ?
+                                            {result.coordinate_bounds?.approximate_dimensions ?
+                                                `${result.coordinate_bounds.approximate_dimensions.width?.toFixed(1)} × ${result.coordinate_bounds.approximate_dimensions.height?.toFixed(1)} × ${result.coordinate_bounds.approximate_dimensions.depth?.toFixed(1)}`
+                                                : result.dimensions ?
                                                 (result.dimensions.x !== undefined ?
                                                     `${result.dimensions.x?.toFixed(1)} × ${result.dimensions.y?.toFixed(1)} × ${result.dimensions.z?.toFixed(1)}`
                                                     : `${result.dimensions.width?.toFixed(1)} × ${result.dimensions.height?.toFixed(1)} × ${result.dimensions.depth?.toFixed(1)}`
@@ -495,7 +995,12 @@ export default function Show({ fileUpload }: Props) {
                                                 : 'N/A'
                                             }
                                         </div>
-                                        <p className="text-xs text-muted-foreground">mm</p>
+                                        <p className="text-xs text-muted-foreground">
+                                            {result.coordinate_bounds?.units || 'mm'}
+                                            {result.coordinate_bounds?.coordinate_points_analyzed &&
+                                                ` (${result.coordinate_bounds.coordinate_points_analyzed} puntos)`
+                                            }
+                                        </p>
                                     </CardContent>
                                 </Card>
 
@@ -511,10 +1016,10 @@ export default function Show({ fileUpload }: Props) {
                                             {result.volume && result.volume > 1e-10 ? result.volume.toFixed(2) : 'N/A'}
                                         </div>
                                         <p className="text-xs text-muted-foreground">
-                                            {result.volume && result.volume > 1e-10 ? 
-                                                'mm³' : 
-                                                result.volume && result.volume <= 1e-10 ? 
-                                                    'Modelo requiere reparación' : 
+                                            {result.volume && result.volume > 1e-10 ?
+                                                'mm³' :
+                                                result.volume && result.volume <= 1e-10 ?
+                                                    'Modelo requiere reparación' :
                                                     'Requiere PythonOCC'
                                             }
                                         </p>
@@ -557,6 +1062,147 @@ export default function Show({ fileUpload }: Props) {
                                 </Card>
                             </div>
 
+                            {/* STEP Analysis Status - Show for STEP files */}
+                            {isSTEPFile && result && (
+                                <div>
+                                    <h3 className="text-md font-semibold mb-3 flex items-center gap-2">
+                                        <GaugeIcon className="h-5 w-5" />
+                                        Estado del análisis STEP
+                                    </h3>
+                                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                                        <Card>
+                                            <CardHeader className="pb-2">
+                                                <CardTitle className="text-sm font-medium">Lectura del archivo</CardTitle>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="flex items-center gap-2">
+                                                    {result.read_status === 'success' ? (
+                                                        <>
+                                                            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                                                            <span className="text-sm text-green-700">Exitosa</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                                                            <span className="text-sm text-red-700">Error</span>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+
+                                        <Card>
+                                            <CardHeader className="pb-2">
+                                                <CardTitle className="text-sm font-medium">Transferencia de geometría</CardTitle>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="flex items-center gap-2">
+                                                    {result.transfer_roots ? (
+                                                        <>
+                                                            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                                                            <span className="text-sm text-green-700">
+                                                                {typeof result.transfer_roots === 'number' ? `${result.transfer_roots} raíces` : 'Exitosa'}
+                                                            </span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                                                            <span className="text-sm text-orange-700">Limitada</span>
+                                                        </>
+                                                    )}
+                                                </div>
+                                                <p className="text-xs text-muted-foreground mt-1">
+                                                    {result.transfer_roots ? 'Geometría transferida correctamente' : 'Sin transferencia de geometría'}
+                                                </p>
+                                            </CardContent>
+                                        </Card>
+
+                                        <Card>
+                                            <CardHeader className="pb-2">
+                                                <CardTitle className="text-sm font-medium">Análisis geométrico</CardTitle>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="flex items-center gap-2">
+                                                    {result.geometric_analysis ? (
+                                                        <>
+                                                            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                                                            <span className="text-sm text-green-700">Completado</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                                            <span className="text-sm text-yellow-700">Parcial</span>
+                                                        </>
+                                                    )}
+                                                </div>
+                                                <p className="text-xs text-muted-foreground mt-1">
+                                                    {result.geometric_analysis ? 'Análisis completo realizado' : 'Solo análisis de estructura'}
+                                                </p>
+                                            </CardContent>
+                                        </Card>
+
+                                        <Card>
+                                            <CardHeader className="pb-2">
+                                                <CardTitle className="text-sm font-medium">Validez del archivo</CardTitle>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="flex items-center gap-2">
+                                                    {result.file_validity === 'valid' ? (
+                                                        <>
+                                                            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                                                            <span className="text-sm text-green-700">Válido</span>
+                                                        </>
+                                                    ) : result.file_validity === 'corrupted' ? (
+                                                        <>
+                                                            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                                                            <span className="text-sm text-red-700">Corrupto</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <div className="w-3 h-3 bg-gray-500 rounded-full"></div>
+                                                            <span className="text-sm text-gray-700">Desconocido</span>
+                                                        </>
+                                                    )}
+                                                </div>
+                                                <p className="text-xs text-muted-foreground mt-1">
+                                                    {result.file_validity === 'valid' ? 'Archivo STEP válido' :
+                                                     result.file_validity === 'corrupted' ? 'Archivo posiblemente dañado' :
+                                                     'Estado no determinado'}
+                                                </p>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+
+                                    {/* Analysis Summary */}
+                                    {(result.analysis_complete !== undefined || result.status) && (
+                                        <div className="mt-4 bg-muted/30 rounded p-4">
+                                            <div className="flex items-start gap-3">
+                                                <div className="flex-shrink-0 mt-1">
+                                                    {result.analysis_complete ? (
+                                                        <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                                                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center">
+                                                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="flex-1">
+                                                    <div className="text-sm font-medium">
+                                                        {result.analysis_complete ? 'Análisis completo' : 'Análisis parcial'}
+                                                    </div>
+                                                    <div className="text-sm text-muted-foreground mt-1">
+                                                        {result.status && result.status.replace(/_/g, ' ')}
+                                                        {result.error && ` - ${result.error}`}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
                             {/* Estadísticas de geometría */}
                             {result.metadata && (
                                 <div>
@@ -574,7 +1220,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.metadata.vertices !== undefined && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -587,7 +1233,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.metadata.faces !== undefined && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -600,7 +1246,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.metadata.edges !== undefined && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -613,7 +1259,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.metadata.surfaces !== undefined && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -626,7 +1272,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.metadata.solids !== undefined && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -671,7 +1317,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.metadata.bbox_min && result.metadata.bbox_max && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -740,7 +1386,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.manufacturing.cutting_length_mm !== undefined && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -757,7 +1403,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.manufacturing.holes_detected !== undefined && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -774,7 +1420,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.manufacturing.bend_orientations !== undefined && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -792,7 +1438,7 @@ export default function Show({ fileUpload }: Props) {
                                             </Card>
                                         )}
                                     </div>
-                                    
+
                                     {/* Información adicional de fabricación */}
                                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-4">
                                         {result.manufacturing.work_planes && (
@@ -825,7 +1471,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.manufacturing.complexity && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -858,7 +1504,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.manufacturing.material_efficiency !== undefined && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -937,7 +1583,7 @@ export default function Show({ fileUpload }: Props) {
                                             </div>
                                             <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-md">
                                                 <p className="text-xs text-blue-800">
-                                                    <strong>Nota:</strong> Las estimaciones se basan en el volumen calculado ({result.volume?.toFixed(2)} mm³) 
+                                                    <strong>Nota:</strong> Las estimaciones se basan en el volumen calculado ({result.volume?.toFixed(2)} mm³)
                                                     y densidades estándar de materiales. Los costos son aproximados y pueden variar según el proveedor.
                                                 </p>
                                             </div>
@@ -963,7 +1609,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.metadata.format && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -976,7 +1622,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.metadata.total_entities !== undefined && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -989,7 +1635,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.metadata.point_count !== undefined && result.metadata.point_count > 0 && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -1002,7 +1648,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.metadata.schema && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -1015,7 +1661,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </CardContent>
                                             </Card>
                                         )}
-                                        
+
                                         {result.metadata.file_name && (
                                             <Card>
                                                 <CardHeader className="pb-2">
@@ -1101,7 +1747,7 @@ export default function Show({ fileUpload }: Props) {
                                                 </AlertDescription>
                                             </Alert>
                                         )}
-                                        
+
                                         {/* Mostrar información específica del formato */}
                                         {result.metadata.description && (
                                             <div className="mb-4">

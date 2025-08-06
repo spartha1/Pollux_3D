@@ -55,19 +55,19 @@ class FilePreviewController extends Controller
             $wireframePreview = $fileUpload->previews()
                 ->where('render_type', 'wireframe')
                 ->first();
-            
+
             if ($wireframePreview && Storage::disk('public')->exists($wireframePreview->image_path)) {
                 Log::info('Reusing existing wireframe preview for wireframe_2d request', [
                     'file_id' => $fileUpload->id,
                     'wireframe_preview_id' => $wireframePreview->id
                 ]);
-                
+
                 // Create a new wireframe_2d record pointing to the same image
                 $newPreview = $fileUpload->previews()->create([
                     'image_path' => $wireframePreview->image_path,
                     'render_type' => 'wireframe_2d',
                 ]);
-                
+
                 return response()->json([
                     'message' => 'Preview reused from existing wireframe',
                     'preview' => $newPreview
@@ -118,7 +118,7 @@ class FilePreviewController extends Controller
         // Call preview generation service
         try {
             $preview = $this->generatePreview($fileUpload, $renderType);
-            
+
             Log::info('Preview generation completed successfully', [
                 'file_id' => $fileUpload->id,
                 'render_type' => $renderType,
@@ -136,7 +136,7 @@ class FilePreviewController extends Controller
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             return response()->json([
                 'message' => 'Preview generation failed',
                 'error' => $e->getMessage()
@@ -148,7 +148,7 @@ class FilePreviewController extends Controller
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             return response()->json([
                 'message' => 'Preview generation failed',
                 'error' => $e->getMessage()
@@ -280,7 +280,7 @@ class FilePreviewController extends Controller
                     'response_headers' => $response->headers(),
                     'content_type' => $response->header('Content-Type')
                 ]);
-                
+
                 try {
                     $data = $response->json();
                     Log::info('🔥 FULL RESPONSE DEBUG', [
@@ -299,7 +299,7 @@ class FilePreviewController extends Controller
                     ]);
                     throw new \Exception('Failed to parse JSON response from preview service: ' . $jsonError->getMessage());
                 }
-                
+
                 // Log the response structure for debugging
                 Log::info('Preview service response structure', [
                     'response_keys' => array_keys($data ?? []),
@@ -312,7 +312,7 @@ class FilePreviewController extends Controller
 
                 // Check if the Python server indicates success
                 $isSuccess = ($data['success'] ?? false) == 1 || ($data['success'] ?? false) === true;
-                
+
                 if (!$isSuccess) {
                     Log::error('Python server reported failure', [
                         'response_data' => $data,
@@ -323,7 +323,7 @@ class FilePreviewController extends Controller
 
                 // Get the image data from the correct field
                 $imageData = $data['image_data'] ?? null;
-                
+
                 Log::info('Checking image data', [
                     'image_data_exists' => isset($data['image_data']),
                     'image_data_null' => is_null($imageData),
@@ -331,7 +331,7 @@ class FilePreviewController extends Controller
                     'image_data_length' => is_string($imageData) ? strlen($imageData) : 0,
                     'raw_image_data_preview' => is_string($imageData) ? substr($imageData, 0, 100) : 'not string'
                 ]);
-                
+
                 if (!isset($data['image_data']) || !is_string($imageData) || strlen($imageData) < 100) {
                     Log::error('No image data in response', [
                         'response_data' => $data,
@@ -351,19 +351,19 @@ class FilePreviewController extends Controller
                 } else {
                     $filename = 'stl_' . $renderType . '_preview_' . substr(md5($fileUpload->id . time()), 0, 8) . '.png';
                 }
-                
+
                 // Save in the correct directory structure: storage/app/previews/
                 $previewPath = 'previews/' . $filename;
                 Storage::disk('local')->put($previewPath, base64_decode($imageData));
-                
+
                 // Create symlink path for public access: public/storage/previews/{id}/{filename}
                 $publicPreviewPath = 'previews/' . $fileUpload->id . '/' . $filename;
-                
+
                 // Ensure the public directory exists
                 if (!Storage::disk('public')->exists('previews/' . $fileUpload->id)) {
                     Storage::disk('public')->makeDirectory('previews/' . $fileUpload->id);
                 }
-                
+
                 // Copy to public storage for web access
                 Storage::disk('public')->put($publicPreviewPath, base64_decode($imageData));
 
@@ -373,13 +373,194 @@ class FilePreviewController extends Controller
                     'render_type' => $renderType,
                 ]);
             } else {
-                Log::error('Preview service returned non-successful response', [
+                $errorBody = $response->body();
+                $errorMessage = 'Error del servidor de preview';
+
+                // Intentar parsear respuesta JSON del analizador mejorado
+                try {
+                    // El errorBody puede contener JSON anidado del servidor Python
+                    $errorData = json_decode($errorBody, true);
+
+                    // Si hay un 'detail' que contiene JSON, parsearlo también
+                    if (isset($errorData['detail']) && is_string($errorData['detail']) && strpos($errorData['detail'], '{') !== false) {
+                        // Extraer JSON del detail
+                        if (preg_match('/\{.*\}/', $errorData['detail'], $matches)) {
+                            $nestedJson = json_decode($matches[0], true);
+                            if (json_last_error() === JSON_ERROR_NONE) {
+                                $errorData = $nestedJson;
+                            }
+                        }
+                    }
+
+                    if (json_last_error() === JSON_ERROR_NONE && isset($errorData['error'])) {
+
+                        // Crear mensaje amigable para el usuario
+                        $userMessage = "No se pudo generar la vista previa de este archivo STEP.";
+
+                        // Priorizar información diagnóstica del nuevo sistema mejorado
+                        if (isset($errorData['diagnostic_info']) && isset($errorData['analysis_type']) && $errorData['analysis_type'] === 'comprehensive_diagnostic') {
+                            $diagnostic = $errorData['diagnostic_info'];
+
+                            // Información del archivo STEP
+                            $metadata = $diagnostic['step_metadata'] ?? [];
+                            $structure = $diagnostic['structure_analysis'] ?? [];
+                            $bounds = $diagnostic['coordinate_bounds'] ?? [];
+                            $entities = $diagnostic['step_entities'] ?? [];
+                            $totalEntities = $diagnostic['total_step_entities'] ?? 0;
+                            $complexity = $diagnostic['file_complexity'] ?? 'unknown';
+
+                            // Crear mensaje detallado basado en la información extraída
+                            $userMessage = "✅ <strong>Archivo STEP válido</strong> - información detallada extraída:<br><br>";
+
+                            // Información del archivo
+                            if (!empty($metadata)) {
+                                $userMessage .= "📄 <strong>Información del archivo:</strong><br>";
+                                if (isset($metadata['description'])) {
+                                    $userMessage .= "• Descripción: {$metadata['description']}<br>";
+                                }
+                                if (isset($metadata['schema'])) {
+                                    $userMessage .= "• Schema: {$metadata['schema']}<br>";
+                                }
+                                if (isset($metadata['timestamp'])) {
+                                    $userMessage .= "• Creado: {$metadata['timestamp']}<br>";
+                                }
+                                $userMessage .= "<br>";
+                            }
+
+                            // Dimensiones aproximadas
+                            if (isset($bounds['approximate_dimensions'])) {
+                                $dims = $bounds['approximate_dimensions'];
+                                $userMessage .= "📐 <strong>Dimensiones aproximadas:</strong><br>";
+                                $userMessage .= "• {$dims['width']} × {$dims['height']} × {$dims['depth']} mm<br>";
+                                if (isset($bounds['coordinate_points_analyzed'])) {
+                                    $userMessage .= "• Basado en {$bounds['coordinate_points_analyzed']} puntos analizados<br>";
+                                }
+                                $userMessage .= "<br>";
+                            }
+
+                            // Análisis de contenido
+                            $userMessage .= "🔍 <strong>Contenido detectado:</strong><br>";
+                            $userMessage .= "• Total entidades STEP: " . number_format($totalEntities) . "<br>";
+
+                            if ($structure['has_basic_geometry'] ?? false) {
+                                $geomCount = 0;
+                                $geomTypes = [];
+                                foreach (['cartesian_point', 'line', 'circle', 'b_spline_curve', 'surface'] as $type) {
+                                    if (isset($entities[$type]) && $entities[$type] > 0) {
+                                        $geomCount += $entities[$type];
+                                        $geomTypes[] = str_replace('_', ' ', $type) . " ({$entities[$type]})";
+                                    }
+                                }
+                                if ($geomCount > 0) {
+                                    $userMessage .= "• Geometría: " . implode(', ', array_slice($geomTypes, 0, 3));
+                                    if (count($geomTypes) > 3) $userMessage .= ' y más...';
+                                    $userMessage .= "<br>";
+                                }
+                            }
+
+                            if ($structure['has_topology'] ?? false) {
+                                $topoCount = ($entities['advanced_face'] ?? 0) + ($entities['closed_shell'] ?? 0) + ($entities['manifold_solid_brep'] ?? 0);
+                                if ($topoCount > 0) {
+                                    $userMessage .= "• Topología: {$topoCount} elementos de superficie/sólido<br>";
+                                }
+                            }
+
+                            if ($structure['has_product_structure'] ?? false) {
+                                $prodCount = ($entities['product'] ?? 0);
+                                if ($prodCount > 0) {
+                                    $userMessage .= "• Productos: {$prodCount} elementos<br>";
+                                }
+                            }
+
+                            $userMessage .= "• Complejidad: " . ucfirst($complexity) . "<br><br>";
+
+                            // Por qué no se pudo generar la vista 3D
+                            $userMessage .= "⚠️ <strong>Vista 3D no disponible:</strong><br>";
+                            $userMessage .= "• El archivo contiene geometría válida pero incompatible con el motor PythonOCC<br>";
+                            $userMessage .= "• Esto es común en archivos con superficies NURBS complejas o geometría paramétrica avanzada<br><br>";
+
+                            // Sugerencias específicas
+                            $userMessage .= "💡 <strong>Soluciones recomendadas:</strong><br>";
+                            if ($complexity === 'high' || $totalEntities > 5000) {
+                                $userMessage .= "• <strong>Simplificar geometría</strong>: Reduce la complejidad en tu software CAD<br>";
+                                $userMessage .= "• <strong>Exportar a STL</strong>: Para visualización, usa formato STL que es más compatible<br>";
+                            }
+                            $userMessage .= "• <strong>Configuración STEP conservadora</strong>: Usa configuraciones más simples al exportar desde CAD<br>";
+                            $userMessage .= "• <strong>Visor CAD externo</strong>: Usa un software CAD profesional para visualización completa<br>";
+
+                        }
+                        // Fallback al sistema anterior para compatibilidad
+                        elseif (isset($errorData['fallback_analysis'])) {
+                            $fallback = $errorData['fallback_analysis'];
+
+                            // Verificar si el archivo es válido
+                            if (isset($fallback['structure_analysis'])) {
+                                $structure = $fallback['structure_analysis'];
+                                $complexity = $structure['complexity_score'] ?? 0;
+                                $hasGeometry = $structure['has_basic_geometry'] ?? false;
+                                $hasTopology = $structure['has_topology'] ?? false;
+                                $totalEntities = $fallback['total_step_entities'] ?? 0;
+
+                                if ($hasGeometry && $hasTopology && $totalEntities > 1000) {
+                                    $userMessage = "El archivo STEP es válido pero contiene geometría muy compleja ({$totalEntities} entidades) que no es compatible con el motor de visualización actual. ";
+                                    $userMessage .= "Sugerencias: Simplifica la geometría en tu software CAD o considera convertir a un formato más simple como STL para visualización.";
+                                } elseif ($hasGeometry) {
+                                    $userMessage = "El archivo STEP es válido pero tiene problemas de compatibilidad con el motor de visualización. ";
+                                    $userMessage .= "Intenta exportar el modelo con configuraciones STEP más conservadoras desde tu software CAD.";
+                                } else {
+                                    $userMessage = "El archivo STEP no contiene geometría compatible con el visualizador. ";
+                                    $userMessage .= "Verifica que el archivo fue exportado correctamente desde tu software CAD.";
+                                }
+                            }
+
+                            // Información adicional sobre el archivo
+                            if (isset($fallback['file_info']['file_size_mb'])) {
+                                $sizeMb = $fallback['file_info']['file_size_mb'];
+                                if ($sizeMb > 50) {
+                                    $userMessage .= " Nota: El archivo es muy grande ({$sizeMb} MB).";
+                                }
+                            }
+                        } else {
+                            // Sin información de fallback, mensaje genérico pero útil
+                            $userMessage = "No se pudo procesar el archivo STEP. ";
+                            if (strpos($errorData['error'], 'transferible') !== false) {
+                                $userMessage .= "El archivo puede contener geometría no estándar o incompatible. ";
+                                $userMessage .= "Intenta exportar el modelo con configuraciones STEP más simples desde tu software CAD.";
+                            } elseif (strpos($errorData['error'], 'corrupto') !== false) {
+                                $userMessage .= "El archivo puede estar dañado o corrupto. Verifica que el archivo fue guardado correctamente.";
+                            } else {
+                                $userMessage .= "Error técnico en el procesamiento. Contacta al soporte técnico si el problema persiste.";
+                            }
+                        }
+
+                        $errorMessage = $userMessage;
+
+                    } else {
+                        // Fallback a lógica anterior si no se puede parsear JSON
+                        if (strpos($errorBody, 'incompatible') !== false) {
+                            $errorMessage = 'Este archivo STEP no es compatible con el motor de visualización. Puede contener geometría no soportada o haber sido generado por una versión de CAD incompatible.';
+                        } elseif (strpos($errorBody, 'geometría válida') !== false || strpos($errorBody, 'vacío') !== false) {
+                            $errorMessage = 'El archivo STEP no contiene geometría válida o está vacío.';
+                        } elseif (strpos($errorBody, 'corrupto') !== false) {
+                            $errorMessage = 'El archivo STEP parece estar corrupto o dañado.';
+                        } else {
+                            $errorMessage = 'Error generando vista previa. Contacta al soporte técnico si el problema persiste.';
+                        }
+                    }
+                } catch (\Exception $parseError) {
+                    Log::warning('Could not parse error response as JSON', [
+                        'parse_error' => $parseError->getMessage(),
+                        'raw_body' => $errorBody
+                    ]);
+                    $errorMessage = 'Error generando vista previa. Contacta al soporte técnico si el problema persiste.';
+                }                Log::error('Preview service returned non-successful response', [
                     'status' => $response->status(),
                     'headers' => $response->headers(),
-                    'body' => $response->body(),
-                    'payload' => $payload
+                    'body' => $errorBody,
+                    'payload' => $payload,
+                    'parsed_error' => $errorMessage
                 ]);
-                throw new \Exception('Preview service returned error: ' . $response->body());
+                throw new \Exception($errorMessage);
             }
         } catch (\Exception $e) {
             // Log error

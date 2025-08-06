@@ -1,0 +1,13 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('Test invalid STEP file'),'2;1');
+FILE_NAME('test_invalid.step','2025-08-06T12:00:00',('Author'),('Organization'),
+'CAD System','CAD System','Unknown');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+ENDSEC;
+DATA;
+/* This is intentionally invalid STEP content */
+#1 = INVALID_ENTITY();
+#2 = ANOTHER_INVALID();
+ENDSEC;
+END-ISO-10303-21;
