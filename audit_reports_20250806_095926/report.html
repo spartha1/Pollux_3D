@@ -1,0 +1,146 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Auditoría Completa - Pollux 3D</title>
+            <meta charset="UTF-8">
+            <style>
+                body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background: #f8f9fa; }
+                .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+                .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; margin: -30px -30px 30px -30px; border-radius: 10px 10px 0 0; }
+                .health-score { text-align: center; margin: 20px 0; }
+                .score-circle { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold; background: #2ecc71; }
+                .section { margin: 30px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+                .critical { border-left: 5px solid #e74c3c; background: #fdf2f2; }
+                .warning { border-left: 5px solid #f39c12; background: #fefbf3; }
+                .success { border-left: 5px solid #27ae60; background: #f2f8f5; }
+                .info { border-left: 5px solid #3498db; background: #f2f8fc; }
+                .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+                .card { background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+                .recommendation { margin: 10px 0; padding: 15px; border-radius: 5px; }
+                .high-priority { background: #ffe6e6; border-left: 4px solid #e74c3c; }
+                .medium-priority { background: #fff3e0; border-left: 4px solid #f39c12; }
+                .low-priority { background: #e8f5e8; border-left: 4px solid #27ae60; }
+                table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+                th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+                th { background-color: #f8f9fa; font-weight: 600; }
+                .metric { text-align: center; }
+                .metric-value { font-size: 2em; font-weight: bold; color: #2c3e50; }
+                .metric-label { color: #7f8c8d; }
+                .progress-bar { width: 100%; height: 20px; background: #ecf0f1; border-radius: 10px; overflow: hidden; }
+                .progress-fill { height: 100%; background: linear-gradient(90deg, #e74c3c 0%, #f39c12 40%, #27ae60 100%); transition: width 0.3s; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>🔍 Auditoría Completa del Sistema Pollux 3D</h1>
+                    <p>Generado el: 2025-08-06T09:59:44.940621</p>
+                    <p>Directorio auditado: /home/jerardo/Documents/Pollux3d/Pollux_3D</p>
+                </div>
+                
+                <div class="health-score">
+                    <h2>Puntuación de Salud del Sistema</h2>
+                    <div class="score-circle">
+                        80/100
+                    </div>
+                    <h3>Estado: GOOD</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%;"></div>
+                    </div>
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>📊 Métricas Clave</h3>
+                        <div class="metric">
+                            <div class="metric-value">4746</div>
+                            <div class="metric-label">Grupos de Duplicados</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">48</div>
+                            <div class="metric-label">Scripts de Build</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">494</div>
+                            <div class="metric-label">Archivos Probados</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🎯 Resumen Ejecutivo</h3>
+                        <p><strong>Estado General:</strong> CRITICAL</p>
+                        <p><strong>Problemas Críticos:</strong> 2</p>
+                        <p><strong>Advertencias:</strong> 0</p>
+                        <ul>
+        <li>Encontrados 4746 grupos de archivos duplicados</li><li>Solo 10/48 scripts de build parecen funcionales</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>💡 Plan de Acción Recomendado</h2>
+                    
+                    <h3>🚨 Acciones Inmediatas (Alta Prioridad)</h3>
+        
+                    <div class="recommendation high-priority">
+                        <strong>Archivos duplicados encontrados</strong><br>
+                        <em>Acción:</em> Revisar y eliminar archivos duplicados innecesarios<br>
+                        <small>Fuente: system_audit | Categoría: duplicates</small>
+                    </div>
+            
+                    <h3>⚠️ Acciones a Corto Plazo (Prioridad Media)</h3>
+        
+                    <div class="recommendation medium-priority">
+                        <strong>Múltiples scripts de rebuild</strong><br>
+                        <em>Acción:</em> Consolidar en un script principal funcional<br>
+                        <small>Fuente: system_audit | Categoría: scripts</small>
+                    </div>
+            
+                    <div class="recommendation medium-priority">
+                        <strong>Archivos grandes detectados</strong><br>
+                        <em>Acción:</em> Revisar si los archivos grandes son necesarios<br>
+                        <small>Fuente: system_audit | Categoría: storage</small>
+                    </div>
+            
+                    <h3>📋 Acciones a Largo Plazo (Prioridad Baja)</h3>
+        
+                </div>
+                
+                <div class="section info">
+                    <h2>⏱️ Estimación de Tiempo</h2>
+                    <ul>
+                        <li><strong>Inmediato:</strong> 1 * 30min = 0.5h</li>
+                        <li><strong>Corto plazo:</strong> 2 * 1h = 2h</li>
+                        <li><strong>Largo plazo:</strong> 0 * 2h = 0h</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h2>🔍 Detalles de la Puntuación</h2>
+                    <p><strong>Puntuación base:</strong> 100 puntos</p>
+                    <p><strong>Deducciones totales:</strong> -20 puntos</p>
+                    <ul>
+        <li>Archivos duplicados: -20</li>
+                    </ul>
+                    <p><strong>Puntuación final:</strong> 80/100 (good)</p>
+                </div>
+                
+                <div class="section">
+                    <h2>📋 Dependencias del Sistema</h2>
+                    <table>
+                        <tr><th>Dependencia</th><th>Estado</th><th>Versión</th></tr>
+        <tr><td>python</td><td>✅ available</td><td>Python 3.13.2</td></tr><tr><td>php</td><td>✅ available</td><td>PHP 8.3.6 (cli) (built: Jul 14 2025 18:30:55) (NTS)</td></tr><tr><td>powershell</td><td>✅ available</td><td>test</td></tr><tr><td>node</td><td>✅ available</td><td>v20.19.4</td></tr><tr><td>npm</td><td>✅ available</td><td>10.8.2</td></tr><tr><td>composer</td><td>✅ available</td><td>Composer version 2.8.10 2025-07-10 19:08:33</td></tr><tr><td>conda</td><td>✅ available</td><td>conda 25.3.1</td></tr>
+                    </table>
+                </div>
+                
+                <div class="section">
+                    <p style="text-align: center; color: #7f8c8d; margin-top: 30px;">
+                        Reporte generado automáticamente por el Sistema de Auditoría Pollux 3D<br>
+                        Para más detalles, consulte los archivos JSON incluidos en esta carpeta.
+                    </p>
+                </div>
+            </div>
+        </body>
+        </html>
+        

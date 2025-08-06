@@ -26,7 +26,7 @@ except ImportError as e:
 
 from fastapi import FastAPI, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 import uvicorn
 import base64
 import tempfile
@@ -77,6 +77,21 @@ class PreviewRequest(BaseModel):
     file_id: str
     file_path: str
     render_type: str = '2d'  # '2d', 'wireframe', '3d'
+    # Campos adicionales que Laravel puede enviar
+    preview_type: str = None  # Alias para render_type
+    width: int = 800
+    height: int = 600
+    background_color: str = "#FFFFFF"
+    file_type: str = None
+    output_dir: str = None  # Laravel envía este campo
+    
+    @model_validator(mode='before')
+    @classmethod
+    def validate_render_type(cls, data):
+        # Si preview_type está presente, usar como render_type
+        if isinstance(data, dict) and 'preview_type' in data and data['preview_type']:
+            data['render_type'] = data['preview_type']
+        return data
 
 def generate_step_preview(file_path: str, render_type: str) -> str:
     """Generate preview for STEP/STP files"""
@@ -180,6 +195,12 @@ def generate_stl_preview(file_path: str, render_type: str) -> str:
 async def generate_preview(request: PreviewRequest, background_tasks: BackgroundTasks):
     """Generate preview for 3D files"""
     file_path = request.file_path
+    
+    # Si la ruta no es absoluta, asumir que es relativa al directorio storage/app de Laravel
+    if not os.path.isabs(file_path):
+        storage_path = config.BASE_DIR / 'storage' / 'app' / file_path
+        file_path = str(storage_path)
+    
     if not os.path.exists(file_path):
         raise HTTPException(404, f"Archivo no encontrado: {file_path}")
 
@@ -204,5 +225,23 @@ async def generate_preview(request: PreviewRequest, background_tasks: Background
         logger.error(f"Error generating preview: {str(e)}")
         raise HTTPException(500, f"Error generating preview: {str(e)}")
 
+# Alias para compatibilidad con Laravel (usa generate_preview en lugar de preview)
+@app.post("/generate_preview")
+async def generate_preview_alias(request: PreviewRequest, background_tasks: BackgroundTasks):
+    """Generate preview for 3D files - Laravel compatibility endpoint"""
+    return await generate_preview(request, background_tasks)
+
+@app.get("/debug/routes")
+async def debug_routes():
+    """Debug endpoint to list all available routes"""
+    routes = []
+    for route in app.routes:
+        if hasattr(route, 'methods') and hasattr(route, 'path'):
+            routes.append({
+                "path": route.path,
+                "methods": list(route.methods)
+            })
+    return {"routes": routes}
+
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host=config.HOST, port=config.PORT)

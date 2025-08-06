@@ -33,9 +33,10 @@ class Config:
                 'conda_env': '/opt/conda/envs/pollux-preview-env'  # Ajustar según el servidor
             }
         else:
+            # Configuración para Linux de desarrollo
             return {
-                'executable': r'C:\Users\Leinad\miniconda3\envs\pollux-preview-env\python.exe',
-                'conda_env': r'C:\Users\Leinad\miniconda3\envs\pollux-preview-env'
+                'executable': '/home/jerardo/miniconda3/envs/pollux-preview-env/bin/python',
+                'conda_env': '/home/jerardo/miniconda3/envs/pollux-preview-env'
             }
 
     @classmethod
@@ -46,7 +47,7 @@ class Config:
     @classmethod
     def get_port(cls):
         """Obtener el puerto según el entorno y configuración"""
-        default_port = 8051
+        default_port = 8052  # Cambiar el puerto por defecto
         env_port = os.getenv('PREVIEW_SERVER_PORT')
         if env_port:
             try:

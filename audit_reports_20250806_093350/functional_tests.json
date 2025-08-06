@@ -1,0 +1,3706 @@
+{
+  "timestamp": "2025-08-06T09:33:52.961610",
+  "test_results": {
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/setup-production.ps1": {
+      "type": "ps1",
+      "size": 7403,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/monitor_dxf_analysis.ps1": {
+      "type": "ps1",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/monitor_only_logs.ps1": {
+      "type": "ps1",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/start_preview_server.ps1": {
+      "type": "ps1",
+      "size": 191,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/init_conda.ps1": {
+      "type": "ps1",
+      "size": 1062,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/monitor_dxf_fixed.ps1": {
+      "type": "ps1",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/activate_env.ps1": {
+      "type": "ps1",
+      "size": 1890,
+      "modified": "2025-08-05T16:24:31.950266",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/verify_env.ps1": {
+      "type": "ps1",
+      "size": 1424,
+      "modified": "2025-08-05T16:24:32.590005",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/init_conda_session.ps1": {
+      "type": "ps1",
+      "size": 983,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/verify_services.ps1": {
+      "type": "ps1",
+      "size": 2974,
+      "modified": "2025-08-05T16:24:32.590005",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/monitor_new_dxf.ps1": {
+      "type": "ps1",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/monitor_dxf_working.ps1": {
+      "type": "ps1",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/activate_conda_env.ps1": {
+      "type": "ps1",
+      "size": 2620,
+      "modified": "2025-08-05T16:24:31.950266",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/monitor_dxf_simple.ps1": {
+      "type": "ps1",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_env.ps1": {
+      "type": "ps1",
+      "size": 13771,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/rebuild_final_conda_new.ps1": {
+      "type": "ps1",
+      "size": 0,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/rebuild_final_conda.ps1": {
+      "type": "ps1",
+      "size": 3347,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/install_swig_local.ps1": {
+      "type": "ps1",
+      "size": 3072,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_swig_simple.ps1": {
+      "type": "ps1",
+      "size": 1594,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/install_swig.ps1": {
+      "type": "ps1",
+      "size": 2606,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build_pythonocc.ps1": {
+      "type": "ps1",
+      "size": 2948,
+      "modified": "2025-08-05T16:24:32.139258",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/rebuild_occ.ps1": {
+      "type": "ps1",
+      "size": 9870,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swig_check.ps1": {
+      "type": "ps1",
+      "size": 603,
+      "modified": "2025-08-05T16:24:32.418540",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/rebuild_simple.ps1": {
+      "type": "ps1",
+      "size": 2763,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/rebuild_occ_new.ps1": {
+      "type": "ps1",
+      "size": 4879,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/rebuild_final.ps1": {
+      "type": "ps1",
+      "size": 4967,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/rebuild_final_fixed.ps1": {
+      "type": "ps1",
+      "size": 3460,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/debug_cmake.ps1": {
+      "type": "ps1",
+      "size": 236,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_environment.ps1": {
+      "type": "ps1",
+      "size": 1661,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_swig_final.ps1": {
+      "type": "ps1",
+      "size": 1983,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/rebuild_final_conda_new2.ps1": {
+      "type": "ps1",
+      "size": 5114,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/check_swig.ps1": {
+      "type": "ps1",
+      "size": 12767,
+      "modified": "2025-08-05T16:24:32.139258",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_build_env.ps1": {
+      "type": "ps1",
+      "size": 4011,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build_with_msvc.ps1": {
+      "type": "ps1",
+      "size": 11567,
+      "modified": "2025-08-05T16:24:32.139258",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/test_swig.ps1": {
+      "type": "ps1",
+      "size": 822,
+      "modified": "2025-08-05T16:24:32.585609",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_swig.ps1": {
+      "type": "ps1",
+      "size": 1889,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/config/environment.ps1": {
+      "type": "ps1",
+      "size": 3844,
+      "modified": "2025-08-05T16:24:31.991921",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/generate_views.ps1": {
+      "type": "ps1",
+      "size": 1154,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/start_server.ps1": {
+      "type": "ps1",
+      "size": 2375,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/generate_all_views.ps1": {
+      "type": "ps1",
+      "size": 1171,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/FileAnalyzers/analyze.ps1": {
+      "type": "ps1",
+      "size": 2216,
+      "modified": "2025-08-05T16:24:31.952032",
+      "status": "error",
+      "message": "[Errno 2] No such file or directory: 'powershell'"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/fix_file_57_preview.php": {
+      "type": "php",
+      "size": 688,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/simple_test_16.php": {
+      "type": "php",
+      "size": 405,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_file_path_17.php": {
+      "type": "php",
+      "size": 813,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_preview_records.php": {
+      "type": "php",
+      "size": 1147,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/debug_system.php": {
+      "type": "php",
+      "size": 8221,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/verify_analyzers.php": {
+      "type": "php",
+      "size": 5559,
+      "modified": "2025-08-05T16:24:32.590005",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_file_59.php": {
+      "type": "php",
+      "size": 650,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_file_42.php": {
+      "type": "php",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_roller_analysis.php": {
+      "type": "php",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_id32_analysis.php": {
+      "type": "php",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_config.php": {
+      "type": "php",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_files_57_58.php": {
+      "type": "php",
+      "size": 1276,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_recent_files.php": {
+      "type": "php",
+      "size": 574,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/list_files_temp.php": {
+      "type": "php",
+      "size": 325,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_id28_analysis.php": {
+      "type": "php",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/list_specific_files.php": {
+      "type": "php",
+      "size": 362,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_id31_analysis.php": {
+      "type": "php",
+      "size": 1437,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/list_recent_files.php": {
+      "type": "php",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/monitor_new_uploads.php": {
+      "type": "php",
+      "size": 4657,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/debug_file_28.php": {
+      "type": "php",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_files.php": {
+      "type": "php",
+      "size": 1162,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/verify_manufacturing_data.php": {
+      "type": "php",
+      "size": 2868,
+      "modified": "2025-08-05T16:24:32.590005",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_file_paths.php": {
+      "type": "php",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/generate_portable_config.php": {
+      "type": "php",
+      "size": 9785,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/monitor_real_time.php": {
+      "type": "php",
+      "size": 1918,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_file_23.php": {
+      "type": "php",
+      "size": 807,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_manufacturing_data.php": {
+      "type": "php",
+      "size": 1023,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/regenerate_preview_22.php": {
+      "type": "php",
+      "size": 3087,
+      "modified": "2025-08-05T16:24:32.585609",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/tests/TestCase.php": {
+      "type": "php",
+      "size": 142,
+      "modified": "2025-08-05T16:24:32.590005",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/tests/Pest.php": {
+      "type": "php",
+      "size": 1584,
+      "modified": "2025-08-05T16:24:32.590005",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/routes/auth.php": {
+      "type": "php",
+      "size": 2217,
+      "modified": "2025-08-05T16:24:32.587989",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/routes/console.php": {
+      "type": "php",
+      "size": 210,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/routes/settings.php": {
+      "type": "php",
+      "size": 911,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/routes/web.php": {
+      "type": "php",
+      "size": 3242,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/bootstrap/app.php": {
+      "type": "php",
+      "size": 1187,
+      "modified": "2025-08-05T16:24:31.989540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/bootstrap/providers.php": {
+      "type": "php",
+      "size": 64,
+      "modified": "2025-08-05T16:24:31.990630",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/public/index.php": {
+      "type": "php",
+      "size": 543,
+      "modified": "2025-08-05T16:24:31.993798",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/config/cache.php": {
+      "type": "php",
+      "size": 3476,
+      "modified": "2025-08-05T16:24:31.991921",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/config/inertia.php": {
+      "type": "php",
+      "size": 1398,
+      "modified": "2025-08-05T16:24:31.991921",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/config/queue.php": {
+      "type": "php",
+      "size": 3824,
+      "modified": "2025-08-05T16:24:31.991921",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/config/database.php": {
+      "type": "php",
+      "size": 6258,
+      "modified": "2025-08-05T16:24:31.991921",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/config/logging.php": {
+      "type": "php",
+      "size": 4310,
+      "modified": "2025-08-05T16:24:31.991921",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/config/session.php": {
+      "type": "php",
+      "size": 7858,
+      "modified": "2025-08-05T16:24:31.992220",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/config/app.php": {
+      "type": "php",
+      "size": 4263,
+      "modified": "2025-08-05T16:24:31.991861",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/config/filesystems.php": {
+      "type": "php",
+      "size": 2488,
+      "modified": "2025-08-05T16:24:31.991921",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/config/auth.php": {
+      "type": "php",
+      "size": 4029,
+      "modified": "2025-08-05T16:24:31.991921",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/config/mail.php": {
+      "type": "php",
+      "size": 3539,
+      "modified": "2025-08-05T16:24:31.991921",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/config/services.php": {
+      "type": "php",
+      "size": 1919,
+      "modified": "2025-08-05T16:24:31.991921",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/4bd4d4073ab5094e3846b8b5f395b0d3.php": {
+      "type": "php",
+      "size": 11659,
+      "modified": "2025-08-05T16:38:49.480699",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/eaf8f8dbabe2a0503fe325c5b122a512.php": {
+      "type": "php",
+      "size": 3094,
+      "modified": "2025-08-05T16:38:49.448832",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/3e9e3847350d80aec74ce1832af2ec15.php": {
+      "type": "php",
+      "size": 529,
+      "modified": "2025-08-05T16:38:49.469456",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/01d758a7aad66280a1ea860ac7420114.php": {
+      "type": "php",
+      "size": 8311,
+      "modified": "2025-08-05T16:38:49.446198",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/74276c18a1b0e286df22f5f802c3ef72.php": {
+      "type": "php",
+      "size": 507,
+      "modified": "2025-08-05T16:38:49.469560",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/6690e2a7facdddcb1db65f24bc41f6e5.php": {
+      "type": "php",
+      "size": 6873,
+      "modified": "2025-08-05T16:33:44.216537",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/d172ca806f4f0a774a24c620989f3613.php": {
+      "type": "php",
+      "size": 10608,
+      "modified": "2025-08-05T16:38:49.469183",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/f35e61a6b57072d7a4c17b378deebf7f.php": {
+      "type": "php",
+      "size": 7183,
+      "modified": "2025-08-05T16:38:49.481490",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/fdd24a600b2688f9e6b9801c5b853417.php": {
+      "type": "php",
+      "size": 439,
+      "modified": "2025-08-05T16:33:44.216202",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/e9a217ff9118da6d185fda7167d58cf9.php": {
+      "type": "php",
+      "size": 11139,
+      "modified": "2025-08-05T16:38:49.448122",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/0f1fa355c688047eea183380f35e4af9.php": {
+      "type": "php",
+      "size": 2518,
+      "modified": "2025-08-05T16:31:45.664424",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/ff881443a25ab9adabe8ea0a48baa2c2.php": {
+      "type": "php",
+      "size": 2092,
+      "modified": "2025-08-05T16:38:49.473414",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/1346e26444f1d89139dd6cb8e41aaad7.php": {
+      "type": "php",
+      "size": 2829,
+      "modified": "2025-08-05T16:38:49.447629",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/5a09f59e93cd6aaa776d9bbbebb47b07.php": {
+      "type": "php",
+      "size": 630,
+      "modified": "2025-08-05T16:38:49.448342",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/ed0ac0a96dc21e31c576333edc28b088.php": {
+      "type": "php",
+      "size": 5126,
+      "modified": "2025-08-05T16:38:49.449358",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/883a773583a0dda77df5a60f3b0e3a7b.php": {
+      "type": "php",
+      "size": 705,
+      "modified": "2025-08-05T16:38:49.448602",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/873b8d2d70f0b99018ad9e2f5a55b7b1.php": {
+      "type": "php",
+      "size": 614,
+      "modified": "2025-08-05T16:38:49.448456",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/40d6c1d52e63219369455f4b8438a9de.php": {
+      "type": "php",
+      "size": 467,
+      "modified": "2025-08-05T17:29:49.676517",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/storage/framework/views/2a8705dbbc9f8e0a64ce3cae17b13f6c.php": {
+      "type": "php",
+      "size": 513,
+      "modified": "2025-08-05T16:38:49.449010",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Models/FilePreview.php": {
+      "type": "php",
+      "size": 613,
+      "modified": "2025-08-05T16:24:31.951788",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Models/FileError.php": {
+      "type": "php",
+      "size": 608,
+      "modified": "2025-08-05T16:24:31.951788",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Models/FileAnalysisResult.php": {
+      "type": "php",
+      "size": 921,
+      "modified": "2025-08-05T16:24:31.951684",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Models/User.php": {
+      "type": "php",
+      "size": 1225,
+      "modified": "2025-08-05T16:24:31.951788",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Models/FileUpload.php": {
+      "type": "php",
+      "size": 2774,
+      "modified": "2025-08-05T16:24:31.951788",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Providers/AppServiceProvider.php": {
+      "type": "php",
+      "size": 361,
+      "modified": "2025-08-05T16:24:31.951788",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Providers/AuthServiceProvider.php": {
+      "type": "php",
+      "size": 634,
+      "modified": "2025-08-05T16:24:31.951937",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Policies/FileUploadPolicy.php": {
+      "type": "php",
+      "size": 903,
+      "modified": "2025-08-05T16:24:31.951788",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/FileAnalyzers/test_laravel_analysis.php": {
+      "type": "php",
+      "size": 7527,
+      "modified": "2025-08-05T16:24:31.952032",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/Viewer3DController.php": {
+      "type": "php",
+      "size": 3906,
+      "modified": "2025-08-05T16:24:31.951558",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/FilePreviewController.php": {
+      "type": "php",
+      "size": 16353,
+      "modified": "2025-08-05T16:24:31.951383",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/Controller.php": {
+      "type": "php",
+      "size": 77,
+      "modified": "2025-08-05T16:24:31.951088",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/FileAnalysisController.php": {
+      "type": "php",
+      "size": 25522,
+      "modified": "2025-08-05T16:24:31.951383",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/FileUploadController.php": {
+      "type": "php",
+      "size": 9294,
+      "modified": "2025-08-05T16:24:31.951383",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Middleware/HandleAppearance.php": {
+      "type": "php",
+      "size": 548,
+      "modified": "2025-08-05T16:24:31.951558",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Middleware/HandleInertiaRequests.php": {
+      "type": "php",
+      "size": 1493,
+      "modified": "2025-08-05T16:24:31.951642",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Requests/Settings/ProfileUpdateRequest.php": {
+      "type": "php",
+      "size": 772,
+      "modified": "2025-08-05T16:24:31.951684",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Requests/Auth/LoginRequest.php": {
+      "type": "php",
+      "size": 2227,
+      "modified": "2025-08-05T16:24:31.951684",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/Settings/PasswordController.php": {
+      "type": "php",
+      "size": 947,
+      "modified": "2025-08-05T16:24:31.951383",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/Settings/ProfileController.php": {
+      "type": "php",
+      "size": 1545,
+      "modified": "2025-08-05T16:24:31.951558",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/Auth/VerifyEmailController.php": {
+      "type": "php",
+      "size": 901,
+      "modified": "2025-08-05T16:24:31.951088",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/Auth/NewPasswordController.php": {
+      "type": "php",
+      "size": 2300,
+      "modified": "2025-08-05T16:24:31.951088",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/Auth/ConfirmablePasswordController.php": {
+      "type": "php",
+      "size": 1056,
+      "modified": "2025-08-05T16:24:31.951088",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/Auth/PasswordResetLinkController.php": {
+      "type": "php",
+      "size": 1023,
+      "modified": "2025-08-05T16:24:31.951088",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/Auth/AuthenticatedSessionController.php": {
+      "type": "php",
+      "size": 1259,
+      "modified": "2025-08-05T16:24:31.951017",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/Auth/RegisteredUserController.php": {
+      "type": "php",
+      "size": 1349,
+      "modified": "2025-08-05T16:24:31.951088",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/Auth/EmailVerificationPromptController.php": {
+      "type": "php",
+      "size": 648,
+      "modified": "2025-08-05T16:24:31.951088",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Http/Controllers/Auth/EmailVerificationNotificationController.php": {
+      "type": "php",
+      "size": 630,
+      "modified": "2025-08-05T16:24:31.951088",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Console/Commands/ReAnalyzeFiles.php": {
+      "type": "php",
+      "size": 1556,
+      "modified": "2025-08-05T16:24:31.950661",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Console/Commands/GenerateMissingPreviews.php": {
+      "type": "php",
+      "size": 8590,
+      "modified": "2025-08-05T16:24:31.950661",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Console/Commands/TestUser.php": {
+      "type": "php",
+      "size": 488,
+      "modified": "2025-08-05T16:24:31.950661",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Console/Commands/CheckFile.php": {
+      "type": "php",
+      "size": 1916,
+      "modified": "2025-08-05T16:24:31.950661",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Console/Commands/CheckFileStatus.php": {
+      "type": "php",
+      "size": 5371,
+      "modified": "2025-08-05T16:24:31.950661",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Console/Commands/TestStlAnalysis.php": {
+      "type": "php",
+      "size": 12812,
+      "modified": "2025-08-05T16:24:31.950661",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Console/Commands/DebugFileData.php": {
+      "type": "php",
+      "size": 3006,
+      "modified": "2025-08-05T16:24:31.950661",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Console/Commands/GeneratePortableConfig.php": {
+      "type": "php",
+      "size": 9875,
+      "modified": "2025-08-05T16:24:31.950661",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Console/Commands/GenerateAllPreviews.php": {
+      "type": "php",
+      "size": 3204,
+      "modified": "2025-08-05T16:24:31.950661",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Console/Commands/AnalyzeFile.php": {
+      "type": "php",
+      "size": 3240,
+      "modified": "2025-08-05T16:24:31.950590",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/bootstrap/cache/packages.php": {
+      "type": "php",
+      "size": 1222,
+      "modified": "2025-08-05T16:30:37.094748",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/bootstrap/cache/services.php": {
+      "type": "php",
+      "size": 21676,
+      "modified": "2025-08-05T16:30:37.065149",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/database/factories/UserFactory.php": {
+      "type": "php",
+      "size": 1075,
+      "modified": "2025-08-05T16:24:31.992332",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/database/seeders/FileUploadsSeeder.php": {
+      "type": "php",
+      "size": 8390,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/database/seeders/DatabaseSeeder.php": {
+      "type": "php",
+      "size": 569,
+      "modified": "2025-08-05T16:24:31.992433",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/database/migrations/2025_07_25_171411_fix_file_uploads_table_structure.php": {
+      "type": "php",
+      "size": 931,
+      "modified": "2025-08-05T16:24:31.992433",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/database/migrations/0001_01_01_000001_create_cache_table.php": {
+      "type": "php",
+      "size": 849,
+      "modified": "2025-08-05T16:24:31.992410",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/database/migrations/0001_01_01_000002_create_jobs_table.php": {
+      "type": "php",
+      "size": 1812,
+      "modified": "2025-08-05T16:24:31.992433",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/database/migrations/0001_01_01_000000_create_users_table.php": {
+      "type": "php",
+      "size": 1473,
+      "modified": "2025-08-05T16:24:31.992332",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/database/migrations/0001_01_01_000006_create_file_previews_table.php": {
+      "type": "php",
+      "size": 844,
+      "modified": "2025-08-05T16:24:31.992433",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/database/migrations/0001_01_01_000003_create_file_uploads_table.php": {
+      "type": "php",
+      "size": 1323,
+      "modified": "2025-08-05T16:24:31.992433",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/database/migrations/2025_07_15_191948_add_manufacturing_data_to_file_analysis_results.php": {
+      "type": "php",
+      "size": 562,
+      "modified": "2025-08-05T16:24:31.992433",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/database/migrations/0001_01_01_000005_create_file_errors_table.php": {
+      "type": "php",
+      "size": 786,
+      "modified": "2025-08-05T16:24:31.992433",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/database/migrations/0001_01_01_000004_create_file_analysis_results_table.php": {
+      "type": "php",
+      "size": 1095,
+      "modified": "2025-08-05T16:24:31.992433",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/database/migrations/2025_07_01_194611_add_analysis_data_to_file_analysis_results.php": {
+      "type": "php",
+      "size": 1304,
+      "modified": "2025-08-05T16:24:31.992433",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/cpointer/runme.php": {
+      "type": "php",
+      "size": 981,
+      "modified": "2025-08-05T16:24:32.462925",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/reference/runme.php": {
+      "type": "php",
+      "size": 1026,
+      "modified": "2025-08-05T16:24:32.463841",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/constants/runme.php": {
+      "type": "php",
+      "size": 790,
+      "modified": "2025-08-05T16:24:32.462861",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/funcptr/runme.php": {
+      "type": "php",
+      "size": 567,
+      "modified": "2025-08-05T16:24:32.463413",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/proxy/runme.php": {
+      "type": "php",
+      "size": 1609,
+      "modified": "2025-08-05T16:24:32.463754",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/disown/runme.php": {
+      "type": "php",
+      "size": 1083,
+      "modified": "2025-08-05T16:24:32.462996",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/extend/runme.php": {
+      "type": "php",
+      "size": 3052,
+      "modified": "2025-08-05T16:24:32.463310",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/pointer/runme.php": {
+      "type": "php",
+      "size": 719,
+      "modified": "2025-08-05T16:24:32.463594",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/variables/runme.php": {
+      "type": "php",
+      "size": 2369,
+      "modified": "2025-08-05T16:24:32.464199",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/callback/runme.php": {
+      "type": "php",
+      "size": 912,
+      "modified": "2025-08-05T16:24:32.462651",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/value/runme.php": {
+      "type": "php",
+      "size": 650,
+      "modified": "2025-08-05T16:24:32.464108",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/class/runme.php": {
+      "type": "php",
+      "size": 1368,
+      "modified": "2025-08-05T16:24:32.462772",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/simple/runme.php": {
+      "type": "php",
+      "size": 403,
+      "modified": "2025-08-05T16:24:32.463933",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/enum/runme.php": {
+      "type": "php",
+      "size": 669,
+      "modified": "2025-08-05T16:24:32.463096",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/sync/runme.php": {
+      "type": "php",
+      "size": 766,
+      "modified": "2025-08-05T16:24:32.464040",
+      "status": "invalid",
+      "message": "No es un archivo PHP válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/pragmas/include.php": {
+      "type": "php",
+      "size": 78,
+      "modified": "2025-08-05T16:24:32.463673",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/pragmas/runme.php": {
+      "type": "php",
+      "size": 224,
+      "modified": "2025-08-05T16:24:32.463673",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/php/overloading/runme.php": {
+      "type": "php",
+      "size": 1279,
+      "modified": "2025-08-05T16:24:32.463504",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_extend_runme.php": {
+      "type": "php",
+      "size": 387,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/using1_runme.php": {
+      "type": "php",
+      "size": 172,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/smart_pointer_static_runme.php": {
+      "type": "php",
+      "size": 539,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp11_move_typemaps_runme.php": {
+      "type": "php",
+      "size": 876,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/pointer_reference_runme.php": {
+      "type": "php",
+      "size": 445,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_classic_runme.php": {
+      "type": "php",
+      "size": 3148,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/template_construct_runme.php": {
+      "type": "php",
+      "size": 166,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/add_link_runme.php": {
+      "type": "php",
+      "size": 362,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/long_long_runme.php": {
+      "type": "php",
+      "size": 1851,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/constant_expr_c_runme.php": {
+      "type": "php",
+      "size": 345,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/extend_template_ns_runme.php": {
+      "type": "php",
+      "size": 200,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/argout_runme.php": {
+      "type": "php",
+      "size": 942,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_unroll_runme.php": {
+      "type": "php",
+      "size": 474,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/abstract_inherit_ok_runme.php": {
+      "type": "php",
+      "size": 581,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/arrays_runme.php": {
+      "type": "php",
+      "size": 524,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/conversion_runme.php": {
+      "type": "php",
+      "size": 175,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_complicated_runme.php": {
+      "type": "php",
+      "size": 948,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/newobject1_runme.php": {
+      "type": "php",
+      "size": 663,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp_enum_runme.php": {
+      "type": "php",
+      "size": 832,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_simple_runme.php": {
+      "type": "php",
+      "size": 5985,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp_static_runme.php": {
+      "type": "php",
+      "size": 253,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/primitive_ref_runme.php": {
+      "type": "php",
+      "size": 1267,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp11_attribute_specifiers_runme.php": {
+      "type": "php",
+      "size": 411,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/li_std_vector_member_var_runme.php": {
+      "type": "php",
+      "size": 623,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/rename_scope_runme.php": {
+      "type": "php",
+      "size": 596,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/char_binary_runme.php": {
+      "type": "php",
+      "size": 1097,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_return_type_runme.php": {
+      "type": "php",
+      "size": 309,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_wombat_runme.php": {
+      "type": "php",
+      "size": 1213,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/php_iterator_runme.php": {
+      "type": "php",
+      "size": 444,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/evil_diamond_ns_runme.php": {
+      "type": "php",
+      "size": 337,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_finalizer_runme.php": {
+      "type": "php",
+      "size": 1415,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/swig_exception_runme.php": {
+      "type": "php",
+      "size": 641,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/casts_runme.php": {
+      "type": "php",
+      "size": 250,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/member_pointer_const_runme.php": {
+      "type": "php",
+      "size": 2012,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp17_director_string_view_runme.php": {
+      "type": "php",
+      "size": 905,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/skel.php": {
+      "type": "php",
+      "size": 195,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_stl_runme.php": {
+      "type": "php",
+      "size": 851,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_classes_runme.php": {
+      "type": "php",
+      "size": 2649,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_null_runme.php": {
+      "type": "php",
+      "size": 1203,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_template_fast_runme.php": {
+      "type": "php",
+      "size": 2940,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_detect_runme.php": {
+      "type": "php",
+      "size": 953,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/conversion_namespace_runme.php": {
+      "type": "php",
+      "size": 175,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/arrays_global_twodim_runme.php": {
+      "type": "php",
+      "size": 705,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/wrapmacro_runme.php": {
+      "type": "php",
+      "size": 282,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_ownership_runme.php": {
+      "type": "php",
+      "size": 864,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/arrays_scope_runme.php": {
+      "type": "php",
+      "size": 422,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/ignore_parameter_runme.php": {
+      "type": "php",
+      "size": 1147,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/valuewrapper_base_runme.php": {
+      "type": "php",
+      "size": 235,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/import_nomodule_runme.php": {
+      "type": "php",
+      "size": 445,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/php_pragma_runme.php": {
+      "type": "php",
+      "size": 278,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_frob_runme.php": {
+      "type": "php",
+      "size": 424,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_polymorphic_runme.php": {
+      "type": "php",
+      "size": 352,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/li_std_auto_ptr_runme.php": {
+      "type": "php",
+      "size": 2933,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/evil_diamond_runme.php": {
+      "type": "php",
+      "size": 296,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/class_ignore_runme.php": {
+      "type": "php",
+      "size": 245,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_default_runme.php": {
+      "type": "php",
+      "size": 284,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_profile_runme.php": {
+      "type": "php",
+      "size": 811,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp11_final_directors_runme.php": {
+      "type": "php",
+      "size": 343,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_protected_runme.php": {
+      "type": "php",
+      "size": 2131,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_exception_nothrow_runme.php": {
+      "type": "php",
+      "size": 463,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/tests.php": {
+      "type": "php",
+      "size": 7351,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/grouping_runme.php": {
+      "type": "php",
+      "size": 644,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_exception_catches_runme.php": {
+      "type": "php",
+      "size": 620,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/typemap_ns_using_runme.php": {
+      "type": "php",
+      "size": 172,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_template_runme.php": {
+      "type": "php",
+      "size": 2940,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/default_args_runme.php": {
+      "type": "php",
+      "size": 4886,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp14_auto_return_type_runme.php": {
+      "type": "php",
+      "size": 330,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_exception_runme.php": {
+      "type": "php",
+      "size": 3273,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/callback_runme.php": {
+      "type": "php",
+      "size": 311,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/exception_order_runme.php": {
+      "type": "php",
+      "size": 800,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp11_strongly_typed_enumerations_runme.php": {
+      "type": "php",
+      "size": 5445,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/smart_pointer_rename_runme.php": {
+      "type": "php",
+      "size": 753,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/li_carrays_cpp_runme.php": {
+      "type": "php",
+      "size": 643,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_string_runme.php": {
+      "type": "php",
+      "size": 701,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/abstract_inherit_runme.php": {
+      "type": "php",
+      "size": 716,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp_basic_runme.php": {
+      "type": "php",
+      "size": 1184,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_enum_runme.php": {
+      "type": "php",
+      "size": 419,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/argcargvtest_runme.php": {
+      "type": "php",
+      "size": 1309,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp20_spaceship_operator_runme.php": {
+      "type": "php",
+      "size": 469,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/friends_runme.php": {
+      "type": "php",
+      "size": 1528,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/arrays_global_runme.php": {
+      "type": "php",
+      "size": 923,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/catches_strings_runme.php": {
+      "type": "php",
+      "size": 646,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp11_std_unique_ptr_runme.php": {
+      "type": "php",
+      "size": 2965,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/exception_memory_leak_runme.php": {
+      "type": "php",
+      "size": 1164,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/using2_runme.php": {
+      "type": "php",
+      "size": 172,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_copy_runme.php": {
+      "type": "php",
+      "size": 196,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/threads_exception_runme.php": {
+      "type": "php",
+      "size": 758,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp11_decltype_runme.php": {
+      "type": "php",
+      "size": 1649,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/virtual_vs_nonvirtual_base_runme.php": {
+      "type": "php",
+      "size": 195,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_abstract_runme.php": {
+      "type": "php",
+      "size": 1452,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_subtype_runme.php": {
+      "type": "php",
+      "size": 146,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp11_auto_variable_runme.php": {
+      "type": "php",
+      "size": 1332,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_overload_runme.php": {
+      "type": "php",
+      "size": 396,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/mod_runme.php": {
+      "type": "php",
+      "size": 94,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp17_string_view_runme.php": {
+      "type": "php",
+      "size": 2032,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_nested_runme.php": {
+      "type": "php",
+      "size": 1285,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/li_factory_runme.php": {
+      "type": "php",
+      "size": 499,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/li_carrays_runme.php": {
+      "type": "php",
+      "size": 635,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_numeric_runme.php": {
+      "type": "php",
+      "size": 2104,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_ignore_runme.php": {
+      "type": "php",
+      "size": 600,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/newobject2_runme.php": {
+      "type": "php",
+      "size": 493,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_extend_runme.php": {
+      "type": "php",
+      "size": 320,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/preproc_constants_runme.php": {
+      "type": "php",
+      "size": 7393,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/preproc_constants_c_runme.php": {
+      "type": "php",
+      "size": 7583,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_thread_runme.php": {
+      "type": "php",
+      "size": 571,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/extend_template_runme.php": {
+      "type": "php",
+      "size": 175,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_extend_c_runme.php": {
+      "type": "php",
+      "size": 316,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/enum_scope_template_runme.php": {
+      "type": "php",
+      "size": 575,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_bool_runme.php": {
+      "type": "php",
+      "size": 1310,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/rename_camel_runme.php": {
+      "type": "php",
+      "size": 502,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/li_std_string_runme.php": {
+      "type": "php",
+      "size": 4014,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_rename_runme.php": {
+      "type": "php",
+      "size": 276,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/global_vars_runme.php": {
+      "type": "php",
+      "size": 810,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/li_constraints_runme.php": {
+      "type": "php",
+      "size": 2190,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/char_strings_runme.php": {
+      "type": "php",
+      "size": 2392,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/template_arg_typename_runme.php": {
+      "type": "php",
+      "size": 379,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/typedef_reference_runme.php": {
+      "type": "php",
+      "size": 332,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/newobject3_runme.php": {
+      "type": "php",
+      "size": 579,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/multivalue_runme.php": {
+      "type": "php",
+      "size": 626,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/conversion_ns_template_runme.php": {
+      "type": "php",
+      "size": 171,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/evil_diamond_prop_runme.php": {
+      "type": "php",
+      "size": 939,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_basic_runme.php": {
+      "type": "php",
+      "size": 1021,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/overload_extend2_runme.php": {
+      "type": "php",
+      "size": 558,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/prefix_runme.php": {
+      "type": "php",
+      "size": 341,
+      "modified": "2025-08-05T16:24:32.522540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/cpp11_rvalue_reference_move_runme.php": {
+      "type": "php",
+      "size": 2283,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_pass_by_value_runme.php": {
+      "type": "php",
+      "size": 654,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/director_alternating_runme.php": {
+      "type": "php",
+      "size": 311,
+      "modified": "2025-08-05T16:24:32.522137",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/swigwin-4.2.1/Examples/test-suite/php/sym_runme.php": {
+      "type": "php",
+      "size": 487,
+      "modified": "2025-08-05T16:24:32.523540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/cpointer/runme.php": {
+      "type": "php",
+      "size": 981,
+      "modified": "2025-08-05T16:24:32.044024",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/reference/runme.php": {
+      "type": "php",
+      "size": 1026,
+      "modified": "2025-08-05T16:24:32.044838",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/constants/runme.php": {
+      "type": "php",
+      "size": 790,
+      "modified": "2025-08-05T16:24:32.043957",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/funcptr/runme.php": {
+      "type": "php",
+      "size": 567,
+      "modified": "2025-08-05T16:24:32.044408",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/proxy/runme.php": {
+      "type": "php",
+      "size": 1609,
+      "modified": "2025-08-05T16:24:32.044746",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/disown/runme.php": {
+      "type": "php",
+      "size": 1083,
+      "modified": "2025-08-05T16:24:32.044100",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/extend/runme.php": {
+      "type": "php",
+      "size": 3052,
+      "modified": "2025-08-05T16:24:32.044292",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/pointer/runme.php": {
+      "type": "php",
+      "size": 719,
+      "modified": "2025-08-05T16:24:32.044586",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/variables/runme.php": {
+      "type": "php",
+      "size": 2369,
+      "modified": "2025-08-05T16:24:32.045189",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/callback/runme.php": {
+      "type": "php",
+      "size": 912,
+      "modified": "2025-08-05T16:24:32.043735",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/value/runme.php": {
+      "type": "php",
+      "size": 650,
+      "modified": "2025-08-05T16:24:32.045095",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/class/runme.php": {
+      "type": "php",
+      "size": 1368,
+      "modified": "2025-08-05T16:24:32.043852",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/simple/runme.php": {
+      "type": "php",
+      "size": 403,
+      "modified": "2025-08-05T16:24:32.044930",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/enum/runme.php": {
+      "type": "php",
+      "size": 669,
+      "modified": "2025-08-05T16:24:32.044201",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/sync/runme.php": {
+      "type": "php",
+      "size": 766,
+      "modified": "2025-08-05T16:24:32.045003",
+      "status": "invalid",
+      "message": "No es un archivo PHP válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/pragmas/include.php": {
+      "type": "php",
+      "size": 78,
+      "modified": "2025-08-05T16:24:32.044668",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/pragmas/runme.php": {
+      "type": "php",
+      "size": 224,
+      "modified": "2025-08-05T16:24:32.044668",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/php/overloading/runme.php": {
+      "type": "php",
+      "size": 1279,
+      "modified": "2025-08-05T16:24:32.044498",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_extend_runme.php": {
+      "type": "php",
+      "size": 387,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/using1_runme.php": {
+      "type": "php",
+      "size": 172,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/smart_pointer_static_runme.php": {
+      "type": "php",
+      "size": 539,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp11_move_typemaps_runme.php": {
+      "type": "php",
+      "size": 876,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/pointer_reference_runme.php": {
+      "type": "php",
+      "size": 445,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_classic_runme.php": {
+      "type": "php",
+      "size": 3148,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/template_construct_runme.php": {
+      "type": "php",
+      "size": 166,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/add_link_runme.php": {
+      "type": "php",
+      "size": 362,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/long_long_runme.php": {
+      "type": "php",
+      "size": 1851,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/constant_expr_c_runme.php": {
+      "type": "php",
+      "size": 345,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/extend_template_ns_runme.php": {
+      "type": "php",
+      "size": 200,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/argout_runme.php": {
+      "type": "php",
+      "size": 942,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_unroll_runme.php": {
+      "type": "php",
+      "size": 474,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/abstract_inherit_ok_runme.php": {
+      "type": "php",
+      "size": 581,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/arrays_runme.php": {
+      "type": "php",
+      "size": 524,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/conversion_runme.php": {
+      "type": "php",
+      "size": 175,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_complicated_runme.php": {
+      "type": "php",
+      "size": 948,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/newobject1_runme.php": {
+      "type": "php",
+      "size": 663,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp_enum_runme.php": {
+      "type": "php",
+      "size": 832,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_simple_runme.php": {
+      "type": "php",
+      "size": 5985,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp_static_runme.php": {
+      "type": "php",
+      "size": 253,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/primitive_ref_runme.php": {
+      "type": "php",
+      "size": 1267,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp11_attribute_specifiers_runme.php": {
+      "type": "php",
+      "size": 411,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/li_std_vector_member_var_runme.php": {
+      "type": "php",
+      "size": 623,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/rename_scope_runme.php": {
+      "type": "php",
+      "size": 596,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/char_binary_runme.php": {
+      "type": "php",
+      "size": 1097,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_return_type_runme.php": {
+      "type": "php",
+      "size": 309,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_wombat_runme.php": {
+      "type": "php",
+      "size": 1213,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/php_iterator_runme.php": {
+      "type": "php",
+      "size": 444,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/evil_diamond_ns_runme.php": {
+      "type": "php",
+      "size": 337,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_finalizer_runme.php": {
+      "type": "php",
+      "size": 1415,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/swig_exception_runme.php": {
+      "type": "php",
+      "size": 641,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/casts_runme.php": {
+      "type": "php",
+      "size": 250,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/member_pointer_const_runme.php": {
+      "type": "php",
+      "size": 2012,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp17_director_string_view_runme.php": {
+      "type": "php",
+      "size": 905,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/skel.php": {
+      "type": "php",
+      "size": 195,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_stl_runme.php": {
+      "type": "php",
+      "size": 851,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_classes_runme.php": {
+      "type": "php",
+      "size": 2649,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_null_runme.php": {
+      "type": "php",
+      "size": 1203,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_template_fast_runme.php": {
+      "type": "php",
+      "size": 2940,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_detect_runme.php": {
+      "type": "php",
+      "size": 953,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/conversion_namespace_runme.php": {
+      "type": "php",
+      "size": 175,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/arrays_global_twodim_runme.php": {
+      "type": "php",
+      "size": 705,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/wrapmacro_runme.php": {
+      "type": "php",
+      "size": 282,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_ownership_runme.php": {
+      "type": "php",
+      "size": 864,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/arrays_scope_runme.php": {
+      "type": "php",
+      "size": 422,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/ignore_parameter_runme.php": {
+      "type": "php",
+      "size": 1147,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/valuewrapper_base_runme.php": {
+      "type": "php",
+      "size": 235,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/import_nomodule_runme.php": {
+      "type": "php",
+      "size": 445,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/php_pragma_runme.php": {
+      "type": "php",
+      "size": 278,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_frob_runme.php": {
+      "type": "php",
+      "size": 424,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_polymorphic_runme.php": {
+      "type": "php",
+      "size": 352,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/li_std_auto_ptr_runme.php": {
+      "type": "php",
+      "size": 2933,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/evil_diamond_runme.php": {
+      "type": "php",
+      "size": 296,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/class_ignore_runme.php": {
+      "type": "php",
+      "size": 245,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_default_runme.php": {
+      "type": "php",
+      "size": 284,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_profile_runme.php": {
+      "type": "php",
+      "size": 811,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp11_final_directors_runme.php": {
+      "type": "php",
+      "size": 343,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_protected_runme.php": {
+      "type": "php",
+      "size": 2131,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_exception_nothrow_runme.php": {
+      "type": "php",
+      "size": 463,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/tests.php": {
+      "type": "php",
+      "size": 7351,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/grouping_runme.php": {
+      "type": "php",
+      "size": 644,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_exception_catches_runme.php": {
+      "type": "php",
+      "size": 620,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/typemap_ns_using_runme.php": {
+      "type": "php",
+      "size": 172,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_template_runme.php": {
+      "type": "php",
+      "size": 2940,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/default_args_runme.php": {
+      "type": "php",
+      "size": 4886,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp14_auto_return_type_runme.php": {
+      "type": "php",
+      "size": 330,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_exception_runme.php": {
+      "type": "php",
+      "size": 3273,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/callback_runme.php": {
+      "type": "php",
+      "size": 311,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/exception_order_runme.php": {
+      "type": "php",
+      "size": 800,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp11_strongly_typed_enumerations_runme.php": {
+      "type": "php",
+      "size": 5445,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/smart_pointer_rename_runme.php": {
+      "type": "php",
+      "size": 753,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/li_carrays_cpp_runme.php": {
+      "type": "php",
+      "size": 643,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_string_runme.php": {
+      "type": "php",
+      "size": 701,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/abstract_inherit_runme.php": {
+      "type": "php",
+      "size": 716,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp_basic_runme.php": {
+      "type": "php",
+      "size": 1184,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_enum_runme.php": {
+      "type": "php",
+      "size": 419,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/argcargvtest_runme.php": {
+      "type": "php",
+      "size": 1309,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp20_spaceship_operator_runme.php": {
+      "type": "php",
+      "size": 469,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/friends_runme.php": {
+      "type": "php",
+      "size": 1528,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/arrays_global_runme.php": {
+      "type": "php",
+      "size": 923,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/catches_strings_runme.php": {
+      "type": "php",
+      "size": 646,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp11_std_unique_ptr_runme.php": {
+      "type": "php",
+      "size": 2965,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/exception_memory_leak_runme.php": {
+      "type": "php",
+      "size": 1164,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/using2_runme.php": {
+      "type": "php",
+      "size": 172,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_copy_runme.php": {
+      "type": "php",
+      "size": 196,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/threads_exception_runme.php": {
+      "type": "php",
+      "size": 758,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp11_decltype_runme.php": {
+      "type": "php",
+      "size": 1649,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/virtual_vs_nonvirtual_base_runme.php": {
+      "type": "php",
+      "size": 195,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_abstract_runme.php": {
+      "type": "php",
+      "size": 1452,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_subtype_runme.php": {
+      "type": "php",
+      "size": 146,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp11_auto_variable_runme.php": {
+      "type": "php",
+      "size": 1332,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_overload_runme.php": {
+      "type": "php",
+      "size": 396,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/mod_runme.php": {
+      "type": "php",
+      "size": 94,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp17_string_view_runme.php": {
+      "type": "php",
+      "size": 2032,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_nested_runme.php": {
+      "type": "php",
+      "size": 1285,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/li_factory_runme.php": {
+      "type": "php",
+      "size": 499,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/li_carrays_runme.php": {
+      "type": "php",
+      "size": 635,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_numeric_runme.php": {
+      "type": "php",
+      "size": 2104,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_ignore_runme.php": {
+      "type": "php",
+      "size": 600,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/newobject2_runme.php": {
+      "type": "php",
+      "size": 493,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_extend_runme.php": {
+      "type": "php",
+      "size": 320,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/preproc_constants_runme.php": {
+      "type": "php",
+      "size": 7393,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/preproc_constants_c_runme.php": {
+      "type": "php",
+      "size": 7583,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_thread_runme.php": {
+      "type": "php",
+      "size": 571,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/extend_template_runme.php": {
+      "type": "php",
+      "size": 175,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_extend_c_runme.php": {
+      "type": "php",
+      "size": 316,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/enum_scope_template_runme.php": {
+      "type": "php",
+      "size": 575,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_bool_runme.php": {
+      "type": "php",
+      "size": 1310,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/rename_camel_runme.php": {
+      "type": "php",
+      "size": 502,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/li_std_string_runme.php": {
+      "type": "php",
+      "size": 4014,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_rename_runme.php": {
+      "type": "php",
+      "size": 276,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/global_vars_runme.php": {
+      "type": "php",
+      "size": 810,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/li_constraints_runme.php": {
+      "type": "php",
+      "size": 2190,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/char_strings_runme.php": {
+      "type": "php",
+      "size": 2392,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/template_arg_typename_runme.php": {
+      "type": "php",
+      "size": 379,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/typedef_reference_runme.php": {
+      "type": "php",
+      "size": 332,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/newobject3_runme.php": {
+      "type": "php",
+      "size": 579,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/multivalue_runme.php": {
+      "type": "php",
+      "size": 626,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/conversion_ns_template_runme.php": {
+      "type": "php",
+      "size": 171,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/evil_diamond_prop_runme.php": {
+      "type": "php",
+      "size": 939,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_basic_runme.php": {
+      "type": "php",
+      "size": 1021,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/overload_extend2_runme.php": {
+      "type": "php",
+      "size": 558,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/prefix_runme.php": {
+      "type": "php",
+      "size": 341,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/cpp11_rvalue_reference_move_runme.php": {
+      "type": "php",
+      "size": 2283,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_pass_by_value_runme.php": {
+      "type": "php",
+      "size": 654,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/director_alternating_runme.php": {
+      "type": "php",
+      "size": 311,
+      "modified": "2025-08-05T16:24:32.103722",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build-swig/swig-4.2.1/Examples/test-suite/php/sym_runme.php": {
+      "type": "php",
+      "size": 487,
+      "modified": "2025-08-05T16:24:32.104540",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/resources/views/app.blade.php": {
+      "type": "php",
+      "size": 1827,
+      "modified": "2025-08-05T16:24:32.587989",
+      "status": "invalid",
+      "message": "No es un archivo PHP válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/tests/Feature/ExampleTest.php": {
+      "type": "php",
+      "size": 129,
+      "modified": "2025-08-05T16:24:32.589878",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/tests/Feature/DashboardTest.php": {
+      "type": "php",
+      "size": 320,
+      "modified": "2025-08-05T16:24:32.589878",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/tests/Unit/ExampleTest.php": {
+      "type": "php",
+      "size": 80,
+      "modified": "2025-08-05T16:24:32.590005",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/tests/Feature/Settings/ProfileUpdateTest.php": {
+      "type": "php",
+      "size": 2096,
+      "modified": "2025-08-05T16:24:32.590005",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/tests/Feature/Settings/PasswordUpdateTest.php": {
+      "type": "php",
+      "size": 1135,
+      "modified": "2025-08-05T16:24:32.589878",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/tests/Feature/Auth/AuthenticationTest.php": {
+      "type": "php",
+      "size": 943,
+      "modified": "2025-08-05T16:24:32.589823",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/tests/Feature/Auth/EmailVerificationTest.php": {
+      "type": "php",
+      "size": 1324,
+      "modified": "2025-08-05T16:24:32.589878",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/tests/Feature/Auth/PasswordConfirmationTest.php": {
+      "type": "php",
+      "size": 788,
+      "modified": "2025-08-05T16:24:32.589878",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/tests/Feature/Auth/PasswordResetTest.php": {
+      "type": "php",
+      "size": 1626,
+      "modified": "2025-08-05T16:24:32.589878",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/tests/Feature/Auth/RegistrationTest.php": {
+      "type": "php",
+      "size": 499,
+      "modified": "2025-08-05T16:24:32.589878",
+      "status": "syntax_ok",
+      "message": "Sintaxis válida"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/run_manufacturing_analyzer_template.bat": {
+      "type": "bat",
+      "size": 793,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/setup_env.bat": {
+      "type": "bat",
+      "size": 2362,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/run_test_occ.bat": {
+      "type": "bat",
+      "size": 0,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/init_conda.bat": {
+      "type": "bat",
+      "size": 375,
+      "modified": "2025-08-05T16:24:31.992608",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/run_verify_occ.bat": {
+      "type": "bat",
+      "size": 0,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/run_test_direct.bat": {
+      "type": "bat",
+      "size": 124,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/run_preview_server.bat": {
+      "type": "bat",
+      "size": 922,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/start_preview_service.bat": {
+      "type": "bat",
+      "size": 434,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/build.bat": {
+      "type": "bat",
+      "size": 6602,
+      "modified": "2025-08-05T16:24:31.990630",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/start_preview_server.bat": {
+      "type": "bat",
+      "size": 382,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/run_test.bat": {
+      "type": "bat",
+      "size": 133,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/check_occ_env.bat": {
+      "type": "bat",
+      "size": 867,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/run_manufacturing_analyzer.bat": {
+      "type": "bat",
+      "size": 771,
+      "modified": "2025-08-05T16:24:32.588110",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build_occ.bat": {
+      "type": "bat",
+      "size": 383,
+      "modified": "2025-08-05T16:24:32.139258",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/start_debug.bat": {
+      "type": "bat",
+      "size": 652,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/setup_preview_env.bat": {
+      "type": "bat",
+      "size": 1623,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/start_preview.bat": {
+      "type": "bat",
+      "size": 248,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/run_with_conda.bat": {
+      "type": "bat",
+      "size": 1220,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/start_simple_preview.bat": {
+      "type": "bat",
+      "size": 142,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/run_preview_server.bat": {
+      "type": "bat",
+      "size": 1172,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/start_preview_server_new.bat": {
+      "type": "bat",
+      "size": 1289,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/start_preview_service.bat": {
+      "type": "bat",
+      "size": 617,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/start_preview_server.bat": {
+      "type": "bat",
+      "size": 1289,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/start_simple_server.bat": {
+      "type": "bat",
+      "size": 839,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/PreviewService/start_preview_server_backup.bat": {
+      "type": "bat",
+      "size": 1289,
+      "modified": "2025-08-05T16:24:31.953577",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/FileAnalyzers/analyze.bat": {
+      "type": "bat",
+      "size": 4766,
+      "modified": "2025-08-05T16:24:31.952032",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/FileAnalyzers/run_with_conda.bat": {
+      "type": "bat",
+      "size": 1056,
+      "modified": "2025-08-05T16:24:31.952032",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/FileAnalyzers/analyze2.bat": {
+      "type": "bat",
+      "size": 0,
+      "modified": "2025-08-05T16:24:31.952032",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/FileAnalyzers/analyze_new.bat": {
+      "type": "bat",
+      "size": 2052,
+      "modified": "2025-08-05T16:24:31.952032",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/app/Services/FileAnalyzers/run_with_conda_template.bat": {
+      "type": "bat",
+      "size": 863,
+      "modified": "2025-08-05T16:24:31.952032",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/ci/conda/bld.bat": {
+      "type": "bat",
+      "size": 523,
+      "modified": "2025-08-05T16:24:32.140198",
+      "status": "questionable",
+      "message": "No parece un script batch estándar"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/ci/conda/run_test.bat": {
+      "type": "bat",
+      "size": 217,
+      "modified": "2025-08-05T16:24:32.140227",
+      "status": "questionable",
+      "message": "No parece un script batch estándar"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build_with_vs3.cmd": {
+      "type": "cmd",
+      "size": 1490,
+      "modified": "2025-08-05T16:24:32.139258",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_swig6.cmd": {
+      "type": "cmd",
+      "size": 0,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_and_build_new.cmd": {
+      "type": "cmd",
+      "size": 3877,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_and_build.cmd": {
+      "type": "cmd",
+      "size": 4318,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build_pythonocc.cmd": {
+      "type": "cmd",
+      "size": 2439,
+      "modified": "2025-08-05T16:24:32.139258",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/simple_build.cmd": {
+      "type": "cmd",
+      "size": 759,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_swig7.cmd": {
+      "type": "cmd",
+      "size": 0,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_swig5.cmd": {
+      "type": "cmd",
+      "size": 2117,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_clean_env.cmd": {
+      "type": "cmd",
+      "size": 2703,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build_with_vs.cmd": {
+      "type": "cmd",
+      "size": 0,
+      "modified": "2025-08-05T16:24:32.139258",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_swig2.cmd": {
+      "type": "cmd",
+      "size": 2362,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_swig3.cmd": {
+      "type": "cmd",
+      "size": 3574,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_and_build3.cmd": {
+      "type": "cmd",
+      "size": 2670,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_swig4.cmd": {
+      "type": "cmd",
+      "size": 2524,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_and_build2.cmd": {
+      "type": "cmd",
+      "size": 2465,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_and_build4.cmd": {
+      "type": "cmd",
+      "size": 3398,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_swig.cmd": {
+      "type": "cmd",
+      "size": 1996,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/setup_env.cmd": {
+      "type": "cmd",
+      "size": 1062,
+      "modified": "2025-08-05T16:24:32.140793",
+      "status": "likely_ok",
+      "message": "Parece un script batch válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/pythonocc-core-master/build_with_vs2.cmd": {
+      "type": "cmd",
+      "size": 0,
+      "modified": "2025-08-05T16:24:32.139258",
+      "status": "empty",
+      "message": "Archivo vacío"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/package.json": {
+      "type": "json",
+      "size": 4734,
+      "modified": "2025-08-05T17:02:03.669404",
+      "status": "valid_json",
+      "message": "JSON válido"
+    },
+    "/home/jerardo/Documents/Pollux3d/Pollux_3D/composer.json": {
+      "type": "json",
+      "size": 2835,
+      "modified": "2025-08-05T16:24:31.990736",
+      "status": "valid_json",
+      "message": "JSON válido"
+    }
+  },
+  "summary": {
+    "total_files": 517,
+    "by_status": {
+      "error": 41,
+      "syntax_ok": 412,
+      "empty": 15,
+      "invalid": 3,
+      "likely_ok": 42,
+      "questionable": 2,
+      "valid_json": 2
+    },
+    "by_type": {
+      "ps1": {
+        "error": 41
+      },
+      "php": {
+        "syntax_ok": 412,
+        "empty": 8,
+        "invalid": 3
+      },
+      "bat": {
+        "likely_ok": 27,
+        "empty": 3,
+        "questionable": 2
+      },
+      "cmd": {
+        "likely_ok": 15,
+        "empty": 4
+      },
+      "json": {
+        "valid_json": 2
+      }
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "high",
+      "category": "dependencies",
+      "title": "Dependencias faltantes",
+      "description": "Faltan dependencias: powershell",
+      "action": "Instalar dependencias faltantes para el funcionamiento completo",
+      "source": "functional_test"
+    },
+    {
+      "priority": "low",
+      "category": "cleanup",
+      "title": "Archivos vacíos",
+      "description": "Se encontraron 15 archivos vacíos",
+      "action": "Considerar eliminar archivos vacíos innecesarios",
+      "source": "functional_test"
+    }
+  ],
+  "dependencies": {
+    "python": {
+      "status": "available",
+      "version": "Python 3.13.2"
+    },
+    "php": {
+      "status": "available",
+      "version": "PHP 8.3.6 (cli) (built: Jul 14 2025 18:30:55) (NTS)"
+    },
+    "powershell": {
+      "status": "not_found",
+      "message": "No instalado"
+    },
+    "node": {
+      "status": "available",
+      "version": "v20.19.4"
+    },
+    "npm": {
+      "status": "available",
+      "version": "10.8.2"
+    },
+    "composer": {
+      "status": "available",
+      "version": "Composer version 2.8.10 2025-07-10 19:08:33"
+    },
+    "conda": {
+      "status": "available",
+      "version": "conda 25.3.1"
+    }
+  }
+}
